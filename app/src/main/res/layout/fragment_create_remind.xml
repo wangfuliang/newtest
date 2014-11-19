@@ -210,6 +210,33 @@
                         android:background="@color/background_null" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:background="@drawable/input_top_border"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:textColor="@color/text_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/InputField"
+                        android:text="隐藏提醒"
+                        android:id="@+id/textView3"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                    <com.vikaa.lubbi.widget.SwitchView
+                        android:id="@+id/hideRemind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="20dp"/>
+
+                </RelativeLayout>
+
             </LinearLayout>
 
 
