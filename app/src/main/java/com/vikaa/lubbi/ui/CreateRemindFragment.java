@@ -9,15 +9,11 @@ import android.view.ViewGroup;
 
 import com.vikaa.lubbi.R;
 
-public class MainFragment extends Fragment{
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.fragment_main,null);
-        return v;
-    }
+public class CreateRemindFragment extends Fragment{
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v =  inflater.inflate(R.layout.fragment_create_remind,null);
+        return v;
     }
 }

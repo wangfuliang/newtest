@@ -12,31 +12,31 @@
         <Button
             android:layout_width="24dp"
             android:layout_height="20dp"
-            android:id="@+id/btn_menu"
+            android:id="@+id/btn_back"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_menu"
-            android:onClick="onClick" />
+            android:background="@drawable/icon_back"
+            android:onClick="onClick"/>
 
         <Button
             android:layout_width="24dp"
             android:layout_height="20dp"
-            android:id="@+id/btn_plus"
-            android:layout_alignBottom="@+id/btn_menu"
+            android:id="@+id/btn_create_remind"
+            android:layout_alignBottom="@+id/btn_back"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/icon_plus"
-            android:onClick="onClick" />
+            android:background="@drawable/icon_right"
+            android:onClick="onClick"/>
 
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:id="@+id/imageView"
-            android:layout_alignBottom="@+id/btn_plus"
+            android:layout_alignBottom="@+id/btn_create_remind"
             android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,49 +89,42 @@
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
-
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
@@ -139,37 +132,6 @@
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="24px"
-                android:layout_width="140dp"
-                android:layout_height="32dp"
-                android:background="@drawable/main_nav_bg"
-                android:layout_gravity="center_horizontal"
-                android:padding="1dp">
-
-                <Button
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:text="我的"
-                    android:textSize="14dp"
-                    android:background="@drawable/corner_left"
-                    android:textColor="@color/white"
-                    android:id="@+id/btn_my"
-                    android:layout_alignParentLeft="true"
-                    android:onClick="onClick" />
-
-                <Button
-                    android:layout_width="70dp"
-                    android:textSize="14dp"
-                    android:layout_height="match_parent"
-                    android:text="推荐"
-                    android:background="@drawable/corner_right"
-                    android:textColor="@color/light_blue"
-                    android:id="@+id/btn_recommend"
-                    android:layout_alignParentRight="true"
-                    android:onClick="onClick" />
-            </RelativeLayout>
 
         </LinearLayout>
     </RelativeLayout>
