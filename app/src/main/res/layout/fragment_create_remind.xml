@@ -173,12 +173,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/input_datetime"
                         android:textColor="@color/light_blue"
-                        android:textSize="18dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:text="2014-10-9 周日 00:00" />
+                        style="@style/InputField" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -251,7 +246,26 @@
                         android:inputType="textMultiLine"
                         android:ems="10"
                         android:id="@+id/mark"
-                        android:background="@color/background_null" />
+                        android:background="@color/background_null"
+                        android:maxLines="4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="10dp">
+
+                    <DatePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/datePicker"
+                        android:calendarViewShown="false" />
+
+                    <TimePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/timePicker" />
                 </LinearLayout>
 
             </LinearLayout>

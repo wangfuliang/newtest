@@ -1,5 +1,6 @@
 package com.vikaa.lubbi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public MainFragment mainFragment;
     public CreateRemindFragment createRemindFragment;
     private long exitTime;
+    public static final int DATETIMEPICKER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,4 +76,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case DATETIMEPICKER:
+                String datetime = data.getExtras().getString("datetime");
+                Toast.makeText(this, datetime, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
 }
