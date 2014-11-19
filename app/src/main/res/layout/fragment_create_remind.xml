@@ -17,7 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:background="@drawable/icon_back"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
 
         <Button
             android:layout_width="24dp"
@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/icon_right"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
 
         <ImageView
             android:layout_width="17dp"
@@ -36,7 +36,7 @@
             android:layout_alignBottom="@+id/btn_create_remind"
             android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,42 +89,49 @@
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:scaleType="fitXY"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
+
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
@@ -132,6 +139,79 @@
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <LinearLayout
+                    android:background="@drawable/input_top_border"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/input_title"
+                        android:hint="点击输入提醒名称"
+                        style="@style/InputField"
+
+                        android:background="@color/background_null" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/input_top_border"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/input_datetime"
+                        android:textColor="@color/light_blue"
+                        android:textSize="18dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="2014-10-9 周日 00:00" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:background="@drawable/input_top_border"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="重复"
+                        android:id="@+id/textView2"
+                        style="@style/InputField"
+                        android:textColor="@color/text_gray"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner_repeat_mode"
+                        android:spinnerMode="dialog"
+                        android:textAlignment="center"
+                        android:paddingRight="20dp"
+
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@color/background_null" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </RelativeLayout>
