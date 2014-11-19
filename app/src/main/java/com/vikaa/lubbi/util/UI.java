@@ -118,8 +118,7 @@ public class UI {
         }
         return progressDialog;
     }
-
-    public static void resizePikcer(FrameLayout tp) {
+    public static void resizePicker(FrameLayout tp) {
         List<NumberPicker> npList = findNumberPicker(tp);
         for (NumberPicker np : npList) {
             resizeNumberPicker(np);

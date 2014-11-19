@@ -61,8 +61,8 @@ public class CreateRemindFragment extends Fragment {
         int monthOfYear = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        UI.resizePikcer(datePicker);
-        UI.resizePikcer(timePicker);
+        UI.resizePicker(datePicker);
+        UI.resizePicker(timePicker);
 
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
         datePicker.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener() {
