@@ -233,9 +233,26 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginRight="20dp"/>
+                        android:layout_marginRight="20dp" />
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/input_top_border">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        style="@style/InputField"
+                        android:hint="提醒描述"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:id="@+id/mark"
+                        android:background="@color/background_null" />
+                </LinearLayout>
 
             </LinearLayout>
 
