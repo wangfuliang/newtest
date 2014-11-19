@@ -9,34 +9,30 @@
         android:layout_height="48dp"
         android:background="@color/light_blue">
 
-        <ImageButton
-            android:layout_width="17dp"
-            android:layout_height="17dp"
+        <Button
+            android:layout_width="24dp"
+            android:layout_height="20dp"
             android:id="@+id/btn_menu"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_menu"
-            android:background="@color/background_null"
-            android:scaleType="fitXY" />
+            android:background="@drawable/icon_menu" />
 
-        <ImageButton
-            android:layout_width="17dp"
-            android:layout_height="17dp"
+        <Button
+            android:layout_width="24dp"
+            android:layout_height="20dp"
             android:id="@+id/btn_plus"
             android:layout_alignBottom="@+id/btn_menu"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/icon_plus"
-            android:background="@color/background_null"
-            android:scaleType="fitXY" />
+            android:background="@drawable/icon_plus"/>
 
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:id="@+id/imageView"
             android:layout_alignBottom="@+id/btn_plus"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
             android:scaleType="fitXY"/>
 
