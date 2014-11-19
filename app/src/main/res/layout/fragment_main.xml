@@ -10,8 +10,8 @@
         android:background="@color/light_blue">
 
         <ImageButton
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:id="@+id/btn_menu"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -21,8 +21,8 @@
             android:scaleType="fitXY" />
 
         <ImageButton
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:id="@+id/btn_plus"
             android:layout_alignBottom="@+id/btn_menu"
             android:layout_alignParentRight="true"
@@ -32,8 +32,8 @@
             android:scaleType="fitXY" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:id="@+id/imageView"
             android:layout_alignBottom="@+id/btn_plus"
             android:layout_centerHorizontal="true"
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="17dp"
             android:text="@string/app_title"
             android:id="@+id/textView"
             android:layout_alignLeft="@+id/imageView"
@@ -60,7 +60,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_gray"
         android:paddingTop="12dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="17dp"
         android:paddingRight="12dp"
         android:paddingBottom="12dp">
 
@@ -68,6 +68,72 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/corner_bg"></LinearLayout>
+            android:background="@drawable/corner_bg">
+
+            <LinearLayout
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="4dp"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/main_dot" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/main_dot" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
