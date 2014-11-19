@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/light_blue">
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/btn_menu"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_menu"
+            android:background="@color/background_null"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/btn_plus"
+            android:layout_alignBottom="@+id/btn_menu"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_plus"
+            android:background="@color/background_null"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView"
+            android:layout_alignBottom="@+id/btn_plus"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_clock"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="@string/app_title"
+            android:id="@+id/textView"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="-2dp"
+            android:textColor="@color/white"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignTop="@+id/imageView" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray"
+        android:paddingTop="12dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/corner_bg"></LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
