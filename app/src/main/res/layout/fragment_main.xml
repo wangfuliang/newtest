@@ -134,6 +134,36 @@
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/main_dot" />
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="24px"
+                android:layout_width="140dp"
+                android:layout_height="32dp"
+                android:background="@drawable/main_nav_bg"
+                android:layout_gravity="center_horizontal"
+                android:padding="1dp"
+                >
+
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:text="我的"
+                    android:textSize="14dp"
+                    android:background="@drawable/corner_left"
+                    android:textColor="@color/white"
+                    android:id="@+id/btn_my"
+                    android:layout_alignParentLeft="true"/>
+                <Button
+                    android:layout_width="70dp"
+                    android:textSize="14dp"
+                    android:layout_height="match_parent"
+                    android:text="推荐"
+                    android:background="@drawable/corner_right"
+                    android:textColor="@color/light_blue"
+                    android:id="@+id/btn_recommend"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
