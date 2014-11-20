@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.widget.CreateSignDialog;
@@ -93,6 +94,7 @@ public class UserListRemindAdapter extends BaseAdapter {
                     public void onClick(View view) {
                         //弹出dialog
                         CreateSignDialog dialog = new CreateSignDialog(inflater.getContext(), R.style.MyDialog);
+                        dialog.setHash(hash);
                         dialog.show();
                     }
                 });

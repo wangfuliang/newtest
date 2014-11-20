@@ -16,7 +16,7 @@
         android:src="@drawable/icon_camera"
         android:layout_marginTop="20dp"
         android:clickable="true"
-        android:layout_marginLeft="18px" />
+        android:layout_marginLeft="18dp" />
 
     <ImageView
         android:layout_width="24dp"
@@ -28,5 +28,34 @@
         android:clickable="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/icon_close" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/btn_close_dialog"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="18dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/upload_image_1"
+            android:src="@drawable/test" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/upload_image_2"
+            android:src="@drawable/test"
+            android:layout_marginLeft="10dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/upload_image_3"
+            android:src="@drawable/test"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
 
 </RelativeLayout>
