@@ -142,134 +142,42 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
-
-                <LinearLayout
-                    android:background="@drawable/input_top_border"
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/input_title"
-                        android:hint="点击输入提醒名称"
-                        style="@style/InputField"
-                        android:textColor="@color/text_gray"
-
-                        android:background="@color/background_null" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:background="@drawable/input_top_border"
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/input_datetime"
-                        android:textColor="@color/light_blue"
-                        style="@style/InputField" />
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:background="@drawable/input_top_border"
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="重复"
-                        android:id="@+id/textView2"
-                        style="@style/InputField"
-                        android:textColor="@color/text_gray"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true" />
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner_repeat_mode"
-                        android:spinnerMode="dialog"
-                        android:textAlignment="center"
-                        android:paddingRight="20dp"
-
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:background="@color/background_null" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:background="@drawable/input_top_border"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:textColor="@color/text_gray"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/InputField"
-                        android:text="隐藏提醒"
-                        android:id="@+id/textView3"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true" />
-
-                    <com.vikaa.lubbi.widget.SwitchView
-                        android:id="@+id/hideRemind"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="20dp" />
-
-                </RelativeLayout>
+                android:layout_marginTop="30dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/input_top_border">
 
                     <EditText
-                        android:layout_width="match_parent"
-                        style="@style/InputField"
-                        android:hint="提醒描述"
+                        android:hint="请输入手机号码"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:inputType="textMultiLine"
+                        android:inputType="phone"
                         android:ems="10"
-                        android:textColor="@color/text_gray"
-                        android:id="@+id/mark"
+                        android:textColor="@color/background_gray"
+                        android:maxLength="11"
+                        style="@style/InputField"
                         android:background="@color/background_null"
-                        android:maxLines="4" />
-                </LinearLayout>
+                        android:id="@+id/input_phone" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:paddingLeft="10dp">
-
-                    <DatePicker
+                    <Button
+                        android:background="@drawable/btn_bg"
+                        android:textColor="@color/white"
+                        android:paddingLeft="12dp"
+                        android:textSize="14dp"
+                        android:paddingRight="12dp"
+                        style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/datePicker"
-                        android:calendarViewShown="false" />
+                        android:layout_height="30dp"
+                        android:text="获取验证码"
+                        android:id="@+id/btn_get_verify" />
 
-                    <TimePicker
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/timePicker" />
+
                 </LinearLayout>
-
             </LinearLayout>
 
 

@@ -73,6 +73,15 @@ public class Http {
 	public static void post(String url,RequestParams params,JsonHttpResponseHandler handler){
 		client.post(url,params,handler);
 	}
+
+    /**
+     * POST请求返回JSON
+     * @param url
+     * @param handler
+     */
+    public static void post(String url,JsonHttpResponseHandler handler){
+        client.post(url,handler);
+    }
 	/**
 	 * 下载
 	 * @param url
