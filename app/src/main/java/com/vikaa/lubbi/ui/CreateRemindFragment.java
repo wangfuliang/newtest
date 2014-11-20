@@ -1,15 +1,19 @@
 package com.vikaa.lubbi.ui;
 
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -17,9 +21,18 @@ import android.widget.Toast;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.core.AppConfig;
+import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.UI;
 import com.vikaa.lubbi.widget.SwitchView;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +40,7 @@ import java.util.Date;
 
 public class CreateRemindFragment extends Fragment {
 
+    MainActivity mainActivity;
     @ViewInject(R.id.spinner_repeat_mode)
     Spinner spinner;
     @ViewInject(R.id.hideRemind)
@@ -37,9 +51,20 @@ public class CreateRemindFragment extends Fragment {
     DatePicker datePicker;
     @ViewInject(R.id.timePicker)
     TimePicker timePicker;
+    @ViewInject(R.id.btn_create_remind)
+    Button btnCreateRemind;
+    ProgressDialog pd;
     private final String[] repeatMode = {"一次", "每天", "每周", "每月", "每年"};
 
+    //form
+    @ViewInject(R.id.input_title)
+    EditText inputTitle;
+    @ViewInject(R.id.input_datetime)
+    TextView inputDatetime;
     private String datetime;
+    String repeatModeString;
+    @ViewInject(R.id.mark)
+    EditText inputMark;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,8 +74,8 @@ public class CreateRemindFragment extends Fragment {
         return v;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void init() {
+        mainActivity = (MainActivity) getActivity();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_repeat_mode, repeatMode);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -138,6 +163,79 @@ public class CreateRemindFragment extends Fragment {
 
         });
 
+        btnCreateRemind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submit();
+            }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                repeatModeString = "" + i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                repeatModeString = "0";
+            }
+        });
+    }
+
+    private void submit() {
+        String title = inputTitle.getText().toString().trim();
+        String datetime = input_datetime.getText().toString();
+        String hide_remind = hideRemind.getSwitchStatus() ? "1" : "0";
+        String mark = inputMark.getText().toString().trim();
+
+        if (TextUtils.isEmpty(title)) {
+            Toast.makeText(getActivity(), "请输入提醒名称", Toast.LENGTH_SHORT).show();
+            inputTitle.setFocusable(true);
+            return;
+        }
+        //发送HTTP
+        RequestParams params = new RequestParams();
+        params.put("title", title);
+        params.put("time", datetime+":00");
+        params.put("repeat", repeatModeString);
+        params.put("hide_remind", hide_remind);
+        params.put("mark", mark);
+        Http.post(AppConfig.Api.createRemind, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onFinish() {
+                UI.dismissProgress(pd);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    int status = response.getInt("status");
+                    if (status == 0) {
+                        String info = response.getString("info");
+                        Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    JSONObject data = response.getJSONObject("info");
+                    Message msg = new Message();
+                    msg.what = AppConfig.Message.ShowRemindDetail;
+                    msg.obj = data;
+                    mainActivity.handler.sendMessage(msg);
+                } catch (JSONException e) {
+                    Toast.makeText(getActivity(), "发起失败,请重试", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "发起失败,请重试", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStart() {
+                pd = UI.showProgress(getActivity(), null, "正在发起...");
+            }
+        });
     }
 
 

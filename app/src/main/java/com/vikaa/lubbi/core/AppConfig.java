@@ -13,5 +13,11 @@ public class AppConfig {
         public static String checkLogin = "http://app.qun.hk/remind/api/CheckLogin";
         public static String verifyCode = "http://app.qun.hk/remind/api/VerifyCode";
         public static String phoneLogin = "http://app.qun.hk/remind/api/PhoneLogin";
+        public static String createRemind = "http://app.qun.hk/remind/api/createremind";
+    }
+
+    public interface Message{
+        //显示提醒详情
+        public static int ShowRemindDetail = 0x01;
     }
 }

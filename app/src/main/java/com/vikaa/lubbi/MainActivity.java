@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +41,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final int DATETIMEPICKER = 1;
     public static String _sign;
     ProgressDialog pd;
+    public static boolean isLogin = false;
+    public CoreHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             createRemindFragment = new CreateRemindFragment();
         Log.d("xialei", "ready to check network");
         //检测网络
-
+        handler = new CoreHandler();
     }
 
     @Override
@@ -97,6 +101,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void checkLoginIn() {
+        //检测是否登录
+        if (isLogin) {
+            return;
+        }
         //检测SP存储有没有sign
         _sign = SP.get(this, "user.sign", "").toString();
         if (TextUtils.isEmpty(_sign)) {
@@ -124,6 +132,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             Toast.makeText(MainActivity.this, info, Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        isLogin = true;
                         JSONObject info = response.getJSONObject("info");
                         //写入sign
                         _sign = info.getString("_sign");
@@ -226,6 +235,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Toast.makeText(MainActivity.this, info, Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    isLogin = true;
                     JSONObject info = response.getJSONObject("info");
                     //写入sign
                     _sign = info.getString("_sign");
@@ -309,4 +319,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    public final class CoreHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case AppConfig.Message.ShowRemindDetail:
+                    JSONObject data = (JSONObject) msg.obj;
+                    showRemindDetail(data);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 显示提醒详情
+     *
+     * @param data
+     */
+    private void showRemindDetail(JSONObject data) {
+        Log.d("xialei","main activity receive msg showreminddetail->"+data.toString());
+    }
 }
