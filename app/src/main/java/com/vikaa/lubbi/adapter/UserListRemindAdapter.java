@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.widget.CreateSignDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,7 +91,9 @@ public class UserListRemindAdapter extends BaseAdapter {
                 holder.sign.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(inflater.getContext(), hash, Toast.LENGTH_SHORT).show();
+                        //弹出dialog
+                        CreateSignDialog dialog = new CreateSignDialog(inflater.getContext(), R.style.MyDialog);
+                        dialog.show();
                     }
                 });
             }
