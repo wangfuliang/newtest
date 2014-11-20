@@ -14,6 +14,7 @@ public class AppConfig {
         public static String verifyCode = "http://app.qun.hk/remind/api/VerifyCode";
         public static String phoneLogin = "http://app.qun.hk/remind/api/PhoneLogin";
         public static String createRemind = "http://app.qun.hk/remind/api/createremind";
+        public static String listUserRemind = "http://app.qun.hk/remind/api/listuserremind";
     }
 
     public interface Message{

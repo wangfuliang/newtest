@@ -156,7 +156,7 @@
                     android:background="@drawable/corner_left"
                     android:textColor="@color/white"
                     android:id="@+id/btn_my"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true" />
 
                 <Button
                     android:layout_width="70dp"
@@ -166,7 +166,7 @@
                     android:background="@drawable/corner_right"
                     android:textColor="@color/light_blue"
                     android:id="@+id/btn_recommend"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
 
             <LinearLayout
@@ -201,6 +201,19 @@
                         android:textColor="@color/text_gray"
                         android:id="@+id/nickname" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_top_border"
+                android:layout_height="fill_parent">
+
+                <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userlistremind" />
             </LinearLayout>
 
         </LinearLayout>
