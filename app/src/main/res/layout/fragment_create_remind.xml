@@ -22,7 +22,7 @@
         <Button
             android:layout_width="24dp"
             android:layout_height="20dp"
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_create_remind"
             android:layout_alignBottom="@+id/btn_back"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
@@ -33,7 +33,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:id="@+id/imageView"
-            android:layout_alignBottom="@+id/btn_login"
+            android:layout_alignBottom="@+id/btn_create_remind"
             android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
             android:scaleType="fitXY" />
