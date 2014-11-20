@@ -12,28 +12,20 @@
         <Button
             android:layout_width="24dp"
             android:layout_height="20dp"
-            android:id="@+id/btn_back"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_back"
-            android:onClick="onClick" />
-
-        <Button
-            android:layout_width="24dp"
-            android:layout_height="20dp"
             android:id="@+id/btn_login"
-            android:layout_alignBottom="@+id/btn_back"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/icon_right"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignTop="@+id/imageView"
             android:onClick="onClick" />
 
         <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:id="@+id/imageView"
-            android:layout_alignBottom="@+id/btn_login"
             android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
             android:scaleType="fitXY" />
@@ -150,19 +142,40 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/input_top_border">
+                    android:background="@drawable/input_bottom_border">
 
                     <EditText
                         android:hint="请输入手机号码"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:ems="10"
-                        android:textColor="@color/background_gray"
+                        android:textColor="@color/text_gray"
                         android:maxLength="11"
                         style="@style/InputField"
                         android:background="@color/background_null"
                         android:id="@+id/input_phone" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bottom_border">
+
+                    <EditText
+                        android:hint="请输入验证码"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:ems="10"
+                        android:textColor="@color/text_gray"
+                        android:maxLength="4"
+                        style="@style/InputField"
+                        android:background="@color/background_null"
+                        android:id="@+id/verify_code" />
 
                     <Button
                         android:background="@drawable/btn_bg"
