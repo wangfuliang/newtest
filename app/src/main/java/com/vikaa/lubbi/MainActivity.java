@@ -2,6 +2,7 @@ package com.vikaa.lubbi;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,13 +21,13 @@ import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.ui.CreateRemindFragment;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
+import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Regex;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,13 +48,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
             createRemindFragment = new CreateRemindFragment();
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.container, mainFragment)
-                .commit();
+        Log.d("xialei", "ready to check network");
+        //检测网络
 
-        //检测登陆
-        checkLoginIn();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkNetWork();
+    }
+
+    private void checkNetWork() {
+        Log.d("xialei", "network checking.");
+        if (!HardWare.isNetworkConnected(this)) {
+            Log.d("xialei", "network unavailable");
+            AlertDialog.Builder builder = UI.alert(this, "网络设置提示", "网络连接不可用,是否进行设置?");
+            builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                    System.exit(0);
+                }
+            });
+            builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //判断手机系统的版本  即API大于10 就是3.0或以上版本
+                    Intent intent = null;
+                    if (android.os.Build.VERSION.SDK_INT > 10) {
+                        intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                    } else {
+                        intent = new Intent();
+                        ComponentName component = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
+                        intent.setComponent(component);
+                        intent.setAction("android.intent.action.VIEW");
+                    }
+                    startActivity(intent);
+                }
+            });
+            builder.create().show();
+        } else {
+            Log.d("xialei", "network available");
+            //检测登陆
+            checkLoginIn();
+        }
     }
 
     private void checkLoginIn() {
@@ -69,7 +109,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     .commit();
         } else {
             //_sign登录
-            Http.post(AppConfig.Api.checkLogin+"?_sign="+_sign, new JsonHttpResponseHandler() {
+            Http.post(AppConfig.Api.checkLogin + "?_sign=" + _sign, new JsonHttpResponseHandler() {
                 @Override
                 public void onStart() {
                     pd = UI.showProgress(MainActivity.this, null, "加载中", false);
