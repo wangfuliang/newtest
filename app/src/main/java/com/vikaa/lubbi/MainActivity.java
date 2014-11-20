@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         //写入info
                         SP.put(MainActivity.this, "user.info", info);
                         //登录成功，去主页
-                        Toast.makeText(MainActivity.this, "自动登录成功", Toast.LENGTH_SHORT).show();
+                        //加载用户信息
                         getSupportFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.container, mainFragment)

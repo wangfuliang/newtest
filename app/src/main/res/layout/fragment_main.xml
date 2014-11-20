@@ -156,8 +156,7 @@
                     android:background="@drawable/corner_left"
                     android:textColor="@color/white"
                     android:id="@+id/btn_my"
-                    android:layout_alignParentLeft="true"
-                    android:onClick="onClick" />
+                    android:layout_alignParentLeft="true"/>
 
                 <Button
                     android:layout_width="70dp"
@@ -167,9 +166,42 @@
                     android:background="@drawable/corner_right"
                     android:textColor="@color/light_blue"
                     android:id="@+id/btn_recommend"
-                    android:layout_alignParentRight="true"
-                    android:onClick="onClick" />
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
+
+            <LinearLayout
+                android:background="@drawable/corner_bg_dash"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingTop="40dp"
+                android:paddingBottom="40dp"
+                android:paddingLeft="60dp"
+                android:paddingRight="60dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/avatar"
+                    android:src="@drawable/default_avatar" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昵称"
+                        android:textColor="@color/text_gray"
+                        android:id="@+id/nickname" />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>
