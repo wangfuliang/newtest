@@ -30,32 +30,34 @@
         android:src="@drawable/icon_close" />
 
     <LinearLayout
+        android:id="@+id/create_sign_img_list"
+        android:visibility="gone"
         android:orientation="horizontal"
-        android:layout_width="260dp"
+        android:layout_width="280dp"
         android:layout_height="80dp"
         android:layout_below="@+id/btn_close_dialog"
         android:layout_marginTop="28dp"
         android:layout_marginLeft="18dp">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/upload_image_1"
-            android:src="@drawable/test" />
+            android:scaleType="fitXY" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/upload_image_2"
-            android:src="@drawable/test"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/upload_image_3"
-            android:src="@drawable/test"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY" />
     </LinearLayout>
 
 </RelativeLayout>

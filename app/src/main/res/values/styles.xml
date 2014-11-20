@@ -22,7 +22,7 @@
         <item name="android:textSize">14dp</item>
     </style>
 
-    <style name="MyDialog" parent="@android:Theme.Dialog">
+    <style name="MyDialog" parent="@android:Theme.Holo.Light.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/corner_bg</item>

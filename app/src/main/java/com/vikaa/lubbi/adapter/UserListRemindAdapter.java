@@ -9,13 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.ui.CreateSignActivity;
-import com.vikaa.lubbi.widget.CreateSignDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +24,6 @@ public class UserListRemindAdapter extends BaseAdapter {
     public UserListRemindAdapter(Context context, JSONArray list) {
         this.list = list;
         inflater = LayoutInflater.from(context);
-        Log.d("xialei", list.toString());
     }
 
     class ViewHolder {
