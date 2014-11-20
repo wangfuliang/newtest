@@ -8,7 +8,6 @@
         android:name=".core.BaseApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".core.BaseActivity"></activity>
-        <activity android:name=".widget.DatetimePicker"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

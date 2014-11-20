@@ -158,6 +158,7 @@
                         android:id="@+id/input_title"
                         android:hint="点击输入提醒名称"
                         style="@style/InputField"
+                        android:textColor="@color/text_gray"
 
                         android:background="@color/background_null" />
                 </LinearLayout>
@@ -245,6 +246,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:ems="10"
+                        android:textColor="@color/text_gray"
                         android:id="@+id/mark"
                         android:background="@color/background_null"
                         android:maxLines="4" />

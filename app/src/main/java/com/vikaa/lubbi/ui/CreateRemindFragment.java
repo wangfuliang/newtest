@@ -57,21 +57,45 @@ public class CreateRemindFragment extends Fragment {
         input_datetime.setText(getDatetime());
         //设置date最小值
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int monthOfYear = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer year = calendar.get(Calendar.YEAR);
+        Integer monthOfYear = calendar.get(Calendar.MONTH);
+        Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         UI.resizePicker(datePicker);
         UI.resizePicker(timePicker);
 
-        datePicker.setMinDate(System.currentTimeMillis() - 1000);
         datePicker.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener() {
 
             public void onDateChanged(DatePicker view, int year,
                                       int monthOfYear, int dayOfMonth) {
-                //得到时间
-                String time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
-                datetime = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth + " " + time;
+                String hour, min;
+
+                monthOfYear++;
+                if (timePicker.getCurrentHour() > 9) {
+                    hour = timePicker.getCurrentHour().toString();
+                } else {
+                    hour = "0" + timePicker.getCurrentHour();
+                }
+                if (timePicker.getCurrentMinute() > 9) {
+                    min = timePicker.getCurrentMinute().toString();
+                } else {
+                    min = "0" + timePicker.getCurrentMinute();
+                }
+                String month, day;
+                Integer month2 = monthOfYear;
+                Integer day2 = dayOfMonth;
+                if (monthOfYear > 9) {
+                    month = month2.toString();
+                } else {
+                    month = "0" + month2.toString();
+                }
+                if (dayOfMonth > 9) {
+                    day = day2.toString();
+                } else {
+                    day = "0" + day2;
+                }
+                String time = hour + ":" + min;
+                datetime = year + "-" + month + "-" + day + " " + time;
                 input_datetime.setText(datetime);
             }
 
@@ -80,8 +104,35 @@ public class CreateRemindFragment extends Fragment {
         timePicker.setIs24HourView(true);
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                String date = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
-                datetime = date + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+
+                Integer year = datePicker.getYear();
+                Integer monthOfYear = datePicker.getMonth();
+                Integer dayOfMonth = datePicker.getDayOfMonth();
+                String hour, min;
+                monthOfYear++;
+
+                if (hourOfDay > 9) {
+                    hour = ((Integer) hourOfDay).toString();
+                } else {
+                    hour = "0" + ((Integer) hourOfDay).toString();
+                }
+                if (minute > 9) {
+                    min = ((Integer) minute).toString();
+                } else {
+                    min = "0" + ((Integer) minute).toString();
+                }
+                String month, day;
+                if (monthOfYear > 9) {
+                    month = monthOfYear.toString();
+                } else {
+                    month = "0" + monthOfYear.toString();
+                }
+                if (dayOfMonth > 9) {
+                    day = dayOfMonth.toString();
+                } else {
+                    day = "0" + dayOfMonth;
+                }
+                String datetime = year + "-" + month + "-" + day + " " + hour + ":" + min;
                 input_datetime.setText(datetime);
             }
 
