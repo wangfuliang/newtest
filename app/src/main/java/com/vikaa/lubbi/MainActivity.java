@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
             createRemindFragment = new CreateRemindFragment();
-        Log.d("xialei", "ready to check network");
         //检测网络
         handler = new CoreHandler();
     }
@@ -64,9 +63,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void checkNetWork() {
-        Log.d("xialei", "network checking.");
         if (!HardWare.isNetworkConnected(this)) {
-            Log.d("xialei", "network unavailable");
             AlertDialog.Builder builder = UI.alert(this, "网络设置提示", "网络连接不可用,是否进行设置?");
             builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
                 @Override
@@ -94,7 +91,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             });
             builder.create().show();
         } else {
-            Log.d("xialei", "network available");
             //检测登陆
             checkLoginIn();
         }
@@ -188,10 +184,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_back:
                 switchToMainFragment();
                 break;
-            case R.id.btn_create_remind:
-                //提交表单
-                submit_create_remind();
-                break;
             case R.id.btn_login:
                 login();
                 break;
@@ -266,13 +258,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
 
     }
-
-    /**
-     * 提交创建提醒的表单
-     */
-    private void submit_create_remind() {
-    }
-
 
     /**
      * 切换至主fragment

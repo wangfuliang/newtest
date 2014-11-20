@@ -15,6 +15,8 @@ public class AppConfig {
         public static String phoneLogin = "http://app.qun.hk/remind/api/PhoneLogin";
         public static String createRemind = "http://app.qun.hk/remind/api/createremind";
         public static String listUserRemind = "http://app.qun.hk/remind/api/listuserremind";
+        public static String uploadUrl = "http://up.qiniu.com";
+        public static String uploadToken = "http://app.qun.hk/upload/token";
     }
 
     public interface Message{
