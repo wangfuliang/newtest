@@ -57,13 +57,10 @@ public class DetailFragment extends Fragment {
         ViewUtils.inject(this, view);
         sign_list = new SignItemAdapter(getActivity());
         signListView.setAdapter(sign_list);
-        return view;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //设置标题和时间
+
+
+
         try {
             String detail_title = remindDetail.getString("title");
             String detail_time = remindDetail.getString("format_time");
@@ -101,11 +98,7 @@ public class DetailFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
         //加载打卡天数
         try {
             String hash = remindDetail.getString("hash");
@@ -133,5 +126,19 @@ public class DetailFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //设置标题和时间
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

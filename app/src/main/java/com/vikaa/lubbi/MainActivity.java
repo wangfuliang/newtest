@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +35,8 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     public MainFragment mainFragment;
     public CreateRemindFragment createRemindFragment;
@@ -56,6 +59,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             createRemindFragment = new CreateRemindFragment();
         //检测网络
         handler = new CoreHandler();
+        //生成缓存目录
+        String rootPath = Environment.getExternalStorageDirectory()+"/com.vikaa.lubbi/";
+        File cacheDIR = new File(rootPath);
+        if (!cacheDIR.exists())
+            cacheDIR.mkdir();
+        cacheDIR = new File(rootPath+"cache/");
+        if(!cacheDIR.exists())
+            cacheDIR.mkdir();
     }
 
     @Override

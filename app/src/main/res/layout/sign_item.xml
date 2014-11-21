@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="50dp"
@@ -60,7 +60,8 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/sign_item_nickname"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout2">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,5 +69,21 @@
                 android:text="New Text"
                 android:id="@+id/site_item_message" />
         </LinearLayout>
+
+        <com.vikaa.lubbi.widget.NoScrollGridView
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_img_gridview"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:choiceMode="singleChoice"
+            android:horizontalSpacing="5dp"
+            android:stretchMode="columnWidth"
+            android:gravity="left"
+            android:verticalSpacing="5dp"
+            android:layout_marginTop="10dp"
+            android:numColumns="3" />
     </RelativeLayout>
 </RelativeLayout>

@@ -31,6 +31,7 @@ public class StringUtil {
 
     /**
      * list转字符串
+     *
      * @param list
      * @param separator
      * @return
@@ -41,5 +42,15 @@ public class StringUtil {
             sb.append(list.get(i)).append(separator);
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
+    }
+
+    /**
+     * 获取url的文件名
+     * @param url
+     * @return
+     */
+    public static String getFileName(String url) {
+        String[] params = url.split("/");
+        return params[params.length - 1];
     }
 }
