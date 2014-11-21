@@ -167,6 +167,174 @@
                     android:layout_marginTop="4dp"
                     android:textColor="@color/text_gray"
                     android:id="@+id/detail_time" />
+
+                <TextView
+                    android:textSize="16dp"
+                    android:textColor="#333333"
+                    android:lineSpacingExtra="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  提醒详情"
+                    android:id="@+id/detail_content" />
+
+                <RelativeLayout
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/corner_bg_dash"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView2"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/separator" />
+
+                    <RelativeLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/imageView2">
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:textColor="#333333"
+                            android:textSize="20dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="连续打卡"
+                            android:id="@+id/con_count" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="0"
+                            android:layout_below="@+id/con_count"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="12dp"
+                            android:textSize="32dp"
+                            android:textColor="@color/active_green"
+                            android:id="@+id/lx_days" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="天"
+                            android:textColor="@color/text_gray"
+                            android:layout_marginBottom="6dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="36dp"
+                            android:layout_alignBottom="@+id/lx_days" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/imageView2"
+                        android:id="@+id/relativeLayout">
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:textColor="#333333"
+                            android:id="@+id/lj_dk"
+                            android:textSize="20dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="累计打卡" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="0"
+                            android:layout_below="@+id/lj_dk"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="12dp"
+                            android:textSize="32dp"
+                            android:textColor="@color/light_blue"
+                            android:id="@+id/lj_days" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="天"
+                            android:textColor="@color/text_gray"
+                            android:layout_marginBottom="6dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="36dp"
+                            android:layout_alignBottom="@+id/lj_days" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/relativeLayout"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="16dp"
+                        >
+
+                        <TextView
+                            android:textSize="16dp"
+                            android:layout_marginLeft="60dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="有"
+                            android:id="@+id/textView4" />
+
+                        <TextView
+                            android:textSize="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/light_blue"
+                            android:id="@+id/joins_count"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_toRightOf="@+id/textView4" />
+
+                        <TextView
+                            android:textSize="16dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人参与，今日"
+                            android:layout_toRightOf="@id/joins_count"
+                            android:id="@+id/textView5" />
+
+                        <TextView
+                            android:textSize="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/light_blue"
+                            android:id="@+id/today_signs"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_toRightOf="@+id/textView5" />
+
+                        <TextView
+                            android:textSize="16dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人打卡"
+                            android:layout_toRightOf="@id/today_signs"
+                            android:id="@+id/textView6" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

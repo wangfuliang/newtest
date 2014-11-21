@@ -178,7 +178,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void onClick(View view) {
-        Toast.makeText(this, view.getId() + " clicked", Toast.LENGTH_SHORT).show();
         switch (view.getId()) {
             case R.id.btn_create_remind1:
                 switchToCreateRemindFragment();

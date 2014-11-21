@@ -18,6 +18,7 @@ public class AppConfig {
         public final static String uploadUrl = "http://up.qiniu.com";
         public final static String uploadToken = "http://app.qun.hk/upload/token";
         public final static String createSign = "http://app.qun.hk/remind/api/createsign";
+        public final static String getSignInfo = "http://app.qun.hk/remind/api/signinfo";
     }
 
     public interface Message {

@@ -87,7 +87,6 @@ public class MainFragment extends Fragment {
 
             JSONArray js = new JSONArray((String) SP.get(getActivity().getApplicationContext(), "user.remindlist", "[]"));
             if (js.length() == 0) {
-                Log.d("xialei", "load from network");
                 String openid = data.getString("openid");
                 RequestParams params = new RequestParams();
                 params.put("openid", openid);
@@ -112,7 +111,6 @@ public class MainFragment extends Fragment {
                     }
                 });
             } else {
-                Log.d("xialei", "load from cache");
                 adapter.setList(js);
                 adapter.notifyDataSetChanged();
             }
