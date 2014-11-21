@@ -67,9 +67,11 @@
         android:paddingBottom="12dp">
 
         <LinearLayout
+            android:id="@+id/remind_detail_bd"
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:paddingBottom="10dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/corner_bg">
 
             <LinearLayout
@@ -282,8 +284,7 @@
                         android:layout_below="@+id/relativeLayout"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="16dp"
-                        >
+                        android:layout_marginTop="16dp">
 
                         <TextView
                             android:textSize="16dp"
@@ -335,8 +336,20 @@
                     </RelativeLayout>
 
                 </RelativeLayout>
+
             </LinearLayout>
 
         </LinearLayout>
+
+
+        <ListView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_listView"
+            android:choiceMode="none"
+            android:layout_below="@+id/remind_detail_bd"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </LinearLayout>

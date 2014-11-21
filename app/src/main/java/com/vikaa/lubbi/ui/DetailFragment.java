@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -17,10 +18,12 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.adapter.SignItemAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +43,9 @@ public class DetailFragment extends Fragment {
     TextView todaySigns;
     @ViewInject(R.id.joins_count)
     TextView joinsCount;
+    @ViewInject(R.id.sign_listView)
+    ListView signListView;
+    SignItemAdapter sign_list;
 
     public void setRemindDetail(JSONObject remindDetail) {
         this.remindDetail = remindDetail;
@@ -49,6 +55,8 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, null);
         ViewUtils.inject(this, view);
+        sign_list = new SignItemAdapter(getActivity());
+        signListView.setAdapter(sign_list);
         return view;
     }
 
@@ -67,6 +75,29 @@ public class DetailFragment extends Fragment {
             detailTitle.setText(detail_title);
             detailTime.setText(detail_time);
             detailContent.setText(Html.fromHtml("<u>" + detail_content + "</u>"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //加载打卡列表
+        try {
+            String hash = remindDetail.getString("hash");
+            RequestParams params = new RequestParams();
+            params.put("_sign", MainActivity._sign);
+            params.put("hash", hash);
+            params.put("page", "1");
+            Http.get(AppConfig.Api.listSign, params, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONArray ja = response.getJSONArray("info");
+                        sign_list.setList(ja);
+                        sign_list.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
