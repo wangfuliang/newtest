@@ -21,6 +21,9 @@ public class UserListRemindAdapter extends BaseAdapter {
     JSONArray list;
     private LayoutInflater inflater;
 
+    public UserListRemindAdapter(Context context) {
+        inflater = LayoutInflater.from(context);
+    }
     public UserListRemindAdapter(Context context, JSONArray list) {
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -30,6 +33,10 @@ public class UserListRemindAdapter extends BaseAdapter {
         TextView title;
         TextView time;
         ImageView sign;
+    }
+
+    public void setList(JSONArray list) {
+        this.list = list;
     }
 
     @Override

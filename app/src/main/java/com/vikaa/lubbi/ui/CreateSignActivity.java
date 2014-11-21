@@ -28,6 +28,7 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.CreateSignImageAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
 import org.apache.http.Header;
@@ -121,6 +122,7 @@ public class CreateSignActivity extends Activity {
                             int status = response.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(CreateSignActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                                SP.remove(getApplicationContext(),"user.remindlist");
                                 finish();
                                 //改变list的值
                             } else {

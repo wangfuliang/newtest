@@ -21,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.ui.CreateRemindFragment;
+import com.vikaa.lubbi.ui.DetailFragment;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
 import com.vikaa.lubbi.util.HardWare;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     public MainFragment mainFragment;
     public CreateRemindFragment createRemindFragment;
+    public DetailFragment detailFragment;
     public LoginFragment loginFragment;
     private long exitTime;
     public static final int DATETIMEPICKER = 1;
@@ -178,14 +180,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         Toast.makeText(this, view.getId() + " clicked", Toast.LENGTH_SHORT).show();
         switch (view.getId()) {
-            case R.id.btn_plus:
+            case R.id.btn_create_remind1:
                 switchToCreateRemindFragment();
                 break;
+            case R.id.btn_back2:
             case R.id.btn_back:
                 switchToMainFragment();
                 break;
             case R.id.btn_login:
                 login();
+                break;
+            case R.id.btn_share:
                 break;
         }
     }
@@ -322,6 +327,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param data
      */
     private void showRemindDetail(JSONObject data) {
-        Log.d("xialei", "main activity receive msg showreminddetail->" + data.toString());
+        if (detailFragment == null)
+            detailFragment = new DetailFragment();
+        detailFragment.setRemindDetail(data);
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, detailFragment)
+                .commit();
     }
 }

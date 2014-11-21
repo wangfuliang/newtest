@@ -27,10 +27,12 @@ import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 import com.vikaa.lubbi.widget.SwitchView;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -196,7 +198,7 @@ public class CreateRemindFragment extends Fragment {
         //发送HTTP
         RequestParams params = new RequestParams();
         params.put("title", title);
-        params.put("time", datetime+":00");
+        params.put("time", datetime + ":00");
         params.put("repeat", repeatModeString);
         params.put("hide_remind", hide_remind);
         params.put("mark", mark);
@@ -216,6 +218,9 @@ public class CreateRemindFragment extends Fragment {
                         return;
                     }
                     JSONObject data = response.getJSONObject("info");
+                    data.put("isAdd", 1);
+                    //更新列表缓存
+                    SP.remove(getActivity().getApplicationContext(),"user.remindlist");
                     Message msg = new Message();
                     msg.what = AppConfig.Message.ShowRemindDetail;
                     msg.obj = data;
