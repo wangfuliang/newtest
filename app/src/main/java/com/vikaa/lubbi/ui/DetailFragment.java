@@ -7,14 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DetailFragment extends Fragment {
     JSONObject remindDetail;
+    @ViewInject(R.id.detail_title)
+    TextView detailTitle;
+    @ViewInject(R.id.detail_time)
+    TextView detailTime;
 
     public void setRemindDetail(JSONObject remindDetail) {
         this.remindDetail = remindDetail;
@@ -30,6 +37,14 @@ public class DetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("xialei",remindDetail.toString());
+        //设置标题和时间
+        try {
+            String detail_title = remindDetail.getString("title");
+            String detail_time = remindDetail.getString("format_time");
+            detailTitle.setText(detail_title);
+            detailTime.setText(detail_time);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
