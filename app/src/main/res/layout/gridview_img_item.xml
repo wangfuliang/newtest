@@ -5,6 +5,7 @@
     android:layout_height="fill_parent">
 
     <ImageView
+        android:background="@drawable/corner_bg_dash"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/gridview_img" />

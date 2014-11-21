@@ -28,6 +28,7 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.CreateSignImageAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
@@ -191,6 +192,7 @@ public class CreateSignActivity extends Activity {
                                         try {
                                             Toast.makeText(CreateSignActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
                                             String url = cdn + response.getString("key");
+                                            //写入缩略图
                                             images.add(url);
                                         } catch (JSONException e) {
                                             e.printStackTrace();

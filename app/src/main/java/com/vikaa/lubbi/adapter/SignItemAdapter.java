@@ -107,14 +107,14 @@ public class SignItemAdapter extends BaseAdapter {
                     //获取缓存文件名
                     final String fname = StringUtil.getFileName(_url);
                     //从缓存读取
-                    File file = new File(AppConfig.cachePath+fname);
+                    File file = new File(AppConfig.cachePath+fname+"_64.jpg");
                     if(!file.exists()){
-                        Http.get(_url, new BinaryHttpResponseHandler() {
+                        Http.get(_url+"_64.jpg", new BinaryHttpResponseHandler() {
                             @Override
                             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                 Bitmap bm = Image.getBitmapFromByte(bytes);
                                 try {
-                                    Image.saveFile(bm,AppConfig.cachePath+fname);
+                                    Image.saveFile(bm,AppConfig.cachePath+fname+"_64.jpg");
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
