@@ -74,7 +74,6 @@ public class SignItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Log.d("xialei", "!");
         ViewHold holder;
         if (view == null) {
             holder = new ViewHold();
@@ -148,5 +147,4 @@ public class SignItemAdapter extends BaseAdapter {
         }
         return view;
     }
-
 }
