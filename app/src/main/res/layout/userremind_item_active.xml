@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <ImageView
         android:layout_width="8dp"
-        android:background="@color/active_green"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="@color/active_green" />
 
     <LinearLayout
         android:layout_marginLeft="40dp"
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:textColor="#333333"
@@ -32,4 +32,16 @@
             android:id="@+id/time"
             android:textColor="@color/text_gray" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/userlistremind_signed"
+        android:src="@drawable/icon_check_red"
+        android:layout_alignParentTop="true"
+        android:id="@+id/has_signed"/>
 </RelativeLayout>

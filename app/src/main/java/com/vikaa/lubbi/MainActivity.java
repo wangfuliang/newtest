@@ -322,6 +322,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param data
      */
     private void showRemindDetail(JSONObject data) {
-        Log.d("xialei","main activity receive msg showreminddetail->"+data.toString());
+        Log.d("xialei", "main activity receive msg showreminddetail->" + data.toString());
     }
 }

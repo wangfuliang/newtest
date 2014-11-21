@@ -45,7 +45,6 @@ public class CreateSignImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Log.d("xialei", i + "");
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();

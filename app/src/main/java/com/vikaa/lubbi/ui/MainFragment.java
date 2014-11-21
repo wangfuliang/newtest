@@ -40,6 +40,7 @@ public class MainFragment extends Fragment {
     TextView nickname;
     @ViewInject(R.id.userlistremind)
     ListView userListRemind;
+    public UserListRemindAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class MainFragment extends Fragment {
                     try {
                         JSONArray list = response.getJSONArray("info");
                         //初始化listView
-                        UserListRemindAdapter adapter = new UserListRemindAdapter(getActivity(), list);
+                        adapter = new UserListRemindAdapter(getActivity(), list);
                         userListRemind.setAdapter(adapter);
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();

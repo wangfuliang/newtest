@@ -57,9 +57,8 @@ public class UserListRemindAdapter extends BaseAdapter {
         String title;
         String time;
         final String hash;
-        boolean isSign = false;
         try {
-            JSONObject js = list.getJSONObject(i);
+            final JSONObject js = list.getJSONObject(i);
             title = js.getString("title");
             time = js.getString("format_time");
             hash = js.getString("hash");
@@ -67,13 +66,11 @@ public class UserListRemindAdapter extends BaseAdapter {
             if (view == null) {
                 holder = new ViewHolder();
                 if (js.getInt("isSigned") == 1) {
-                    isSign = true;
                     view = inflater.inflate(R.layout.userremind_item_active, null);
                     holder.title = (TextView) view.findViewById(R.id.title);
                     holder.time = (TextView) view.findViewById(R.id.time);
-                    holder.sign = (ImageView) view.findViewById(R.id.create_sign);
+                    holder.sign = (ImageView) view.findViewById(R.id.has_signed);
                 } else {
-                    isSign = false;
                     view = inflater.inflate(R.layout.userremind_item_normal, null);
                     holder.title = (TextView) view.findViewById(R.id.title);
                     holder.time = (TextView) view.findViewById(R.id.time);
@@ -85,20 +82,44 @@ public class UserListRemindAdapter extends BaseAdapter {
             }
             holder.title.setText(title);
             holder.time.setText(time);
-            if (!isSign) {
-                holder.sign.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //弹出intent
-                        Intent i = new Intent(inflater.getContext(), CreateSignActivity.class);
-                        inflater.getContext().startActivity(i);
+            holder.sign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        if(js.getInt("isSigned") != 1){
+                            //弹出intent
+                            Intent i = new Intent(inflater.getContext(), CreateSignActivity.class);
+                            i.putExtra("hash",hash);
+                            inflater.getContext().startActivity(i);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return view;
+    }
+
+    /**
+     * 设置签到状态
+     * @param hash
+     * @param isSign
+     */
+    public void setSign(String hash, int isSign) {
+        for(int i = 0;i<list.length();i++){
+            try {
+                JSONObject jo = list.getJSONObject(i);
+                if(jo.getString("hash").equals(hash)){
+                    jo.put("isSigned",isSign);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        this.notifyDataSetChanged();
     }
 }
