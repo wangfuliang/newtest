@@ -5,7 +5,6 @@ import android.os.Environment;
 public class AppConfig {
     public final static boolean debug = true;
     public final static int version = 1;
-    public final static String cachePath = Environment.getExternalStorageDirectory()+"/com.vikaa.lubbi/cache/";
     public interface App {
         public final static String APP_ID = "wxe0972b3609a72e60";
         public final static String APP_KEY = "c54dd5a7aa8f81bd0186f040e8ab72b9";

@@ -100,45 +100,22 @@ public class SignItemAdapter extends BaseAdapter {
             //读取img
             JSONArray _imglist = new JSONArray(_this.getString("images"));
             if (_imglist.length() > 0) {
-                final SignItemImageAdapter _imgAdapter = new SignItemImageAdapter(context);
-                holder.imgList.setAdapter(_imgAdapter);
-                for (int t = 0; t < _imglist.length(); t++) {
-                   String _url = _imglist.getString(t);
-                    //获取缓存文件名
-                    final String fname = StringUtil.getFileName(_url);
-                    //从缓存读取
-                    File file = new File(AppConfig.cachePath+fname+"_64.jpg");
-                    if(!file.exists()){
-                        Http.get(_url+"_64.jpg", new BinaryHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                                Bitmap bm = Image.getBitmapFromByte(bytes);
-                                try {
-                                    Image.saveFile(bm,AppConfig.cachePath+fname+"_64.jpg");
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                _imgAdapter.list.add(bm);
-                                _imgAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                            }
-                        });
-                    }else{
-                        Bitmap bm = Image.getBitemapFromFile(file);
-                        _imgAdapter.list.add(bm);
-                        _imgAdapter.notifyDataSetChanged();
-                    }
-                }
                 holder.imgList.setVisibility(View.VISIBLE);
+                //写入url
+                String[] _list = new String[_imglist.length()];
+                for (int t = 0; t < _imglist.length(); t++) {
+                    _list[t] = _imglist.getString(t)+"_64.jpg";
+                }
+                SignItemImageAdapter _adapter = new SignItemImageAdapter(context);
+                _adapter.setList(_list);
+                holder.imgList.setAdapter(_adapter);
             }
             DisplayImageOptions options = new DisplayImageOptions.Builder()
+
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .bitmapConfig(Bitmap.Config.RGB_565)
+                    .showImageOnLoading(R.drawable.loading)
                     .displayer(new RoundedBitmapDisplayer(5))
                     .build();
             ImageLoader.getInstance().displayImage(url, holder.avatar, options);

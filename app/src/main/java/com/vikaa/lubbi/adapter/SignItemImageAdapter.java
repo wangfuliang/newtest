@@ -2,7 +2,6 @@ package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +9,21 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vikaa.lubbi.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SignItemImageAdapter extends BaseAdapter {
     private Context context;
     LayoutInflater inflater;
-    List<Bitmap> list = new ArrayList<Bitmap>();
+    String[] list;
 
     public SignItemImageAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(List<Bitmap> list) {
+    public void setList(String[] list) {
         this.list = list;
     }
 
@@ -35,12 +33,12 @@ public class SignItemImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return list[i];
     }
 
     @Override
@@ -60,7 +58,13 @@ public class SignItemImageAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.img.setScaleType(ImageView.ScaleType.FIT_XY);
-        holder.img.setImageBitmap(list.get(i));
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .showImageOnLoading(R.drawable.loading)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        ImageLoader.getInstance().displayImage(list[i], holder.img,options);
         holder.img.setClickable(true);
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

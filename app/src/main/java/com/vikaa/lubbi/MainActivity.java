@@ -59,14 +59,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             createRemindFragment = new CreateRemindFragment();
         //检测网络
         handler = new CoreHandler();
-        //生成缓存目录
-        String rootPath = Environment.getExternalStorageDirectory()+"/com.vikaa.lubbi/";
-        File cacheDIR = new File(rootPath);
-        if (!cacheDIR.exists())
-            cacheDIR.mkdir();
-        cacheDIR = new File(rootPath+"cache/");
-        if(!cacheDIR.exists())
-            cacheDIR.mkdir();
     }
 
     @Override
