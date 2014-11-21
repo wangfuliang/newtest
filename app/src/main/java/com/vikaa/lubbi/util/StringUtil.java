@@ -1,5 +1,8 @@
 package com.vikaa.lubbi.util;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,5 +55,39 @@ public class StringUtil {
     public static String getFileName(String url) {
         String[] params = url.split("/");
         return params[params.length - 1];
+    }
+
+    /**
+     * 合并jsonarray
+     * @param mData
+     * @param array
+     * @return
+     */
+    public static JSONArray joinJSONArray(JSONArray mData, JSONArray array) {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            int len = mData.length();
+            for (int i = 0; i < len; i++) {
+                JSONObject obj1 = (JSONObject) mData.get(i);
+                if (i == len - 1)
+                    buffer.append(obj1.toString());
+                else
+                    buffer.append(obj1.toString()).append(",");
+            }
+            len = array.length();
+            if (len > 0)
+                buffer.append(",");
+            for (int i = 0; i < len; i++) {
+                JSONObject obj1 = (JSONObject) array.get(i);
+                if (i == len - 1)
+                    buffer.append(obj1.toString());
+                else
+                    buffer.append(obj1.toString()).append(",");
+            }
+            buffer.insert(0, "[").append("]");
+            return new JSONArray(buffer.toString());
+        } catch (Exception e) {
+        }
+        return null;
     }
 }

@@ -214,7 +214,7 @@
                 android:background="@drawable/input_top_border"
                 android:layout_height="fill_parent">
 
-                <ListView
+                <com.vikaa.lubbi.widget.UserRemindListView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/userlistremind"

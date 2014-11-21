@@ -24,9 +24,14 @@ public class UserListRemindAdapter extends BaseAdapter {
     public UserListRemindAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
+
     public UserListRemindAdapter(Context context, JSONArray list) {
         this.list = list;
         inflater = LayoutInflater.from(context);
+    }
+
+    public JSONArray getList() {
+        return list;
     }
 
     class ViewHolder {
@@ -47,7 +52,7 @@ public class UserListRemindAdapter extends BaseAdapter {
     @Override
     public Object getItem(int i) {
         try {
-            return list.get(i);
+            return list.get(i - 1);
         } catch (JSONException e) {
             return null;
         }
@@ -93,10 +98,10 @@ public class UserListRemindAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     try {
-                        if(js.getInt("isSigned") != 1){
+                        if (js.getInt("isSigned") != 1) {
                             //弹出intent
                             Intent i = new Intent(inflater.getContext(), CreateSignActivity.class);
-                            i.putExtra("hash",hash);
+                            i.putExtra("hash", hash);
                             inflater.getContext().startActivity(i);
                         }
                     } catch (JSONException e) {
