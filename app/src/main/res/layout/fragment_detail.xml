@@ -9,15 +9,16 @@
         android:layout_height="48dp"
         android:background="@color/light_blue">
 
-        <Button
-            android:layout_width="24dp"
+        <ImageView
+            android:layout_width="wrap_content"
             android:onClick="onClick"
-            android:layout_height="20dp"
+            android:layout_height="match_parent"
             android:id="@+id/btn_back2"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_back" />
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:clickable="true"
+            android:background="@drawable/btn_bg"
+            android:src="@drawable/icon_back" />
 
         <Button
             android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:id="@+id/imageView"
-            android:layout_alignBottom="@+id/btn_back2"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="150dp"
             android:src="@drawable/icon_clock"
             android:scaleType="fitXY" />

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -54,7 +55,7 @@ public class CreateRemindFragment extends Fragment {
     @ViewInject(R.id.timePicker)
     TimePicker timePicker;
     @ViewInject(R.id.btn_create_remind)
-    Button btnCreateRemind;
+    ImageView btnCreateRemind;
     ProgressDialog pd;
     private final String[] repeatMode = {"一次", "每天", "每周", "每月", "每年"};
 
