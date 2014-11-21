@@ -103,23 +103,4 @@ public class UserListRemindAdapter extends BaseAdapter {
 
         return view;
     }
-
-    /**
-     * 设置签到状态
-     * @param hash
-     * @param isSign
-     */
-    public void setSign(String hash, int isSign) {
-        for(int i = 0;i<list.length();i++){
-            try {
-                JSONObject jo = list.getJSONObject(i);
-                if(jo.getString("hash").equals(hash)){
-                    jo.put("isSigned",isSign);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        this.notifyDataSetChanged();
-    }
 }
