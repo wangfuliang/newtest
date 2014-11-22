@@ -56,7 +56,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 JSONObject detail = (JSONObject) adapter.getItem(i);
-                Log.d("xialei", detail.toString());
                 if (detail != null) {
                     //我的列表点进去的，肯定加入了
                     try {

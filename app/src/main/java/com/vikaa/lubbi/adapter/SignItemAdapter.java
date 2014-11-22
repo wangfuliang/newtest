@@ -2,7 +2,6 @@ package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +10,15 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.vikaa.lubbi.R;
-import com.vikaa.lubbi.core.AppConfig;
-import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.StringUtil;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
 
 public class SignItemAdapter extends BaseAdapter {
     LayoutInflater inflater;
@@ -92,10 +83,10 @@ public class SignItemAdapter extends BaseAdapter {
             JSONObject _user = _this.getJSONObject("user");
             String nickname = _user.getString("nickname");
             String url = _user.getString("avatar");
-            String time = _this.getString("sign_at");
+            long time = _this.getLong("sign_at");
             String message = _this.getString("message");
             holder.nickname.setText(nickname);
-            holder.time.setText(time);
+            holder.time.setText(StringUtil.parseDate(time,true));
             holder.message.setText(message);
             //读取img
             JSONArray _imglist = new JSONArray(_this.getString("images"));

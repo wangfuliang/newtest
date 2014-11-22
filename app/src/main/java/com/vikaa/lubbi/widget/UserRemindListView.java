@@ -242,8 +242,6 @@ public class UserRemindListView extends ListView implements AbsListView.OnScroll
         headView.setPadding(0, -1 * headContentHeight, 0, 0);
         headView.invalidate();
 
-        Log.v("size", "width:" + headContentWidth + " height:"
-                + headContentHeight);
 
         addHeaderView(headView, null, false);
         setOnScrollListener(this);

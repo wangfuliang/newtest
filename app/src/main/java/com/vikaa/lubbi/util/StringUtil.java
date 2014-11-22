@@ -3,6 +3,8 @@ package com.vikaa.lubbi.util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +51,7 @@ public class StringUtil {
 
     /**
      * 获取url的文件名
+     *
      * @param url
      * @return
      */
@@ -59,6 +62,7 @@ public class StringUtil {
 
     /**
      * 合并jsonarray
+     *
      * @param mData
      * @param array
      * @return
@@ -89,5 +93,35 @@ public class StringUtil {
         } catch (Exception e) {
         }
         return null;
+    }
+
+    /**
+     * 时间戳转时间
+     *
+     * @param format
+     * @param timestamp
+     * @return
+     */
+    public static String parseDate(String format, long timestamp) {
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        Date date = new Date(timestamp * 1000);
+        return df.format(date);
+    }
+
+    /**
+     * 解析日期
+     *
+     * @param timestamp
+     * @param enableToday
+     * @return
+     */
+    public static String parseDate(long timestamp, boolean enableToday) {
+        String theday = parseDate("MM-dd HH:mm", timestamp);
+        //查看今天的日期
+        String today = parseDate("MM-dd", System.currentTimeMillis()/1000);
+        if(theday.startsWith(today)){
+            theday = "今天"+theday.substring(5);
+        }
+        return theday;
     }
 }
