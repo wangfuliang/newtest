@@ -57,7 +57,6 @@ public class SignItemImageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.img.setScaleType(ImageView.ScaleType.FIT_XY);
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)

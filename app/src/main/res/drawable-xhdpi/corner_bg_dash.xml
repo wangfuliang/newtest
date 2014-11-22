@@ -9,7 +9,7 @@
 
             <solid android:color="#e2e2e2" />
 
-            <corners android:radius="8dp" />
+            <corners android:radius="4dp" />
         </shape>
     </item>
     <item
@@ -19,14 +19,14 @@
         android:top="1dp">
         <shape>
             <stroke
-                android:dashGap="15dp"
-                android:dashWidth="15dp"
-                android:width="2.5dp"
+                android:dashGap="10dp"
+                android:dashWidth="5dp"
+                android:width="2dp"
                 android:color="#ffffff" />
 
             <solid android:color="#FFFFFF" />
 
-            <corners android:radius="5dp" />
+            <corners android:radius="4dp" />
         </shape>
     </item>
 
