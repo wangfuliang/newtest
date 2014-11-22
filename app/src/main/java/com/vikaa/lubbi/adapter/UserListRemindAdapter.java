@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.ui.CreateSignActivity;
+import com.vikaa.lubbi.ui.UpdateRemindFragment;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.UI;
@@ -57,6 +59,7 @@ public class UserListRemindAdapter extends BaseAdapter {
         TextView time;
         TextView sign;
         TextView delete;
+        ImageView edit;
     }
 
     public void setList(JSONArray list) {
@@ -102,6 +105,7 @@ public class UserListRemindAdapter extends BaseAdapter {
                 holder.sign = (TextView) view.findViewById(R.id.create_sign);
                 holder.hd = (ImageView) view.findViewById(R.id.remind_item_hd);
                 holder.delete = (TextView) view.findViewById(R.id.delete_remind);
+                holder.edit = (ImageView) view.findViewById(R.id.edit_remind);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -160,9 +164,9 @@ public class UserListRemindAdapter extends BaseAdapter {
 
                                         JSONArray _new = new JSONArray();
                                         Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
-                                        for (int _t = 0;_t<list.length();_t++){
+                                        for (int _t = 0; _t < list.length(); _t++) {
                                             JSONObject o = list.getJSONObject(_t);
-                                            if(!o.getString("hash").equals(hash)){
+                                            if (!o.getString("hash").equals(hash)) {
                                                 _new.put(o);
                                             }
                                         }
@@ -183,6 +187,19 @@ public class UserListRemindAdapter extends BaseAdapter {
                     });
                     builder.setNegativeButton("取消", null);
                     builder.show();
+                }
+            });
+
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    UpdateRemindFragment updateRemindFragment = new UpdateRemindFragment();
+                    updateRemindFragment.setData(js);
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.getSupportFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.container, updateRemindFragment)
+                            .commit();
                 }
             });
         } catch (JSONException e) {

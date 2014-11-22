@@ -183,6 +183,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_back2:
             case R.id.btn_back:
+            case R.id.btn_back3:
                 switchToMainFragment();
                 break;
             case R.id.btn_login:
