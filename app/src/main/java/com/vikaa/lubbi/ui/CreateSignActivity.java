@@ -128,7 +128,7 @@ public class CreateSignActivity extends Activity {
                                 //改变list的值
                             } else {
                                 String info = response.getString("info");
-                                Toast.makeText(CreateSignActivity.this, "签到失败:" + info, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CreateSignActivity.this, info, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
