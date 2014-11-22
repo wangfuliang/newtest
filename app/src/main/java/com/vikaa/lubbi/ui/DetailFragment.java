@@ -45,7 +45,7 @@ public class DetailFragment extends Fragment {
     @ViewInject(R.id.joins_count)
     TextView joinsCount;
     @ViewInject(R.id.sign_listView)
-    ListView signListView;
+    public static  ListView signListView;
     SignItemAdapter sign_list;
 
     public void setRemindDetail(JSONObject remindDetail) {

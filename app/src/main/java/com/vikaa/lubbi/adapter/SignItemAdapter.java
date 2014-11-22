@@ -1,25 +1,35 @@
 package com.vikaa.lubbi.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.core.AppConfig;
+import com.vikaa.lubbi.ui.DetailFragment;
+import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.StringUtil;
 import com.vikaa.lubbi.util.UI;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,8 +81,8 @@ public class SignItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHold holder;
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        final ViewHold holder;
         if (view == null) {
             holder = new ViewHold();
             view = inflater.inflate(R.layout.sign_item, null);
@@ -135,7 +145,60 @@ public class SignItemAdapter extends BaseAdapter {
             holder.comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "click comment", Toast.LENGTH_SHORT).show();
+                    final EditText inputMessage = new EditText(context);
+                    inputMessage.setHint("说点什么");
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setView(inputMessage).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.setPositiveButton("评论", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int t) {
+                            final String message = inputMessage.getText().toString().trim();
+                            if (TextUtils.isEmpty(message)) {
+                                Toast.makeText(context, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            //打卡ID
+                            try {
+                                JSONObject _sign = list.getJSONObject(i);
+                                String sign_id = _sign.getString("sign_id");
+                                RequestParams params = new RequestParams();
+                                params.put("sign_id", sign_id);
+                                params.put("message", message);
+                                Http.post(AppConfig.Api.commentSign + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        int status = 0;
+                                        try {
+                                            status = response.getInt("status");
+                                            if (status == 1) {
+                                                //追加到commentList
+                                                JSONObject c_item = response.getJSONObject("info");
+                                                CommentAdapter _a = (CommentAdapter) holder.commentList.getAdapter();
+                                                _a.list.put(c_item);
+                                                _a.notifyDataSetChanged();
+                                                SignItemAdapter.this.notifyDataSetChanged();
+                                                UI.setListViewHeightBasedOnChildren(holder.commentList);
+                                                UI.setListViewHeightBasedOnChildren(DetailFragment.signListView);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(context, "评论失败了", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(context, "评论失败了", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.show();
                 }
             });
 
