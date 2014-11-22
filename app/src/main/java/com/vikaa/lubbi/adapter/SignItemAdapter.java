@@ -100,7 +100,14 @@ public class SignItemAdapter extends BaseAdapter {
             holder = (ViewHold) view.getTag();
         }
         try {
-            JSONObject _this = list.getJSONObject(i);
+            //设置点赞图片
+            final JSONObject _this = list.getJSONObject(i);
+            final int isPraise = _this.getInt("isPraised");
+            if (isPraise == 0) {
+                holder.praise.setImageResource(R.drawable.icon_praise_normal);
+            } else {
+                holder.praise.setImageResource(R.drawable.icon_praise_active);
+            }
             JSONObject _user = _this.getJSONObject("user");
             String nickname = _user.getString("nickname");
             String url = _user.getString("avatar");
@@ -150,7 +157,7 @@ public class SignItemAdapter extends BaseAdapter {
                                     String sign_id = _sign.getString("sign_id");
                                     RequestParams params = new RequestParams();
                                     params.put("sign_id", sign_id);
-                                    params.put("message", "@"+nickname+" "+message);
+                                    params.put("message", "@" + nickname + " " + message);
                                     Http.post(AppConfig.Api.commentSign + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -270,6 +277,44 @@ public class SignItemAdapter extends BaseAdapter {
                 }
             });
 
+            //点赞
+            holder.praise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isPraise == 0) {
+                        try {
+                            String _signId = _this.getString("sign_id");
+                            RequestParams params = new RequestParams();
+                            params.put("sign_id", _signId);
+                            Http.post(AppConfig.Api.praiseSign + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    try {
+                                        int status = response.getInt("status");
+                                        if (status == 0) {
+                                            String info = response.getString("info");
+                                            Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
+                                        holder.praise.setImageResource(R.drawable.icon_praise_active);
+                                    } catch (JSONException e) {
+                                        Toast.makeText(context, "点赞失败", Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    Toast.makeText(context, "点赞失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

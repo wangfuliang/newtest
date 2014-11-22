@@ -22,6 +22,7 @@ public class AppConfig {
         public final static String getSignInfo = "http://app.qun.hk/remind/api/signinfo";
         public final static String listSign = "http://app.qun.hk/remind/api/listsign";
         public final static String commentSign = "http://app.qun.hk/remind/api/commentsign";
+        public final static String praiseSign = "http://app.qun.hk/remind/api/praisesign";
     }
 
     public interface Message {
