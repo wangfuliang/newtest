@@ -5,6 +5,7 @@ import android.os.Environment;
 public class AppConfig {
     public final static boolean debug = true;
     public final static int version = 1;
+
     public interface App {
         public final static String APP_ID = "wxe0972b3609a72e60";
         public final static String APP_KEY = "c54dd5a7aa8f81bd0186f040e8ab72b9";
@@ -23,6 +24,7 @@ public class AppConfig {
         public final static String listSign = "http://app.qun.hk/remind/api/listsign";
         public final static String commentSign = "http://app.qun.hk/remind/api/commentsign";
         public final static String praiseSign = "http://app.qun.hk/remind/api/praisesign";
+        public final static String deleteRemind = "http://app.qun.hk/remind/api/deleteremind";
     }
 
     public interface Message {
