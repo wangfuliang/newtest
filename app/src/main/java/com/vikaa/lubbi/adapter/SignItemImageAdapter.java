@@ -1,6 +1,7 @@
 package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.ui.ShowImgActivity;
 
 public class SignItemImageAdapter extends BaseAdapter {
     private Context context;
@@ -57,18 +59,21 @@ public class SignItemImageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        final String url = list[i];
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .showImageOnLoading(R.drawable.loading)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-        ImageLoader.getInstance().displayImage(list[i], holder.img,options);
+        ImageLoader.getInstance().displayImage(url+"_64.jpg", holder.img,options);
         holder.img.setClickable(true);
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "点击了" + i, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(context, ShowImgActivity.class);
+                i.putExtra("url",url);
+                context.startActivity(i);
             }
         });
         return view;

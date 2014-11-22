@@ -202,7 +202,7 @@ public class SignItemAdapter extends BaseAdapter {
                 //写入url
                 String[] _list = new String[_imglist.length()];
                 for (int t = 0; t < _imglist.length(); t++) {
-                    _list[t] = _imglist.getString(t) + "_64.jpg";
+                    _list[t] = _imglist.getString(t);
                 }
                 SignItemImageAdapter _adapter = new SignItemImageAdapter(context);
                 _adapter.setList(_list);

@@ -43,7 +43,8 @@
         android:icon="@drawable/ic_launcher"
         android:name=".core.BaseApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".core.BaseActivity"></activity>
+        <activity android:name=".core.BaseActivity"/>
+        <activity android:name=".ui.ShowImgActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +53,7 @@
         </activity>
         <activity
             android:name=".ui.CreateSignActivity"
-            android:theme="@style/MyDialog"></activity>
+            android:theme="@style/MyDialog"/>
     </application>
 
 </manifest>
