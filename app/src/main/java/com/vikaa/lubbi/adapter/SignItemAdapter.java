@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -116,6 +117,73 @@ public class SignItemAdapter extends BaseAdapter {
                 CommentAdapter _adapter = new CommentAdapter(context);
                 _adapter.setList(comments);
                 holder.commentList.setAdapter(_adapter);
+                holder.commentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        //获取被评论对象
+                        final JSONObject _c = (JSONObject) ((CommentAdapter) holder.commentList.getAdapter()).getItem(i);
+
+
+                        final EditText inputMessage = new EditText(context);
+                        inputMessage.setHint("说点什么");
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setView(inputMessage).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.setPositiveButton("评论", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int t) {
+                                final String message = inputMessage.getText().toString().trim();
+                                if (TextUtils.isEmpty(message)) {
+                                    Toast.makeText(context, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                //打卡ID
+                                try {
+                                    JSONObject _sign = _c;
+                                    JSONObject user = _sign.getJSONObject("user");
+                                    String nickname = user.getString("nickname");
+                                    String sign_id = _sign.getString("sign_id");
+                                    RequestParams params = new RequestParams();
+                                    params.put("sign_id", sign_id);
+                                    params.put("message", "@"+nickname+" "+message);
+                                    Http.post(AppConfig.Api.commentSign + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            int status = 0;
+                                            try {
+                                                status = response.getInt("status");
+                                                if (status == 1) {
+                                                    //追加到commentList
+                                                    JSONObject c_item = response.getJSONObject("info");
+                                                    CommentAdapter _a = (CommentAdapter) holder.commentList.getAdapter();
+                                                    _a.list.put(c_item);
+                                                    _a.notifyDataSetChanged();
+                                                    SignItemAdapter.this.notifyDataSetChanged();
+                                                    UI.setListViewHeightBasedOnChildren(holder.commentList);
+                                                    UI.setListViewHeightBasedOnChildren(DetailFragment.signListView);
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                                Toast.makeText(context, "评论失败了", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(context, "评论失败了", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        builder.show();
+
+
+                    }
+                });
                 UI.setListViewHeightBasedOnChildren(holder.commentList);
             } catch (JSONException e) {
                 e.printStackTrace();
