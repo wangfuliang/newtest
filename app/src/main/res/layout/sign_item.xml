@@ -6,6 +6,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -38,6 +39,7 @@
             android:paddingBottom="8dp">
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
@@ -45,6 +47,7 @@
                 android:id="@+id/sign_item_nickname" />
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -88,6 +91,39 @@
                 android:verticalSpacing="4dp"
                 android:layout_marginTop="10dp"
                 android:numColumns="3" />
+
+            <ImageView
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:id="@+id/sign_item_comment"
+                android:src="@drawable/icon_comment"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/angle_bg"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:clickable="true"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sign_item_praise"
+                android:background="@drawable/angle_bg"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_praise_normal" />
+
+            <ListView
+                android:layout_marginTop="10dp"
+                android:background="@color/background_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/comment_listview"
+                android:divider="#FFFFFFFF"
+                android:layout_below="@+id/sign_img_gridview"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:choiceMode="singleChoice" />
         </RelativeLayout>
-        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -2,19 +2,23 @@ package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.util.StringUtil;
+import com.vikaa.lubbi.util.UI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +65,9 @@ public class SignItemAdapter extends BaseAdapter {
         TextView time;
         TextView message;
         GridView imgList;
+        ImageView comment;
+        ImageView praise;
+        ListView commentList;
     }
 
     @Override
@@ -74,6 +81,9 @@ public class SignItemAdapter extends BaseAdapter {
             holder.time = (TextView) view.findViewById(R.id.sign_item_time);
             holder.message = (TextView) view.findViewById(R.id.site_item_message);
             holder.imgList = (GridView) view.findViewById(R.id.sign_img_gridview);
+            holder.comment = (ImageView) view.findViewById(R.id.sign_item_comment);
+            holder.praise = (ImageView) view.findViewById(R.id.sign_item_praise);
+            holder.commentList = (ListView) view.findViewById(R.id.comment_listview);
             view.setTag(holder);
         } else {
             holder = (ViewHold) view.getTag();
@@ -86,8 +96,20 @@ public class SignItemAdapter extends BaseAdapter {
             long time = _this.getLong("sign_at");
             String message = _this.getString("message");
             holder.nickname.setText(nickname);
-            holder.time.setText(StringUtil.parseDate(time,true));
+            holder.time.setText(StringUtil.parseDate(time, true));
             holder.message.setText(message);
+
+
+            try {
+                //加载评论列表
+                JSONArray comments = _this.getJSONArray("comments");
+                CommentAdapter _adapter = new CommentAdapter(context);
+                _adapter.setList(comments);
+                holder.commentList.setAdapter(_adapter);
+                UI.setListViewHeightBasedOnChildren(holder.commentList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             //读取img
             JSONArray _imglist = new JSONArray(_this.getString("images"));
             if (_imglist.length() > 0) {
@@ -95,7 +117,7 @@ public class SignItemAdapter extends BaseAdapter {
                 //写入url
                 String[] _list = new String[_imglist.length()];
                 for (int t = 0; t < _imglist.length(); t++) {
-                    _list[t] = _imglist.getString(t)+"_64.jpg";
+                    _list[t] = _imglist.getString(t) + "_64.jpg";
                 }
                 SignItemImageAdapter _adapter = new SignItemImageAdapter(context);
                 _adapter.setList(_list);
@@ -110,6 +132,13 @@ public class SignItemAdapter extends BaseAdapter {
                     .displayer(new RoundedBitmapDisplayer(5))
                     .build();
             ImageLoader.getInstance().displayImage(url, holder.avatar, options);
+            holder.comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "click comment", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
