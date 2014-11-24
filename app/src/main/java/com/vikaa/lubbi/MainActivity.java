@@ -26,6 +26,7 @@ import com.vikaa.lubbi.ui.CreateRemindFragment;
 import com.vikaa.lubbi.ui.DetailFragment;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
+import com.vikaa.lubbi.ui.NotificationFragment;
 import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Regex;
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     ProgressDialog pd;
     public static boolean isLogin = false;
     public CoreHandler handler;
+    public NotificationFragment notificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,12 +207,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_back2:
             case R.id.btn_back:
             case R.id.btn_back3:
+            case R.id.btn_back4:
                 switchToMainFragment();
                 break;
             case R.id.btn_login:
                 login();
                 break;
-            case R.id.btn_share:
+            case R.id.btn_menu:
+                if (notificationFragment == null)
+                    notificationFragment = new NotificationFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.container, notificationFragment)
+                        .commit();
                 break;
         }
     }
