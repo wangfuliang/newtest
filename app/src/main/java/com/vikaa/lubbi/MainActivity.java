@@ -15,10 +15,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.receiver.Utils;
 import com.vikaa.lubbi.ui.CreateRemindFragment;
 import com.vikaa.lubbi.ui.DetailFragment;
 import com.vikaa.lubbi.ui.LoginFragment;
@@ -49,12 +52,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        if (b != null) {
+            if (b.getString("action").equals("detail")) {
+                JSONObject data = (JSONObject) b.get("data");
+                //启动detailFragment
+                Message message = new Message();
+                message.what = AppConfig.Message.ShowRemindDetail;
+                message.obj = data;
+                handler.sendMessage(message);
+            }
+        }
         if (mainFragment == null)
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
             createRemindFragment = new CreateRemindFragment();
         //检测网络
         handler = new CoreHandler();
+
+
+        PushManager.startWork(getApplicationContext(),
+                PushConstants.LOGIN_TYPE_API_KEY,
+                Utils.getMetaValue(this, "api_key"));
     }
 
     @Override

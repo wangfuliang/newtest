@@ -3,12 +3,13 @@ package com.vikaa.lubbi.core;
 import android.app.Application;
 import android.os.Environment;
 
+import com.baidu.frontia.FrontiaApplication;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 
-public class BaseApplication extends Application {
+public class BaseApplication extends FrontiaApplication {
 
     @Override
     public void onCreate() {

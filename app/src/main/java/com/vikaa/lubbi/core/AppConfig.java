@@ -26,6 +26,7 @@ public class AppConfig {
         public final static String praiseSign = "http://app.qun.hk/remind/api/praisesign";
         public final static String deleteRemind = "http://app.qun.hk/remind/api/deleteremind";
         public final static String updateRemind = "http://app.qun.hk/remind/api/updateremind";
+        public final static String setPush = "";
     }
 
     public interface Message {
