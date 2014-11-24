@@ -68,7 +68,9 @@ public class NotificationFragment extends Fragment {
                 sync.clearAnimation();
                 List<Notification> list = new ArrayList<Notification>();
                 Notification a = new Notification("http://www.baidu.com/img/logo.gif", "张三", 1400000000000L, 1, "呵呵呵");
-                list.add(a);
+
+                for (int i = 0; i < 10; i++)
+                    list.add(a);
                 adapter = new NotificationAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

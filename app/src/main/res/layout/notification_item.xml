@@ -7,53 +7,65 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/btn_bg"
-        android:id="@+id/notification_item_avatar" />
-
-    <LinearLayout
-        android:layout_marginLeft="8dp"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/btn_bg"
+            android:id="@+id/notification_item_avatar" />
+
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_toEndOf="@+id/notification_item_avatar"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/notification_item_avatar">
 
-            <TextView
-                android:textColor="@color/light_blue"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="路人甲"
-                android:id="@+id/notification_item_nickname" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@color/light_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="路人甲"
+                    android:id="@+id/notification_item_nickname" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_gray"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="昨天 11:20"
+                    android:layout_marginLeft="7dp"
+                    android:id="@+id/notification_item_time" />
+            </LinearLayout>
 
             <TextView
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="昨天 11:20"
-                android:layout_marginLeft="7dp"
-                android:id="@+id/notification_item_time" />
+                android:text="点暂时了您"
+                android:id="@+id/notification_item_content" />
+
         </LinearLayout>
 
-        <TextView
-            android:layout_marginTop="8dp"
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
-            android:text="点暂时了您"
-            android:id="@+id/notification_item_content" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/arrow_right" />
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
 
 </LinearLayout>
