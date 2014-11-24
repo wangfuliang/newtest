@@ -100,6 +100,10 @@ public class UserListRemindAdapter extends BaseAdapter {
             if (view == null) {
                 holder = new ViewHolder();
                 view = inflater.inflate(R.layout.userremind_item, null);
+                if(i == 0)
+                    view.setBackgroundResource(R.drawable.line_border);
+                else
+                    view.setBackgroundResource(R.drawable.line_bottom_border);
                 holder.title = (TextView) view.findViewById(R.id.title);
                 holder.time = (TextView) view.findViewById(R.id.time);
                 holder.sign = (TextView) view.findViewById(R.id.create_sign);

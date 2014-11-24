@@ -209,7 +209,6 @@ public class SignItemAdapter extends BaseAdapter {
                 holder.imgList.setAdapter(_adapter);
             }
             DisplayImageOptions options = new DisplayImageOptions.Builder()
-
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .bitmapConfig(Bitmap.Config.RGB_565)
