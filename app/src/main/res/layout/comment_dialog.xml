@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/corner_bg" />
+
+    <EditText
+        android:background="@drawable/input_bottom_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="说点什么"
+        android:id="@+id/comment_dialog_text_comment"
+        android:maxLines="3" />
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/comment_dialog_text_comment"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="评论"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:id="@+id/comment_dialog_btn_comment"
+            android:layout_weight="5"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:id="@+id/comment_dialog_btn_exit"
+            android:text="取消" />
+    </LinearLayout>
+</RelativeLayout>

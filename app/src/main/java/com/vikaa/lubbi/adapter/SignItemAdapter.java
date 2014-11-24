@@ -134,6 +134,8 @@ public class SignItemAdapter extends BaseAdapter {
                         final EditText inputMessage = new EditText(context);
                         inputMessage.setHint("说点什么");
                         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setIcon(android.R.drawable.ic_menu_set_as);
+                        builder.setTitle("回复评论");
                         builder.setView(inputMessage).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -222,6 +224,8 @@ public class SignItemAdapter extends BaseAdapter {
                     final EditText inputMessage = new EditText(context);
                     inputMessage.setHint("说点什么");
                     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setIcon(android.R.drawable.ic_input_add);
+                    builder.setTitle("评论");
                     builder.setView(inputMessage).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
