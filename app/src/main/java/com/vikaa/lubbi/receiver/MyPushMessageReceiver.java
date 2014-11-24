@@ -14,9 +14,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.core.AppConfig;
+import com.vikaa.lubbi.entity.Notification;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,13 +53,10 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         // 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
         if (errorCode == 0) {
             Utils.setBind(context, true);
-//            RequestParams params = new RequestParams();
-//            params.put("push_device_type", 3);
-//            params.put("push_user_id", userId);
-//            Http.post(AppConfig.Api.setPush, params, new JsonHttpResponseHandler() {
-//
-//            });
-            Logger.d("push:"+userId);
+            RequestParams params = new RequestParams();
+            params.put("push_device_type", 3);
+            params.put("push_user_id", userId);
+            Logger.d("success to set userId");
         }
     }
 
@@ -84,12 +83,8 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onNotificationClicked(Context context, String title,
                                       String description, String customContentString) {
-
-
         Intent intent = new Intent(context, MainActivity.class);
-        Bundle b = new Bundle();
-        b.putString("action","detail");
-
+        intent.putExtra("action", "notification");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

@@ -29,6 +29,7 @@ import com.vikaa.lubbi.ui.MainFragment;
 import com.vikaa.lubbi.ui.NotificationFragment;
 import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.Regex;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
@@ -49,24 +50,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static boolean isLogin = false;
     public CoreHandler handler;
     public NotificationFragment notificationFragment;
+    public static String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = getIntent();
-        Bundle b = intent.getExtras();
-        if (b != null) {
-            if (b.getString("action").equals("detail")) {
-                JSONObject data = (JSONObject) b.get("data");
-                //启动detailFragment
-                Message message = new Message();
-                message.what = AppConfig.Message.ShowRemindDetail;
-                message.obj = data;
-                handler.sendMessage(message);
-            }
-        }
         if (mainFragment == null)
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
@@ -123,6 +112,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void checkLoginIn() {
         //检测是否登录
         if (isLogin) {
+            //绑定
+            if (!TextUtils.isEmpty(userId)) {
+                RequestParams params = new RequestParams();
+                params.put("push_device_type", 3);
+                params.put("push_user_id", userId);
+                Http.post(AppConfig.Api.setPush + "?_sign=" + _sign, params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Logger.d(response.toString());
+                        super.onSuccess(statusCode, headers, response);
+                    }
+                });
+            }
             return;
         }
         //检测SP存储有没有sign
@@ -140,7 +142,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Http.post(AppConfig.Api.checkLogin + "?_sign=" + _sign, new JsonHttpResponseHandler() {
                 @Override
                 public void onStart() {
-                    pd = UI.showProgress(MainActivity.this, null, "加载中", false);
+                    pd = UI.showProgress(MainActivity.this, null, "登陆中", false);
                 }
 
                 @Override
@@ -159,12 +161,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         SP.put(MainActivity.this, "user.sign", _sign);
                         //写入info
                         SP.put(MainActivity.this, "user.info", info);
-                        //登录成功，去主页
-                        //加载用户信息
-                        getSupportFragmentManager().beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.container, mainFragment)
-                                .commit();
+                        //绑定
+                        if (!TextUtils.isEmpty(userId)) {
+                            RequestParams params = new RequestParams();
+                            params.put("push_device_type", 3);
+                            params.put("push_user_id", userId);
+                            Http.post(AppConfig.Api.setPush + "?_sign=" + _sign, params, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    Logger.d(response.toString());
+                                    super.onSuccess(statusCode, headers, response);
+                                }
+                            });
+                        }
+                        //去通知
+                        Intent intent = getIntent();
+                        Bundle b = intent.getExtras();
+                        if (b != null) {
+                            if (b.getString("action").equals("notification")) {
+                                JSONObject data = (JSONObject) b.get("data");
+                                //通知
+                                Message message = new Message();
+                                message.what = AppConfig.Message.ShowNotification;
+                                message.obj = data;
+                                handler.sendMessage(message);
+                            }
+                        } else {
+                            //登录成功，去主页
+                            //加载用户信息
+                            getSupportFragmentManager().beginTransaction()
+                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                    .replace(R.id.container, mainFragment)
+                                    .commit();
+                        }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
@@ -214,12 +243,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 login();
                 break;
             case R.id.btn_menu:
-                if (notificationFragment == null)
-                    notificationFragment = new NotificationFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.container, notificationFragment)
-                        .commit();
+                showNotification();
                 break;
         }
     }
@@ -346,8 +370,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject data = (JSONObject) msg.obj;
                     showRemindDetail(data);
                     break;
+                case AppConfig.Message.ShowNotification:
+                    showNotification();
+                    break;
             }
         }
+    }
+
+    private void showNotification() {
+        if (notificationFragment == null)
+            notificationFragment = new NotificationFragment();
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, notificationFragment)
+                .commit();
+
     }
 
     /**

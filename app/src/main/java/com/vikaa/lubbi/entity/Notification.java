@@ -6,13 +6,19 @@ public class Notification {
     long time;
     int type;
     String content;
+    String hash;
 
-    public Notification(String avatar, String nickname, long time, int type, String content) {
+    public Notification(String avatar, String nickname, long time, int type, String content, String hash) {
         this.avatar = avatar;
         this.nickname = nickname;
         this.time = time;
         this.type = type;
         this.content = content;
+        this.hash = hash;
+    }
+
+    public String getHash() {
+        return hash;
     }
 
     public String getAvatar() {

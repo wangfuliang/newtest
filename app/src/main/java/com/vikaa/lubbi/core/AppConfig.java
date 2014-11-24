@@ -5,7 +5,8 @@ import android.os.Environment;
 public class AppConfig {
     public final static boolean debug = true;
     public final static int version = 1;
-    public final static String downPath = Environment.getExternalStorageDirectory()+"/com.vikaa.lubbi/down/";
+    public final static String downPath = Environment.getExternalStorageDirectory() + "/com.vikaa.lubbi/down/";
+
     public interface App {
         public final static String APP_ID = "wxe0972b3609a72e60";
         public final static String APP_KEY = "c54dd5a7aa8f81bd0186f040e8ab72b9";
@@ -26,12 +27,14 @@ public class AppConfig {
         public final static String praiseSign = "http://app.qun.hk/remind/api/praisesign";
         public final static String deleteRemind = "http://app.qun.hk/remind/api/deleteremind";
         public final static String updateRemind = "http://app.qun.hk/remind/api/updateremind";
-        public final static String setPush = "";
+        public final static String setPush = "http://app.qun.hk/remind/api/setpush";
+        public final static String getRemind = "http://app.qun.hk/remind/api/getremind";
     }
 
     public interface Message {
         //显示提醒详情
         public final static int ShowRemindDetail = 0x01;
         public final static int SetRemindSign = 0x02;
+        public final static int ShowNotification = 0x03;
     }
 }
