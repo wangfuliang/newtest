@@ -62,7 +62,6 @@ public class LoginFragment extends Fragment {
                 Http.post(AppConfig.Api.verifyCode, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onStart() {
-                        Toast.makeText(getActivity(), "准备发送验证码", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -78,8 +77,6 @@ public class LoginFragment extends Fragment {
                                 String code = StringUtil.getNumber(info);
                                 verifyCode.setText(code);
                             }
-
-                            Toast.makeText(getActivity(), "验证码发送成功", Toast.LENGTH_SHORT).show();
                             btnGetVerify.setEnabled(false);
                             //倒计时
                             new CountDownTimer(60000, 1000) {

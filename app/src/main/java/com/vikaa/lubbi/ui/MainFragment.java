@@ -2,19 +2,16 @@ package com.vikaa.lubbi.ui;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +29,6 @@ import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
-import com.vikaa.lubbi.util.StringUtil;
 import com.vikaa.lubbi.widget.UserRemindListView;
 
 import org.apache.http.Header;

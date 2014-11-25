@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
@@ -54,12 +55,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public CoreHandler handler;
     public static String userId = "";
     private final static int FLASH = 2;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
         setContentView(R.layout.activity_main);
-
         handler = new CoreHandler();
         PushManager.startWork(getApplicationContext(),
                 PushConstants.LOGIN_TYPE_API_KEY,
@@ -140,7 +142,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             } else {
                 //登录成功，去主页
                 //加载用户信息
-                getSupportFragmentManager().beginTransaction()
+                fragmentManager.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, mainFragment)
                         .commit();
@@ -153,7 +155,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //手机号码登录
             if (loginFragment == null)
                 loginFragment = new LoginFragment();
-            getSupportFragmentManager().beginTransaction()
+            fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.container, loginFragment)
                     .commit();
@@ -202,7 +204,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         } else {
                             //登录成功，去主页
                             //加载用户信息
-                            getSupportFragmentManager().beginTransaction()
+                            fragmentManager.beginTransaction()
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                     .replace(R.id.container, mainFragment)
                                     .commit();
@@ -236,7 +238,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onFinish() {
                     UI.dismissProgress(pd);
-                }            });
+                }
+            });
         }
     }
 
@@ -271,7 +274,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void switchToRecommend() {
         if (recommendFragment == null)
             recommendFragment = new RecommendFragment();
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, recommendFragment)
                 .commit();
@@ -321,9 +324,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     SP.put(MainActivity.this, "user.sign", _sign);
                     //写入info
                     SP.put(MainActivity.this, "user.info", info);
-                    //登录成功，去主页
-                    Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction()
+                    fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, mainFragment)
                             .commit();
@@ -350,7 +351,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 切换至主fragment
      */
     private void switchToMainFragment() {
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mainFragment)
                 .commit();
@@ -360,7 +361,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 切换至发起界面
      */
     private void switchToCreateRemindFragment() {
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, createRemindFragment)
                 .commit();
@@ -371,16 +372,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (requestCode) {
             case DATETIMEPICKER:
                 String datetime = data.getExtras().getString("datetime");
-                Toast.makeText(this, datetime, Toast.LENGTH_SHORT).show();
                 break;
-            case FLASH:
-                if (resultCode == RESULT_OK) {
-                    //检测网络
-                    checkNetWork();
-                }
         }
     }
 
+    @Override
+    protected void onResume() {
+        checkNetWork();
+        super.onResume();
+    }
 
     public final class CoreHandler extends Handler {
         @Override
@@ -400,7 +400,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void showNotification() {
         if (notificationFragment == null)
             notificationFragment = new NotificationFragment();
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, notificationFragment)
                 .commit();
@@ -416,7 +416,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (detailFragment == null)
             detailFragment = new DetailFragment();
         detailFragment.setRemindDetail(data);
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, detailFragment)
                 .commit();

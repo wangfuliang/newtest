@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +26,7 @@ import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.AppConfig;
-import com.vikaa.lubbi.util.DateUtils;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 import com.vikaa.lubbi.widget.SwitchView;
 

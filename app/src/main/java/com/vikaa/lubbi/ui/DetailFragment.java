@@ -153,12 +153,10 @@ public class DetailFragment extends Fragment {
             mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
                 @Override
                 public void onStart() {
-                    Toast.makeText(getActivity(), "分享开始", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, SocializeEntity socializeEntity) {
-                    Toast.makeText(getActivity(), "分享完成", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (JSONException e) {

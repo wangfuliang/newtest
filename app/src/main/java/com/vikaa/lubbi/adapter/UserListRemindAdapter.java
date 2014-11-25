@@ -2,7 +2,6 @@ package com.vikaa.lubbi.adapter;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,8 +24,6 @@ import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.ui.CreateSignActivity;
 import com.vikaa.lubbi.ui.UpdateRemindFragment;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Image;
-import com.vikaa.lubbi.util.UI;
 
 import org.apache.http.Header;
 import org.json.JSONArray;

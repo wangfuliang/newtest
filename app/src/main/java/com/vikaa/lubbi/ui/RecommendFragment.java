@@ -17,7 +17,6 @@ import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.RecommendAdapter;
-import com.vikaa.lubbi.adapter.UserListRemindAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.widget.UserRemindListView;

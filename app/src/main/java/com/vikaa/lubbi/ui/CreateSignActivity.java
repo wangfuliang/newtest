@@ -8,10 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +26,6 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.CreateSignImageAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
@@ -122,7 +119,6 @@ public class CreateSignActivity extends Activity {
                         try {
                             int status = response.getInt("status");
                             if (status == 1) {
-                                Toast.makeText(CreateSignActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
                                 SP.remove(getApplicationContext(),"user.remindlist");
                                 finish();
                                 //改变list的值
@@ -190,7 +186,6 @@ public class CreateSignActivity extends Activity {
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         try {
-                                            Toast.makeText(CreateSignActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
                                             String url = cdn + response.getString("key");
                                             //写入缩略图
                                             images.add(url);
