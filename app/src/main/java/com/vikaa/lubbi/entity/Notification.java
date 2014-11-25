@@ -42,4 +42,8 @@ public class Notification {
     public String getContent() {
         return content;
     }
+
+    public int getNotification_id() {
+        return notification_id;
+    }
 }
