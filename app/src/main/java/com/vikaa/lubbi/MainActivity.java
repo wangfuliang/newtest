@@ -64,7 +64,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         PushManager.startWork(getApplicationContext(),
                 PushConstants.LOGIN_TYPE_API_KEY,
                 Utils.getMetaValue(this, "api_key"));
-
         if (mainFragment == null)
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
@@ -73,13 +72,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(this, FlashActivity.class);
             startActivityForResult(intent, FLASH);
         }
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        checkNetWork();
     }
 
     private void checkNetWork() {
@@ -239,8 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onFinish() {
                     UI.dismissProgress(pd);
-                }
-            });
+                }            });
         }
     }
 
@@ -248,6 +244,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.btn_create_remind1:
             case R.id.btn_create_remind2:
+            case R.id.goto_create:
                 switchToCreateRemindFragment();
                 break;
             case R.id.btn_my1:
@@ -265,6 +262,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showNotification();
                 break;
             case R.id.btn_recommend:
+            case R.id.goto_remind:
                 switchToRecommend();
                 break;
         }
@@ -377,8 +375,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case FLASH:
                 if (resultCode == RESULT_OK) {
-                    BaseApplication.hashFlashed = true;
                     //检测网络
+                    checkNetWork();
                 }
         }
     }

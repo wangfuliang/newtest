@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.core.BaseApplication;
 
 public class FlashActivity extends BaseActivity {
     @Override
@@ -22,6 +23,7 @@ public class FlashActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                BaseApplication.hashFlashed  = true;
                 setResult(RESULT_OK);
                 finish();
             }

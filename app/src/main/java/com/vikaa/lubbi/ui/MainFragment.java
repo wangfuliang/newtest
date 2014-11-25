@@ -6,6 +6,8 @@ import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.UserListRemindAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.StringUtil;
 import com.vikaa.lubbi.widget.UserRemindListView;
@@ -38,73 +41,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainFragment extends Fragment {
+    static UserRemindListViewFragment userRemindListViewFragment;
+    static UserNoRemindFragment userNoRemindFragment;
+
     @ViewInject(R.id.avatar)
     ImageView avatar;
     @ViewInject(R.id.nickname)
     TextView nickname;
-    @ViewInject(R.id.userlistremind)
-    UserRemindListView userListRemind;
-    public UserListRemindAdapter adapter;
-    private String openid;
-
+    static FragmentManager fragmentManager;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (userRemindListViewFragment == null)
+            userRemindListViewFragment = new UserRemindListViewFragment();
+        if (userNoRemindFragment == null)
+            userNoRemindFragment = new UserNoRemindFragment();
+        fragmentManager = getChildFragmentManager();
         View v = inflater.inflate(R.layout.fragment_main, null);
         ViewUtils.inject(this, v);
+        UserRemindListViewFragment.adapter = new UserListRemindAdapter(getActivity(), new JSONArray());
 
-        userListRemind.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                JSONObject detail = (JSONObject) adapter.getItem(i);
-                if (detail != null) {
-                    //我的列表点进去的，肯定加入了
-                    try {
-                        detail.put("isAdd", 1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Message msg = new Message();
-                    msg.what = AppConfig.Message.ShowRemindDetail;
-                    msg.obj = detail;
-                    ((MainActivity) getActivity()).handler.sendMessage(msg);
-                }
-            }
-        });
+        init();
 
-        adapter = new UserListRemindAdapter(getActivity(), new JSONArray());
-        userListRemind.setonRefreshListener(new UserRemindListView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                RequestParams params = new RequestParams();
-                params.put("openid", openid);
-                Http.post(AppConfig.Api.listUserRemind + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        userListRemind.onRefreshComplete();
-                    }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        try {
-                            JSONArray list = response.getJSONArray("info");
-                            //初始化listView
-                            adapter.setList(list);
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-        userListRemind.setAdapter(adapter);
+        fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.user_remind_container, userRemindListViewFragment)
+                .commit();
+        //加载fragment
         return v;
     }
 
@@ -122,15 +85,108 @@ public class MainFragment extends Fragment {
                     .build();
             ImageLoader.getInstance().displayImage(_avatar, avatar, options);
             nickname.setText(_nickname);
+            UserRemindListViewFragment.openid = data.getString("openid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-            openid = data.getString("openid");
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
+
+    public static class UserRemindListViewFragment extends Fragment {
+        UserRemindListView list;
+        static UserListRemindAdapter adapter;
+        static String openid;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.fragment_userlist_remind, null);
+            list = (UserRemindListView) v.findViewById(R.id.userlistremind);
+            list.setAdapter(adapter);
+            //加载默认数据
+            loadDefaultData();
+            list.setonRefreshListener(new UserRemindListView.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    RequestParams params = new RequestParams();
+                    params.put("openid", openid);
+                    Http.post(AppConfig.Api.listUserRemind + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onFinish() {
+                            super.onFinish();
+                            list.onRefreshComplete();
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            try {
+                                JSONArray list = response.getJSONArray("info");
+                                //初始化listView
+                                adapter.setList(list);
+                                adapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    JSONObject detail = (JSONObject) adapter.getItem(i);
+                    if (detail != null) {
+                        //我的列表点进去的，肯定加入了
+                        try {
+                            detail.put("isAdd", 1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Message msg = new Message();
+                        msg.what = AppConfig.Message.ShowRemindDetail;
+                        msg.obj = detail;
+                        ((MainActivity) getActivity()).handler.sendMessage(msg);
+                    }
+                }
+            });
+            return v;
+        }
+
+        private void loadDefaultData() {
             RequestParams params = new RequestParams();
             params.put("openid", openid);
             Http.post(AppConfig.Api.listUserRemind + "?_sign=" + MainActivity._sign, params, new JsonHttpResponseHandler() {
                 @Override
+                public void onFinish() {
+                    super.onFinish();
+                }
+
+                @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
                         JSONArray list = response.getJSONArray("info");
+                        if (list.length() == 0) {
+                            //去没有的fragment
+                            //加载fragment
+                            Logger.d("no data");
+                            fragmentManager.beginTransaction()
+                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                    .replace(R.id.user_remind_container, userNoRemindFragment)
+                                    .commit();
+                            return;
+                        }
                         //初始化listView
                         adapter.setList(list);
                         adapter.notifyDataSetChanged();
@@ -145,15 +201,14 @@ public class MainFragment extends Fragment {
                     Toast.makeText(getActivity(), "提醒列表加载失败", Toast.LENGTH_SHORT).show();
                 }
             });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        init();
+    public static class UserNoRemindFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View b = inflater.inflate(R.layout.fragment_user_no_remind, null);
+            return b;
+        }
     }
 }
