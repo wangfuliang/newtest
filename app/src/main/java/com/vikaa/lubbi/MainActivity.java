@@ -47,7 +47,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public LoginFragment loginFragment;
     public NotificationFragment notificationFragment;
     public RecommendFragment recommendFragment;
-    private long exitTime;
     public static final int DATETIMEPICKER = 1;
     public static String _sign;
     ProgressDialog pd;
@@ -145,7 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 fragmentManager.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, mainFragment)
-                        .commitAllowingStateLoss();
+                        .commit();
             }
             return;
         }
@@ -158,7 +157,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.container, loginFragment)
-                    .commitAllowingStateLoss();
+                    .commit();
         } else {
             //_sign登录
             Http.post(AppConfig.Api.checkLogin + "?_sign=" + _sign, new JsonHttpResponseHandler() {
@@ -207,7 +206,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             fragmentManager.beginTransaction()
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                     .replace(R.id.container, mainFragment)
-                                    .commitAllowingStateLoss();
+                                    .commit();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
@@ -277,8 +276,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, recommendFragment)
-                .addToBackStack("main")
-                .commitAllowingStateLoss();
+
+                .commit();
     }
 
     private void login() {
@@ -328,7 +327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, mainFragment)
-                            .commitAllowingStateLoss();
+                            .commit();
                 } catch (JSONException e) {
                     Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -355,7 +354,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mainFragment)
-                .commitAllowingStateLoss();
+                .commit();
     }
 
     /**
@@ -365,8 +364,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, createRemindFragment)
-                .addToBackStack("main")
-                .commitAllowingStateLoss();
+
+                .commit();
     }
 
     @Override
@@ -405,8 +404,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, notificationFragment)
-                .addToBackStack("main")
-                .commitAllowingStateLoss();
+
+                .commit();
 
     }
 
@@ -422,7 +421,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, detailFragment)
-                .addToBackStack("main")
-                .commitAllowingStateLoss();
+
+                .commit();
     }
 }

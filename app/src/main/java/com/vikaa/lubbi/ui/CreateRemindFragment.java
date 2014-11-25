@@ -61,8 +61,6 @@ public class CreateRemindFragment extends Fragment {
     //form
     @ViewInject(R.id.input_title)
     EditText inputTitle;
-    @ViewInject(R.id.input_datetime)
-    TextView inputDatetime;
     private String datetime;
     String repeatModeString;
     @ViewInject(R.id.mark)
