@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 fragmentManager.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, mainFragment)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
             return;
         }
@@ -158,7 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.container, loginFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else {
             //_sign登录
             Http.post(AppConfig.Api.checkLogin + "?_sign=" + _sign, new JsonHttpResponseHandler() {
@@ -207,7 +207,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             fragmentManager.beginTransaction()
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                     .replace(R.id.container, mainFragment)
-                                    .commit();
+                                    .commitAllowingStateLoss();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
@@ -277,7 +277,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, recommendFragment)
-                .commit();
+                .addToBackStack("main")
+                .commitAllowingStateLoss();
     }
 
     private void login() {
@@ -327,7 +328,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, mainFragment)
-                            .commit();
+                            .commitAllowingStateLoss();
                 } catch (JSONException e) {
                     Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -354,7 +355,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mainFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     /**
@@ -364,7 +365,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, createRemindFragment)
-                .commit();
+                .addToBackStack("main")
+                .commitAllowingStateLoss();
     }
 
     @Override
@@ -403,7 +405,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, notificationFragment)
-                .commit();
+                .addToBackStack("main")
+                .commitAllowingStateLoss();
 
     }
 
@@ -419,6 +422,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, detailFragment)
-                .commit();
+                .addToBackStack("main")
+                .commitAllowingStateLoss();
     }
 }
