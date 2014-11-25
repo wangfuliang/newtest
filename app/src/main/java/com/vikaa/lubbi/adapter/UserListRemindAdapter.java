@@ -206,7 +206,7 @@ public class UserListRemindAdapter extends BaseAdapter {
                     mainActivity.getSupportFragmentManager().beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, updateRemindFragment)
-                            .commit();
+                            .commitAllowingStateLoss();
                 }
             });
             if (isAdmin == 1) {

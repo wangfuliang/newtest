@@ -36,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+
 public class MainFragment extends Fragment {
     static UserRemindListViewFragment userRemindListViewFragment;
     static UserNoRemindFragment userNoRemindFragment;
@@ -62,7 +64,7 @@ public class MainFragment extends Fragment {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.user_remind_container, userRemindListViewFragment)
-                .commit();
+                .commitAllowingStateLoss();
         //加载fragment
         return v;
     }
@@ -180,7 +182,7 @@ public class MainFragment extends Fragment {
                             fragmentManager.beginTransaction()
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                     .replace(R.id.user_remind_container, userNoRemindFragment)
-                                    .commit();
+                                    .commitAllowingStateLoss();
                             return;
                         }
                         //初始化listView

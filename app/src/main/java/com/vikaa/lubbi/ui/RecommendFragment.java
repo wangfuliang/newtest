@@ -26,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+
 public class RecommendFragment extends Fragment {
     @ViewInject(R.id.recommendlist)
     UserRemindListView recommendListView;
@@ -114,6 +116,4 @@ public class RecommendFragment extends Fragment {
         recommendListView.setAdapter(adapter);
         return v;
     }
-
-
 }
