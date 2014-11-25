@@ -20,9 +20,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.core.BaseApplication;
 import com.vikaa.lubbi.receiver.Utils;
 import com.vikaa.lubbi.ui.CreateRemindFragment;
 import com.vikaa.lubbi.ui.DetailFragment;
+import com.vikaa.lubbi.ui.FlashActivity;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
 import com.vikaa.lubbi.ui.NotificationFragment;
@@ -51,21 +53,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static boolean isLogin = false;
     public CoreHandler handler;
     public static String userId = "";
+    private final static int FLASH = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new CoreHandler();
+        PushManager.startWork(getApplicationContext(),
+                PushConstants.LOGIN_TYPE_API_KEY,
+                Utils.getMetaValue(this, "api_key"));
+
         if (mainFragment == null)
             mainFragment = new MainFragment();
         if (createRemindFragment == null)
             createRemindFragment = new CreateRemindFragment();
-        //检测网络
-        handler = new CoreHandler();
+        if (!BaseApplication.hashFlashed) {
+            Intent intent = new Intent(this, FlashActivity.class);
+            startActivityForResult(intent, FLASH);
+        }
 
-        PushManager.startWork(getApplicationContext(),
-                PushConstants.LOGIN_TYPE_API_KEY,
-                Utils.getMetaValue(this, "api_key"));
     }
 
     @Override
@@ -367,6 +375,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String datetime = data.getExtras().getString("datetime");
                 Toast.makeText(this, datetime, Toast.LENGTH_SHORT).show();
                 break;
+            case FLASH:
+                if (resultCode == RESULT_OK) {
+                    BaseApplication.hashFlashed = true;
+                    //检测网络
+                }
         }
     }
 
