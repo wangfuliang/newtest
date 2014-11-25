@@ -31,7 +31,6 @@ import com.vikaa.lubbi.ui.NotificationFragment;
 import com.vikaa.lubbi.ui.RecommendFragment;
 import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.Regex;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
@@ -123,7 +122,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Http.post(AppConfig.Api.setPush + "?_sign=" + _sign, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Logger.d(response.toString());
                         super.onSuccess(statusCode, headers, response);
                     }
                 });

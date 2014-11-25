@@ -1,32 +1,17 @@
 package com.vikaa.lubbi.adapter;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
-import com.vikaa.lubbi.core.AppConfig;
-import com.vikaa.lubbi.ui.CreateSignActivity;
-import com.vikaa.lubbi.ui.UpdateRemindFragment;
-import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

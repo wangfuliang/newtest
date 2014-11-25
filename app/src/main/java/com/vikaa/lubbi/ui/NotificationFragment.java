@@ -1,8 +1,6 @@
 package com.vikaa.lubbi.ui;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,7 +25,6 @@ import com.vikaa.lubbi.adapter.NotificationAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.entity.Notification;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Logger;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -36,7 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarException;
 
 public class NotificationFragment extends Fragment {
     @ViewInject(R.id.notification_list)

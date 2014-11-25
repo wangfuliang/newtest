@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.vikaa.lubbi.MainActivity;
-import com.vikaa.lubbi.entity.Notification;
-import com.vikaa.lubbi.util.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;

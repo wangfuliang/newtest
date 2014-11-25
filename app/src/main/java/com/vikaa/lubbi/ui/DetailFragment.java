@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +34,6 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.SignItemAdapter;
 import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.Http;
-import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
 
 import org.apache.http.Header;
@@ -69,7 +67,6 @@ public class DetailFragment extends Fragment {
     Button join;
 
     public void setRemindDetail(JSONObject remindDetail) {
-        Logger.d(remindDetail.toString());
         this.remindDetail = remindDetail;
     }
 
