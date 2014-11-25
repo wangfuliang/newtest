@@ -41,7 +41,7 @@ public class RecommendFragment extends Fragment {
         recommendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                JSONObject detail = (JSONObject) adapter.getItem(i);
+                JSONObject detail = (JSONObject) adapter.getItem(i-1);
                 if (detail != null) {
                     Message msg = new Message();
                     msg.what = AppConfig.Message.ShowRemindDetail;

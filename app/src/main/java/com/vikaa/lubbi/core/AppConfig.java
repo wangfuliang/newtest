@@ -31,6 +31,7 @@ public class AppConfig {
         public final static String share = "http://app.qun.hk/remind/default/view/hash/";
         public final static String getRemind = "http://app.qun.hk/remind/api/getremind";
         public final static String recommendList = "http://app.qun.hk/remind/api/listrecommendremind";
+        public final static String joinRemind = "http://app.qun.hk/remind/api/createjoin";
     }
 
     public interface Message {

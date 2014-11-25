@@ -65,6 +65,9 @@ public class DetailFragment extends Fragment {
     Button share;
     SignItemAdapter sign_list;
 
+    @ViewInject(R.id.btn_join)
+    Button join;
+
     public void setRemindDetail(JSONObject remindDetail) {
         Logger.d(remindDetail.toString());
         this.remindDetail = remindDetail;
@@ -80,6 +83,14 @@ public class DetailFragment extends Fragment {
             String detail_title = remindDetail.getString("title");
             String detail_time = remindDetail.getString("format_time");
             String detail_content = remindDetail.getString("mark");
+            int isAdd = remindDetail.getInt("isAdd");
+            if (isAdd == 1) {
+                share.setVisibility(View.VISIBLE);
+                join.setVisibility(View.GONE);
+            } else {
+                join.setVisibility(View.VISIBLE);
+                share.setVisibility(View.GONE);
+            }
             if (TextUtils.isEmpty(detail_content))
                 detail_content = "  这个人很懒，什么也没有写...";
             else
@@ -157,8 +168,8 @@ public class DetailFragment extends Fragment {
             e.printStackTrace();
         }
 
-
         share.setOnClickListener(new ShareListener());
+        join.setOnClickListener(new JoinListener());
         return view;
     }
 
@@ -229,5 +240,45 @@ public class DetailFragment extends Fragment {
 
         mController.getConfig().removePlatform(SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN, SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL);
         mController.openShare(getActivity(), false);
+    }
+
+    public class JoinListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            //加入
+            RequestParams params = new RequestParams();
+            try {
+                params.put("hash", remindDetail.getString("hash"));
+                Http.post(AppConfig.Api.joinRemind, params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            int status = response.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(getActivity(), "加入成功", Toast.LENGTH_SHORT).show();
+                                share.setVisibility(View.VISIBLE);
+                                join.setVisibility(View.GONE);
+                            } else {
+                                Toast.makeText(getActivity(), "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                        }
+                        super.onSuccess(statusCode, headers, response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getActivity(), "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                    }
+                });
+            } catch (JSONException e) {
+                Toast.makeText(getActivity(), "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
     }
 }

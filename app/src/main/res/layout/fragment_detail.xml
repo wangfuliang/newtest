@@ -32,6 +32,19 @@
             android:textColor="@color/white"
             android:text="分享" />
 
+        <Button
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_join"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_bg_green"
+            android:textColor="@color/white"
+            android:text="加入" />
+
         <ImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
