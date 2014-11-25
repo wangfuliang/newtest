@@ -1,30 +1,13 @@
 package com.vikaa.lubbi.receiver;
 
-import com.baidu.frontia.api.FrontiaPushMessageReceiver;
-
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.MainActivity;
-import com.vikaa.lubbi.core.AppConfig;
-import com.vikaa.lubbi.entity.Notification;
-import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
 
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
@@ -54,7 +37,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         if (errorCode == 0) {
             Utils.setBind(context, true);
             MainActivity.userId = userId;
-            Logger.d("set userid");
         }
     }
 

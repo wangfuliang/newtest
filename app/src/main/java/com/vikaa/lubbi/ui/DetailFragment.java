@@ -66,6 +66,7 @@ public class DetailFragment extends Fragment {
     SignItemAdapter sign_list;
 
     public void setRemindDetail(JSONObject remindDetail) {
+        Logger.d(remindDetail.toString());
         this.remindDetail = remindDetail;
     }
 
@@ -75,8 +76,6 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, null);
         ViewUtils.inject(this, view);
-
-
         try {
             String detail_title = remindDetail.getString("title");
             String detail_time = remindDetail.getString("format_time");
