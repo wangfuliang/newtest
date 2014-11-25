@@ -1,12 +1,18 @@
 package com.vikaa.lubbi.receiver;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.vikaa.lubbi.MainActivity;
+import com.vikaa.lubbi.entity.Notification;
 import com.vikaa.lubbi.util.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -14,8 +20,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     /**
      * TAG to Log
      */
-    public static final String TAG = MyPushMessageReceiver.class
-            .getSimpleName();
+    public static final String TAG = "xialei";
 
     /**
      * 调用PushManager.startWork后，sdk将对push
@@ -50,7 +55,26 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onMessage(Context context, String message,
                           String customContentString) {
-        Logger.d(message);
+        try {
+            JSONObject object = new JSONObject(message);
+            String msg = object.getString("msg");
+            JSONObject data = object.getJSONObject("data");
+            String action = data.getString("action");
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("action", action);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            android.app.Notification notification = new android.app.Notification();
+            notification.tickerText = msg;
+            notification.icon = android.R.drawable.ic_btn_speak_now;
+            notification.defaults = android.app.Notification.DEFAULT_SOUND;
+            notification.setLatestEventInfo(context, "群友提醒", msg, pendingIntent);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0, notification);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -64,10 +88,10 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onNotificationClicked(Context context, String title,
                                       String description, String customContentString) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("action", "notification");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("action", "notification");
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
     }
 
     /**

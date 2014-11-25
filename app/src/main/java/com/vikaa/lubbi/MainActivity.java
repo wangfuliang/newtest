@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushSettings;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.core.AppConfig;
@@ -64,7 +65,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             createRemindFragment = new CreateRemindFragment();
         //检测网络
         handler = new CoreHandler();
-
 
         PushManager.startWork(getApplicationContext(),
                 PushConstants.LOGIN_TYPE_API_KEY,
@@ -172,7 +172,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             Http.post(AppConfig.Api.setPush + "?_sign=" + _sign, params, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    Logger.d(response.toString());
                                     super.onSuccess(statusCode, headers, response);
                                 }
                             });
@@ -182,11 +181,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Bundle b = intent.getExtras();
                         if (b != null) {
                             if (b.getString("action").equals("notification")) {
-                                JSONObject data = (JSONObject) b.get("data");
                                 //通知
                                 Message message = new Message();
                                 message.what = AppConfig.Message.ShowNotification;
-                                message.obj = data;
                                 handler.sendMessage(message);
                             }
                         } else {

@@ -86,7 +86,7 @@ public class LoginFragment extends Fragment {
 
                                 @Override
                                 public void onTick(long l) {
-                                    btnGetVerify.setText(l / 1000 + "秒");
+                                    btnGetVerify.setText("等待"+l / 1000 + "秒");
                                 }
 
                                 @Override
