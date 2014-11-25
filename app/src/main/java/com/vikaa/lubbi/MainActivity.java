@@ -1,6 +1,6 @@
 package com.vikaa.lubbi;
 
-import android.app.AlertDialog;
+import  android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -27,6 +27,7 @@ import com.vikaa.lubbi.ui.DetailFragment;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
 import com.vikaa.lubbi.ui.NotificationFragment;
+import com.vikaa.lubbi.ui.RecommendFragment;
 import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
@@ -43,13 +44,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public CreateRemindFragment createRemindFragment;
     public DetailFragment detailFragment;
     public LoginFragment loginFragment;
+    public NotificationFragment notificationFragment;
+    public RecommendFragment recommendFragment;
     private long exitTime;
     public static final int DATETIMEPICKER = 1;
     public static String _sign;
     ProgressDialog pd;
     public static boolean isLogin = false;
     public CoreHandler handler;
-    public NotificationFragment notificationFragment;
     public static String userId = "";
 
     @Override
@@ -117,6 +119,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 RequestParams params = new RequestParams();
                 params.put("push_device_type", 3);
                 params.put("push_user_id", userId);
+
                 Http.post(AppConfig.Api.setPush + "?_sign=" + _sign, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -231,8 +234,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_create_remind1:
+            case R.id.btn_create_remind2:
                 switchToCreateRemindFragment();
                 break;
+            case R.id.btn_my1:
             case R.id.btn_back2:
             case R.id.btn_back:
             case R.id.btn_back3:
@@ -242,10 +247,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_login:
                 login();
                 break;
+            case R.id.btn_menu1:
             case R.id.btn_menu:
                 showNotification();
                 break;
+            case R.id.btn_recommend:
+                switchToRecommend();
+                break;
         }
+    }
+
+    private void switchToRecommend() {
+        if (recommendFragment == null)
+            recommendFragment = new RecommendFragment();
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, recommendFragment)
+                .commit();
     }
 
     private void login() {

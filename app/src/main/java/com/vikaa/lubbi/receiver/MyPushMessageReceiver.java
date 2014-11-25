@@ -53,10 +53,8 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         // 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
         if (errorCode == 0) {
             Utils.setBind(context, true);
-            RequestParams params = new RequestParams();
-            params.put("push_device_type", 3);
-            params.put("push_user_id", userId);
-            Logger.d("success to set userId");
+            MainActivity.userId = userId;
+            Logger.d("set userid");
         }
     }
 
@@ -70,6 +68,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onMessage(Context context, String message,
                           String customContentString) {
+        Logger.d(message);
     }
 
     /**
@@ -125,7 +124,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         String responseString = "onDelTags errorCode=" + errorCode
                 + " sucessTags=" + sucessTags + " failTags=" + failTags
                 + " requestId=" + requestId;
-        Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
         updateContent(context, responseString);

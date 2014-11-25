@@ -13,7 +13,6 @@ public class BaseApplication extends FrontiaApplication {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(configuration);
         //保存图片，创建下载目录
@@ -25,5 +24,6 @@ public class BaseApplication extends FrontiaApplication {
         File down = new File(downDir);
         if(!down.exists())
             down.mkdir();
+        super.onCreate();
     }
 }

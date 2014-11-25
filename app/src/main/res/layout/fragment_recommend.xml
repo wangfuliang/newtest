@@ -13,7 +13,7 @@
             android:background="@drawable/btn_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btn_menu"
+            android:id="@+id/btn_menu1"
             android:paddingLeft="10dp"
             android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
@@ -25,7 +25,7 @@
             android:background="@drawable/btn_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btn_create_remind1"
+            android:id="@+id/btn_create_remind2"
             android:layout_alignParentRight="true"
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
@@ -144,84 +144,59 @@
                     android:src="@drawable/main_dot" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_marginTop="24px"
-                android:layout_width="140dp"
-                android:layout_height="32dp"
-                android:background="@drawable/main_nav_bg"
-                android:layout_gravity="center_horizontal"
-                android:padding="1dp">
-
-                <Button
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:text="我的"
-                    android:textSize="14dp"
-                    android:background="@drawable/corner_left"
-                    android:textColor="@color/white"
-                    android:id="@+id/btn_my"
-                    android:onClick="onClick"
-                    android:layout_alignParentLeft="true" />
-
-                <Button
-                    android:layout_width="70dp"
-                    android:textSize="14dp"
-                    android:layout_height="match_parent"
-                    android:text="推荐"
-                    android:background="@drawable/corner_right"
-                    android:textColor="@color/light_blue"
-                    android:id="@+id/btn_recommend"
-                    android:onClick="onClick"
-                    android:layout_alignParentRight="true" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:background="@drawable/corner_bg_dash"
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingTop="25dp"
-                android:paddingBottom="25dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/avatar"
-                    android:src="@drawable/default_avatar" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="昵称"
-                        android:textColor="@color/text_gray"
-                        android:id="@+id/nickname" />
-                </LinearLayout>
-            </LinearLayout>
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_marginTop="20dp"
                 android:layout_height="fill_parent">
 
-                <com.vikaa.lubbi.widget.UserRemindListView
+                <RelativeLayout
+                    android:layout_marginTop="24px"
+                    android:layout_width="140dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/main_nav_bg"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="1dp">
+
+                    <Button
+                        android:onClick="onClick"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:text="我的"
+                        android:textSize="14dp"
+                        android:background="@drawable/corner_left_normal"
+                        android:textColor="@color/light_blue"
+                        android:id="@+id/btn_my1"
+                        android:layout_alignParentLeft="true" />
+
+                    <Button
+                        android:onClick="onClick"
+                        android:layout_width="70dp"
+                        android:textSize="14dp"
+                        android:layout_height="match_parent"
+                        android:text="推荐"
+                        android:background="@drawable/corner_right_active"
+                        android:textColor="@color/white"
+                        android:id="@+id/btn_recommend2"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@null"
-                    android:id="@+id/userlistremind"
-                    android:choiceMode="singleChoice" />
+                    android:layout_height="fill_parent">
+
+                    <com.vikaa.lubbi.widget.UserRemindListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"
+                        android:id="@+id/recommendlist"
+                        android:choiceMode="singleChoice" />
+
+                </LinearLayout>
+
             </LinearLayout>
+
 
         </LinearLayout>
     </RelativeLayout>

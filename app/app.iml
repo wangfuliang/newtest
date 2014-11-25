@@ -91,6 +91,7 @@
     <orderEntry type="library" exported="" name="SocialSDK_tencentWB_1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
+    <orderEntry type="library" exported="" name="SocialSDK_Sina" level="project" />
     <orderEntry type="library" exported="" name="xUtils-2.6.14" level="project" />
     <orderEntry type="library" exported="" name="pushservice-4.2.0.63" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.3" level="project" />
