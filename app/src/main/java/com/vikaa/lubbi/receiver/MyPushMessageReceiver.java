@@ -1,5 +1,6 @@
 package com.vikaa.lubbi.receiver;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -54,22 +55,25 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     public void onMessage(Context context, String message,
                           String customContentString) {
         try {
-            JSONObject object = new JSONObject(message);
-            String msg = object.getString("msg");
-            JSONObject data = object.getJSONObject("data");
-            String action = data.getString("action");
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.putExtra("action", action);
 
+            JSONObject data = new JSONObject(message);
+
+            String title = data.getString("title");
+            String desc = data.getString("description");
+
+            Intent intent = new Intent(context, MainActivity.class);
+
+            intent.putExtra("action","notification");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             android.app.Notification notification = new android.app.Notification();
-            notification.tickerText = msg;
+            notification.tickerText = desc;
             notification.icon = android.R.drawable.ic_btn_speak_now;
             notification.defaults = android.app.Notification.DEFAULT_SOUND;
-            notification.setLatestEventInfo(context, "群友提醒", msg, pendingIntent);
+            notification.setLatestEventInfo(context, title, desc, pendingIntent);
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0, notification);
+            notificationManager.notify(0x10, notification);
         } catch (JSONException e) {
             e.printStackTrace();
         }

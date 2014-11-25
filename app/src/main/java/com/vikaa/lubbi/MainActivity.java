@@ -1,6 +1,6 @@
 package com.vikaa.lubbi;
 
-import  android.app.AlertDialog;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -10,14 +10,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.baidu.android.pushservice.PushSettings;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.vikaa.lubbi.core.AppConfig;
@@ -126,6 +124,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
             }
+
+
+            //去通知
+            Intent intent = getIntent();
+            String action = intent.getStringExtra("action");
+            if (action != null && action.equals("notification")) {
+                //通知
+                handler.sendEmptyMessage(AppConfig.Message.ShowNotification);
+            } else {
+                //登录成功，去主页
+                //加载用户信息
+                getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.container, mainFragment)
+                        .commit();
+            }
             return;
         }
         //检测SP存储有没有sign
@@ -176,14 +190,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }
                         //去通知
                         Intent intent = getIntent();
-                        Bundle b = intent.getExtras();
-                        if (b != null) {
-                            if (b.getString("action").equals("notification")) {
-                                //通知
-                                Message message = new Message();
-                                message.what = AppConfig.Message.ShowNotification;
-                                handler.sendMessage(message);
-                            }
+                        String action = intent.getStringExtra("action");
+                        if (action != null && action.equals("notification")) {
+                            //通知
+                            handler.sendEmptyMessage(AppConfig.Message.ShowNotification);
                         } else {
                             //登录成功，去主页
                             //加载用户信息
@@ -348,20 +358,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, createRemindFragment)
                 .commit();
-    }
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-                System.exit(0);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
