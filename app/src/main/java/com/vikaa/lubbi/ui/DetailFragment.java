@@ -180,7 +180,15 @@ public class DetailFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            showShare("haha","title","http://www.baidu.com","http://www.baidu.cim/img/logo.gif");
+            try {
+                String title = remindDetail.getString("title");
+                String desc = remindDetail.getString("mark");
+                String link = AppConfig.Api.share + remindDetail.getString("hash");
+                showShare(title, desc, link, "http://picturescdn.qiniudn.com/tixing.jpg");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "分享失败,请重试", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -28,6 +28,7 @@ public class AppConfig {
         public final static String deleteRemind = "http://app.qun.hk/remind/api/deleteremind";
         public final static String updateRemind = "http://app.qun.hk/remind/api/updateremind";
         public final static String setPush = "http://app.qun.hk/remind/api/setpush";
+        public final static String share = "http://app.qun.hk/remind/default/view/hash/";
         public final static String getRemind = "http://app.qun.hk/remind/api/getremind";
     }
 
