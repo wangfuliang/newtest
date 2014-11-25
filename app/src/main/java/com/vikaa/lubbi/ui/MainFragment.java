@@ -101,6 +101,22 @@ public class MainFragment extends Fragment {
         static UserListRemindAdapter adapter;
         static String openid;
 
+
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            try {
+                Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+                childFragmentManager.setAccessible(true);
+                childFragmentManager.set(this, null);
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_userlist_remind, null);
@@ -208,5 +224,35 @@ public class MainFragment extends Fragment {
             View b = inflater.inflate(R.layout.fragment_user_no_remind, null);
             return b;
         }
+
+
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            try {
+                Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+                childFragmentManager.setAccessible(true);
+                childFragmentManager.set(this, null);
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

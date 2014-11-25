@@ -73,6 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(this, FlashActivity.class);
             startActivityForResult(intent, FLASH);
         }
+        checkNetWork();
     }
 
     @Override
@@ -377,12 +378,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onResume() {
-        checkNetWork();
-        super.onResume();
-    }
-
     public final class CoreHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -404,7 +399,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, notificationFragment)
-
                 .commit();
 
     }

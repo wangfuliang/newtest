@@ -218,7 +218,7 @@ public class CreateRemindFragment extends Fragment {
                     JSONObject data = response.getJSONObject("info");
                     data.put("isAdd", 1);
                     //更新列表缓存
-                    SP.remove(getActivity().getApplicationContext(),"user.remindlist");
+                    SP.remove(getActivity().getApplicationContext(), "user.remindlist");
                     Message msg = new Message();
                     msg.what = AppConfig.Message.ShowRemindDetail;
                     msg.obj = data;
@@ -245,5 +245,20 @@ public class CreateRemindFragment extends Fragment {
     private String getDatetime() {
         SimpleDateFormat dg = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return dg.format(new Date());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+           throw new RuntimeException(e);
+        }
+
     }
 }

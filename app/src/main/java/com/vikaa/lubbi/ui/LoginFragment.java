@@ -26,6 +26,8 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+
 public class LoginFragment extends Fragment {
     @ViewInject(R.id.btn_get_verify)
     Button btnGetVerify;
@@ -104,5 +106,19 @@ public class LoginFragment extends Fragment {
                 });
             }
         });
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

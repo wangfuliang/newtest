@@ -41,6 +41,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+
 public class DetailFragment extends Fragment {
     JSONObject remindDetail;
     @ViewInject(R.id.detail_title)
@@ -275,5 +277,20 @@ public class DetailFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+     public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
