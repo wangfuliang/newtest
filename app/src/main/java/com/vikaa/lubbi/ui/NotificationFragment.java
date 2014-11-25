@@ -30,6 +30,7 @@ import com.vikaa.lubbi.util.Http;
 import com.vikaa.lubbi.util.Logger;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -107,25 +108,64 @@ public class NotificationFragment extends Fragment {
         rotateAnimation.setDuration(1500);
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setFillAfter(true);
-        sync.startAnimation(rotateAnimation);
 
-        new CountDownTimer(2000, 1000) {
+        Http.post(AppConfig.Api.getUserNotification + "?_sign=" + MainActivity._sign, new JsonHttpResponseHandler() {
             @Override
-            public void onTick(long millisUntilFinished) {
-
+            public void onStart() {
+                sync.startAnimation(rotateAnimation);
+                super.onStart();
             }
 
             @Override
             public void onFinish() {
                 sync.clearAnimation();
-                List<Notification> list = new ArrayList<Notification>();
-                Notification a = new Notification("http://www.baidu.com/img/logo.gif", "张三", 1400000000000L, 1, "呵呵呵", "2oCnNn");
-                for (int i = 0; i < 10; i++)
-                    list.add(a);
-                adapter = new NotificationAdapter(getActivity(), list);
-                listView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                super.onFinish();
             }
-        }.start();
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONArray info = response.getJSONArray("info");
+                    if (info.length() == 0){
+                        Toast.makeText(getActivity(), "暂时没有通知", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    int notification_id;
+                    String avatar;
+                    String nickname;
+                    long time;
+                    int type;
+                    String content;
+                    String hash;
+                    List<Notification> list = new ArrayList<Notification>();
+                    for (int i = 0; i < info.length(); i++) {
+                        JSONObject j = info.getJSONObject(i);
+                        notification_id = j.getInt("notification_id");
+                        avatar = j.getString("avatar");
+                        nickname = j.getString("nickname");
+                        time = j.getLong("time");
+                        type = j.getInt("type");
+                        content = j.getString("content");
+                        hash = j.getString("hash");
+                        Notification a = new Notification(notification_id, avatar, nickname, time, type, content, hash);
+                        list.add(a);
+                    }
+                    adapter = new NotificationAdapter(getActivity(), list);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "获取通知失败,请刷新重试", Toast.LENGTH_SHORT).show();
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 }

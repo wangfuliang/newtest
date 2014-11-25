@@ -148,7 +148,7 @@ public class UI {
     }
 
     private static void resizeNumberPicker(NumberPicker np) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100, RadioGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(80, RadioGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(10, 0, 10, 0);
         np.setLayoutParams(params);
     }

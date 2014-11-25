@@ -100,7 +100,7 @@ public class UserListRemindAdapter extends BaseAdapter {
             if (view == null) {
                 holder = new ViewHolder();
                 view = inflater.inflate(R.layout.userremind_item, null);
-                if(i == 0)
+                if (i == 0)
                     view.setBackgroundResource(R.drawable.line_border);
                 else
                     view.setBackgroundResource(R.drawable.line_bottom_border);
@@ -143,14 +143,20 @@ public class UserListRemindAdapter extends BaseAdapter {
                 }
             });
 
+            final int isAdmin = js.getInt("isAdmin");
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("提示");
-                    builder.setMessage("确定删除吗?");
-                    builder.setIcon(android.R.drawable.ic_delete);
-                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    if (isAdmin == 1) {
+                        builder.setIcon(android.R.drawable.ic_delete);
+                        builder.setMessage("确定删除吗?");
+                    } else {
+                        builder.setIcon(android.R.drawable.ic_menu_set_as);
+                        builder.setMessage("确定退出吗?");
+                    }
+                    builder.setPositiveButton(isAdmin == 1?"删除":"退出", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int t) {
                             RequestParams params = new RequestParams();
@@ -162,12 +168,12 @@ public class UserListRemindAdapter extends BaseAdapter {
                                     try {
                                         int status = response.getInt("status");
                                         if (status == 0) {
-                                            Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "操作失败", Toast.LENGTH_SHORT).show();
                                             return;
                                         }
 
                                         JSONArray _new = new JSONArray();
-                                        Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
                                         for (int _t = 0; _t < list.length(); _t++) {
                                             JSONObject o = list.getJSONObject(_t);
                                             if (!o.getString("hash").equals(hash)) {
@@ -177,14 +183,14 @@ public class UserListRemindAdapter extends BaseAdapter {
                                         UserListRemindAdapter.this.setList(_new);
                                         UserListRemindAdapter.this.notifyDataSetChanged();
                                     } catch (JSONException e) {
-                                        Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "操作失败", Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "操作失败", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -206,6 +212,11 @@ public class UserListRemindAdapter extends BaseAdapter {
                             .commit();
                 }
             });
+            if (isAdmin == 1) {
+                holder.edit.setVisibility(View.VISIBLE);
+            } else {
+                holder.edit.setVisibility(View.GONE);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

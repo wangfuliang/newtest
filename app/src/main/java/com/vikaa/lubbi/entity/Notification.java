@@ -1,6 +1,7 @@
 package com.vikaa.lubbi.entity;
 
 public class Notification {
+    int notification_id;
     String avatar;
     String nickname;
     long time;
@@ -8,7 +9,8 @@ public class Notification {
     String content;
     String hash;
 
-    public Notification(String avatar, String nickname, long time, int type, String content, String hash) {
+    public Notification(int id,String avatar, String nickname, long time, int type, String content, String hash) {
+        this.notification_id = id;
         this.avatar = avatar;
         this.nickname = nickname;
         this.time = time;
