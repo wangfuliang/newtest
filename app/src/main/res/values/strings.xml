@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Lubbi</string>
-    <string name="app_title">X提醒X</string>
+    <string name="app_name">WeDo</string>
+    <string name="app_title">@string/app_name</string>
 </resources>
