@@ -6,4 +6,5 @@ public class MyMessage {
     public final static int SYSTEM_EXIT = 0x03;//退出应用
     public final static int START_HOME = 0x04;
     public final static int GOTO_CREATE = 0x05;
+    public final static int GOTO_RECOMMEND = 0x06;
 }

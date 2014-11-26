@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,13 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,17 +38,23 @@ import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     static UserFragment userFragment;
     static RecommendFragment recommendFragment;
+    @ViewInject(R.id.my)
+    Button _my;
+    @ViewInject(R.id.recommend)
+    Button _remind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ViewUtils.inject(this);
         //初始化handler
         initHandler();
         //启动闪屏
@@ -129,20 +140,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.menu:
                 break;
             case R.id.my:
-                getSupportFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .show(userFragment)
-                        .hide(recommendFragment)
-                        .commit();
+                startMy();
                 break;
             case R.id.recommend:
-                getSupportFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .show(recommendFragment)
-                        .hide(userFragment)
-                        .commit();
+                startRecommend();
                 break;
         }
+    }
+
+    private void startMy() {
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .show(userFragment)
+                .hide(recommendFragment)
+                .commit();
+        _my.setBackgroundResource(R.drawable.corner_left);
+        _remind.setBackgroundResource(R.drawable.corner_right);
+        _my.setTextColor(getResources().getColor(R.color.white));
+        _remind.setTextColor(getResources().getColor(R.color.light_blue));
     }
 
     /**
@@ -169,8 +184,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case MyMessage.GOTO_CREATE:
                     startCreate();
                     break;
+                case MyMessage.GOTO_RECOMMEND:
+                    startRecommend();
+                    break;
             }
         }
+    }
+
+    private void startRecommend() {
+        if (userFragment == null)
+            userFragment = new UserFragment();
+        if (recommendFragment == null)
+            recommendFragment = new RecommendFragment();
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .show(recommendFragment)
+                .hide(userFragment)
+                .commit();
+        _my.setBackgroundResource(R.drawable.corner_left_normal);
+        _remind.setBackgroundResource(R.drawable.corner_right_active);
+        _my.setTextColor(getResources().getColor(R.color.light_blue));
+        _remind.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void startCreate() {
@@ -238,6 +272,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @ViewInject(R.id.nickname)
         TextView nickname;
 
+        static HasFragment hasFragment;
+        static NoFragment noFragment;
+        static FragmentManager fragmentManager;
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_user, null);
@@ -277,7 +315,122 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             translateAnimation.setFillAfter(true);
             translateAnimation.setInterpolator(new AccelerateInterpolator());
             nickname.startAnimation(translateAnimation);
+
+            if (hasFragment == null)
+                hasFragment = new HasFragment();
+            if (noFragment == null)
+                noFragment = new NoFragment();
+            fragmentManager = getChildFragmentManager();
+            addFragment();
             return view;
+        }
+
+        private void addFragment() {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            if (!hasFragment.isAdded())
+                transaction.add(R.id.container, hasFragment);
+            if (!noFragment.isAdded())
+                transaction.add(R.id.container, noFragment);
+            transaction.hide(hasFragment)
+                    .hide(noFragment)
+                    .commit();
+        }
+
+        private void switchToHas() {
+            fragmentManager.beginTransaction()
+                    .show(hasFragment)
+                    .hide(noFragment)
+                    .commit();
+        }
+
+        private void switchToNo() {
+            fragmentManager.beginTransaction()
+                    .show(noFragment)
+                    .hide(hasFragment)
+                    .commit();
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            //检测有没有提醒
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind + "?_sign=" + sign, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    try {
+                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                        if (data.getInt("status") == 0) {
+                            switchToNo();
+                            return;
+                        }
+
+                        JSONArray _list = data.getJSONArray("info");
+                        if (_list.length() > 0) {
+                            switchToHas();
+                        } else {
+                            switchToNo();
+                        }
+                    } catch (JSONException e) {
+                        switchToNo();
+                        Logger.e(e);
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    //加载默认
+                    Logger.e(e);
+                    switchToNo();
+                }
+            });
+        }
+
+        //设置内部fragment
+        public static class HasFragment extends Fragment {
+            @Override
+            public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                View view = inflater.inflate(R.layout.fragment_user_has, null);
+                return view;
+            }
+        }
+
+        public static class NoFragment extends Fragment {
+            @ViewInject(R.id.create)
+            Button create;
+            @ViewInject(R.id.recommend)
+            Button recommend;
+            MainActivity mainActivity;
+            @ViewInject(R.id.user_no)
+            LinearLayout user_no;
+
+            @Override
+            public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                View view = inflater.inflate(R.layout.fragment_user_no, null);
+                ViewUtils.inject(this, view);
+
+                mainActivity = (MainActivity) getActivity();
+                create.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handler.sendEmptyMessage(MyMessage.GOTO_CREATE);
+                    }
+                });
+
+                recommend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handler.sendEmptyMessage(MyMessage.GOTO_RECOMMEND);
+                    }
+                });
+
+                //动画
+                RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotateAnimation.setDuration(500);
+                rotateAnimation.setInterpolator(new LinearInterpolator());
+                rotateAnimation.setFillAfter(true);
+                user_no.startAnimation(rotateAnimation);
+                return view;
+            }
         }
     }
 

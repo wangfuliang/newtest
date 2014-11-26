@@ -16,7 +16,7 @@ import com.vikaa.lubbi.util.Logger;
 import java.io.File;
 
 public class BaseActivity extends FragmentActivity {
-    protected static MainActivity.CoreHandler handler;
+    public static MainActivity.CoreHandler handler;
     protected static String sign;
     public static String userId;
     protected static boolean hasFlash = false;
