@@ -34,6 +34,7 @@ public class AppConfig {
         public final static String joinRemind = "http://app.qun.hk/remind/api/createjoin";
         public final static String getUserNotification = "http://app.qun.hk/remind/api/getusernotification";
         public final static String deleteNotification = "http://app.qun.hk/remind/api/deletenotification";
+        public final static String help = "http://www.baidu.com";
     }
 
     public interface Message {

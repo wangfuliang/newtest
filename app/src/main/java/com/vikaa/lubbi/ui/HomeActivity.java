@@ -40,11 +40,17 @@ public class HomeActivity extends Activity implements View.OnClickListener{
             case R.id.message:
                 break;
             case R.id.help:
+                help();
                 break;
             case R.id.logout:
                 logout();
                 break;
         }
+    }
+
+    private void help() {
+        Intent intent = new Intent(this,HelpActivity.class);
+        startActivity(intent);
     }
 
     private void logout() {

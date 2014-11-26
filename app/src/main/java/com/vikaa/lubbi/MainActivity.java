@@ -272,7 +272,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_menu1:
             case R.id.btn_menu:
-                showNotification();
+                showHome();
                 break;
             case R.id.btn_recommend:
             case R.id.goto_remind:
@@ -396,23 +396,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     showRemindDetail(data);
                     break;
                 case AppConfig.Message.ShowNotification:
-                    showNotification();
+                    showHome();
                     break;
             }
         }
     }
 
-    private void showNotification() {
+    private void showHome() {
         //去设置
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         startActivity(intent);
-//        if (notificationFragment == null)
-//            notificationFragment = new NotificationFragment();
-//        fragmentManager.beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                .replace(R.id.container, notificationFragment)
-//                .commit();
 
+    }
+
+    private void showNotification() {
+        if (notificationFragment == null)
+            notificationFragment = new NotificationFragment();
+        fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, notificationFragment)
+                .commit();
     }
 
     /**
