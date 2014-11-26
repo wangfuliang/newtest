@@ -110,6 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create:
+                handler.sendEmptyMessage(MyMessage.GOTO_CREATE);
                 break;
             case R.id.menu:
                 break;
@@ -137,8 +138,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case MyMessage.START_HOME:
                     startMain();
                     break;
+                case MyMessage.GOTO_CREATE:
+                    startCreate();
+                    break;
             }
         }
+    }
+
+    private void startCreate() {
+        Intent intent = new Intent(this, CreateActivity.class);
+        startActivity(intent);
     }
 
     private void startLogin() {
