@@ -4,14 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
-import com.vikaa.lubbi.core.BaseApplication;
+import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity {
     @Override
@@ -40,8 +49,44 @@ public class MainActivity extends BaseActivity {
             //去登录
             handler.sendEmptyMessage(MyMessage.GOTO_LOGIN);
         } else {
-            //准备推送
-            handler.sendEmptyMessage(MyMessage.START_MAIN);
+            //检测是否登录
+            if (isLogin) {
+                setPush();
+                handler.sendEmptyMessage(MyMessage.START_HOME);
+            }
+            //HTTP请求接口
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.checkLogin + "?_sign=" + sign, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    try {
+                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                        if (data.getInt("status") == 0) {
+                            Toast.makeText(MainActivity.this, "自动登录失败，请重新登录", Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(MyMessage.GOTO_LOGIN);
+                        } else {
+                            JSONObject info = data.getJSONObject("info");
+                            sign = info.getString("_sign");
+                            //写入缓存
+                            SP.put(getApplicationContext(), "user.sign", sign);
+                            //写入用户基本信息
+                            SP.put(getApplicationContext(), "user.info", info.toString());
+                            setPush();
+                            handler.sendEmptyMessage(MyMessage.START_HOME);
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(MainActivity.this, "自动登录失败，请重新登录", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(MyMessage.GOTO_LOGIN);
+                        Logger.e(e);
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Toast.makeText(MainActivity.this, "自动登录失败，请重新登录", Toast.LENGTH_SHORT).show();
+                    handler.sendEmptyMessage(MyMessage.GOTO_LOGIN);
+                    Logger.e(e);
+                }
+            });
         }
     }
 
@@ -78,6 +123,9 @@ public class MainActivity extends BaseActivity {
                     finish();
                     System.exit(0);
                     break;
+                case MyMessage.START_HOME:
+                    startMain();
+                    break;
             }
         }
     }
@@ -92,5 +140,25 @@ public class MainActivity extends BaseActivity {
      */
     private void startMain() {
         Logger.d("start main");
+    }
+
+    private void setPush() {
+        //设置推送
+        if (userId != null) {
+            RequestParams params = new RequestParams();
+            params.addBodyParameter("push_device_type", "3");
+            params.addBodyParameter("push_user_id", userId);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.setPush + "?_sign=" + sign, params, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    Logger.d(objectResponseInfo.result);
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Logger.e(e);
+                }
+            });
+        }
     }
 }

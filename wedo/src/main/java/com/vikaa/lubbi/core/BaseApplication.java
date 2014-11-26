@@ -1,8 +1,8 @@
 package com.vikaa.lubbi.core;
 
-import android.app.Application;
+import com.baidu.frontia.FrontiaApplication;
 
-public class BaseApplication extends Application {
+public class BaseApplication extends FrontiaApplication {
     public final static boolean debug = true;
 
     @Override
