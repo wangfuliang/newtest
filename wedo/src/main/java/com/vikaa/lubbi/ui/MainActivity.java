@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
@@ -22,7 +23,7 @@ import com.vikaa.lubbi.util.SP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,16 @@ public class MainActivity extends BaseActivity {
         handler = new CoreHandler();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.create:
+                break;
+            case R.id.menu:
+                break;
+        }
+    }
+
     /**
      * CoreHandler
      */
@@ -139,7 +150,11 @@ public class MainActivity extends BaseActivity {
      * main初始化
      */
     private void startMain() {
-        Logger.d("start main");
+        setListener();
+    }
+
+    private void setListener() {
+
     }
 
     private void setPush() {
