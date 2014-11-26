@@ -12,10 +12,11 @@ import android.widget.Toast;
 
 import com.vikaa.lubbi.MainActivity;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.core.AppConfig;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
-public class HomeActivity extends Activity implements View.OnClickListener{
+public class HomeActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +37,12 @@ public class HomeActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.message:
+                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                intent.putExtra("action","notification");
+                startActivity(intent);
+                finish();
                 break;
             case R.id.help:
                 help();
@@ -49,14 +54,14 @@ public class HomeActivity extends Activity implements View.OnClickListener{
     }
 
     private void help() {
-        Intent intent = new Intent(this,HelpActivity.class);
+        Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
 
     private void logout() {
-        AlertDialog.Builder builder = UI.alert(this,"提示","确定退出登录吗?");
+        AlertDialog.Builder builder = UI.alert(this, "提示", "确定退出登录吗?");
         builder.setIcon(android.R.drawable.ic_menu_help);
-        builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SP.clear(getApplicationContext());
@@ -65,7 +70,7 @@ public class HomeActivity extends Activity implements View.OnClickListener{
             }
         });
 
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

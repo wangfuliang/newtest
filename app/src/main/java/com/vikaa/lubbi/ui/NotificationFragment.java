@@ -125,7 +125,6 @@ public class NotificationFragment extends Fragment {
                 try {
                     JSONArray info = response.getJSONArray("info");
                     if (info.length() == 0){
-                        Toast.makeText(getActivity(), "暂时没有通知", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     int notification_id;

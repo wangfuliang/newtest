@@ -42,5 +42,6 @@ public class AppConfig {
         public final static int ShowRemindDetail = 0x01;
         public final static int SetRemindSign = 0x02;
         public final static int ShowNotification = 0x03;
+        public final static int ShowHome = 0x04;
     }
 }

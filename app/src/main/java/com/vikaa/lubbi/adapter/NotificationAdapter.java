@@ -97,8 +97,9 @@ public class NotificationAdapter extends BaseAdapter {
                         end = event.getX();
                         break;
                 }
-                if (Math.abs(start - end) > 35) {
-                    deleteItem(v, position);   //删除数据，加动画
+                if (Math.abs(start - end) > 50) {
+                    Logger.d("!");
+                 //   deleteItem(v, position);   //删除数据，加动画
                     return true;
                 }
                 return false;

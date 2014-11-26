@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">We Do</string>
+    <string name="input_phone">请输入您的手机号码</string>
+    <string name="empty_phone">@string/input_phone</string>
+    <string name="phone">手机号</string>
+    <string name="verify">验证码</string>
+    <string name="input_verify">请输入验证码</string>
+    <string name="get_verify">获取验证码</string>
+    <string name="phone_invalid">手机号码不合法</string>
+    <string name="empty_verify">请输入验证码</string>
 </resources>

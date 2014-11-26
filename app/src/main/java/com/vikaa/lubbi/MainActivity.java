@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static String _sign;
     ProgressDialog pd;
     public static boolean isLogin = false;
-    public CoreHandler handler;
+    public static CoreHandler handler;
     public static String userId = "";
     private final static int FLASH = 2;
     FragmentManager fragmentManager;
@@ -129,7 +129,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
             }
 
-
             //去通知
             Intent intent = getIntent();
             String action = intent.getStringExtra("action");
@@ -142,7 +141,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 fragmentManager.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, mainFragment)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
             return;
         }
@@ -155,7 +154,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.container, loginFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         } else {
             //_sign登录
             Http.post(AppConfig.Api.checkLogin + "?_sign=" + _sign, new JsonHttpResponseHandler() {
@@ -204,7 +203,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             fragmentManager.beginTransaction()
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                     .replace(R.id.container, mainFragment)
-                                    .commit();
+                                    .commitAllowingStateLoss();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
@@ -249,7 +248,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.container, loginFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
     }
 
@@ -287,7 +286,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, recommendFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     private void login() {
@@ -337,7 +336,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, mainFragment)
-                            .commit();
+                            .commitAllowingStateLoss();
                 } catch (JSONException e) {
                     Toast.makeText(MainActivity.this, "登录失败,请重试", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -364,7 +363,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, mainFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     /**
@@ -375,7 +374,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, createRemindFragment)
 
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override
@@ -395,8 +394,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject data = (JSONObject) msg.obj;
                     showRemindDetail(data);
                     break;
-                case AppConfig.Message.ShowNotification:
+                case AppConfig.Message.ShowHome:
                     showHome();
+                    break;
+                case AppConfig.Message.ShowNotification:
+                    showNotification();
                     break;
             }
         }
@@ -409,13 +411,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    /**
+     *
+     */
     private void showNotification() {
         if (notificationFragment == null)
             notificationFragment = new NotificationFragment();
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, notificationFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     /**
@@ -430,7 +435,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, detailFragment)
-
-                .commit();
+                .commitAllowingStateLoss();
     }
 }

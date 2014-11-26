@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vikaa.lubbi">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".core.BaseApplication"
         android:allowBackup="true"
@@ -15,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.FlashActivity" />
+        <activity android:name=".ui.LoginActivity" />
     </application>
 
 </manifest>
