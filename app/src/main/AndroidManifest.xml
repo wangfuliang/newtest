@@ -79,7 +79,8 @@
         <activity
             android:name=".ui.CreateSignActivity"
             android:theme="@style/MyDialog" />
-        <activity android:name=".ui.FlashActivity"/>
+        <activity android:name=".ui.FlashActivity" />
+        <activity android:name=".ui.HomeActivity" />
 
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
@@ -89,7 +90,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
@@ -108,7 +109,7 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name=".receiver.MyPushMessageReceiver">
             <intent-filter>

@@ -26,6 +26,7 @@ import com.vikaa.lubbi.receiver.Utils;
 import com.vikaa.lubbi.ui.CreateRemindFragment;
 import com.vikaa.lubbi.ui.DetailFragment;
 import com.vikaa.lubbi.ui.FlashActivity;
+import com.vikaa.lubbi.ui.HomeActivity;
 import com.vikaa.lubbi.ui.LoginFragment;
 import com.vikaa.lubbi.ui.MainFragment;
 import com.vikaa.lubbi.ui.NotificationFragment;
@@ -394,12 +395,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void showNotification() {
-        if (notificationFragment == null)
-            notificationFragment = new NotificationFragment();
-        fragmentManager.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.container, notificationFragment)
-                .commit();
+        //去设置
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
+//        if (notificationFragment == null)
+//            notificationFragment = new NotificationFragment();
+//        fragmentManager.beginTransaction()
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                .replace(R.id.container, notificationFragment)
+//                .commit();
 
     }
 
