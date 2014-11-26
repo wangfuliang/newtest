@@ -10,14 +10,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
@@ -38,8 +46,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         //初始化handler
         initHandler();
-        //初始化HTTP
-        httpUtils = new HttpUtils();
         //启动闪屏
         if (!hasFlash) {
             hasFlash = true;
@@ -181,6 +187,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * main初始化
      */
     private void startMain() {
+        //建立缓存目录
+
         setListener();
         initFragment();
     }
@@ -190,12 +198,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userFragment = new UserFragment();
         if (recommendFragment == null)
             recommendFragment = new RecommendFragment();
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .add(R.id.container, userFragment)
-                .add(R.id.container, recommendFragment)
-                .hide(recommendFragment)
-                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!userFragment.isAdded())
+            transaction.add(R.id.container, userFragment);
+        if (!recommendFragment.isAdded())
+            transaction.add(R.id.container, recommendFragment);
+
+        transaction.show(userFragment).hide(recommendFragment).commit();
     }
 
     private void setListener() {
@@ -224,9 +233,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     public static class UserFragment extends Fragment {
+        @ViewInject(R.id.avatar)
+        ImageView avatar;
+        @ViewInject(R.id.nickname)
+        TextView nickname;
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_user, null);
+            ViewUtils.inject(this, view);
+            String info = SP.get(getActivity().getApplicationContext(), "user.info", "").toString();
+            if (info.length() > 0) {
+                try {
+                    JSONObject data = new JSONObject(info);
+                    String _avatar = data.getString("avatar");
+                    String _nickname = data.getString("nickname");
+                    bitmapUtils.display(avatar, _avatar);
+                    nickname.setText(_nickname);
+                } catch (JSONException e) {
+                    //加载默认头像
+                    bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
+                    nickname.setText("无名--");
+                    Logger.e(e);
+                }
+            } else {
+                //加载默认头像
+                bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
+                nickname.setText("无名--");
+            }
+
+            //头像动画
+            ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation.setDuration(500);
+            scaleAnimation.setFillAfter(true);
+            scaleAnimation.setInterpolator(new BounceInterpolator());
+            avatar.startAnimation(scaleAnimation);
+            //昵称动画
+            TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1f,
+                    Animation.RELATIVE_TO_SELF, 0f,
+                    Animation.RELATIVE_TO_SELF, 0f,
+                    Animation.RELATIVE_TO_SELF, 0f);
+            translateAnimation.setDuration(500);
+            translateAnimation.setFillAfter(true);
+            translateAnimation.setInterpolator(new AccelerateInterpolator());
+            nickname.startAnimation(translateAnimation);
             return view;
         }
     }

@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity {
                                     //写入sign
                                     String _sign = info.getString("_sign");
                                     SP.put(getApplicationContext(), "user.sign", _sign);
+                                    SP.put(getApplicationContext(), "user.info", info.toString());
                                     isLogin = true;
                                     //去首页
                                     finish();
