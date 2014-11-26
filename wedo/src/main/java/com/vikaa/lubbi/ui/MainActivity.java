@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
@@ -24,6 +29,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
+    static UserFragment userFragment;
+    static RecommendFragment recommendFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +122,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.menu:
                 break;
+            case R.id.my:
+                getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .show(userFragment)
+                        .hide(recommendFragment)
+                        .commit();
+                break;
+            case R.id.recommend:
+                getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .show(recommendFragment)
+                        .hide(userFragment)
+                        .commit();
+                break;
         }
     }
 
@@ -160,6 +182,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void startMain() {
         setListener();
+        initFragment();
+    }
+
+    private void initFragment() {
+        if (userFragment == null)
+            userFragment = new UserFragment();
+        if (recommendFragment == null)
+            recommendFragment = new RecommendFragment();
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.container, userFragment)
+                .add(R.id.container, recommendFragment)
+                .hide(recommendFragment)
+                .commit();
     }
 
     private void setListener() {
@@ -183,6 +219,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Logger.e(e);
                 }
             });
+        }
+    }
+
+
+    public static class UserFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_user, null);
+            return view;
+        }
+    }
+
+    public static class RecommendFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_recommend, null);
+            return view;
         }
     }
 }
