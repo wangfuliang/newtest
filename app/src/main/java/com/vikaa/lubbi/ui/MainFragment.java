@@ -47,6 +47,7 @@ public class MainFragment extends Fragment {
     @ViewInject(R.id.nickname)
     TextView nickname;
     static FragmentManager fragmentManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (userRemindListViewFragment == null)
@@ -70,7 +71,7 @@ public class MainFragment extends Fragment {
     }
 
     private void init() {
-        String info = (String) SP.get(getActivity(), "user.info", "");
+        String info = (String) SP.get(getActivity().getApplicationContext(), "user.info", "");
         try {
             JSONObject data = new JSONObject(info);
             String _avatar = data.getString("avatar");
@@ -92,7 +93,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        init();
+        if (MainActivity._sign.length() > 0) {
+            init();
+        }
     }
 
 
@@ -241,6 +244,7 @@ public class MainFragment extends Fragment {
 
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

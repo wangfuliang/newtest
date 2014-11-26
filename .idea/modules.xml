@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Lubbi.iml" filepath="$PROJECT_DIR$/Lubbi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wedo/wedo.iml" filepath="$PROJECT_DIR$/wedo/wedo.iml" />
     </modules>
   </component>
 </project>

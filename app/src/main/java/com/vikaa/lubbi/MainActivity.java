@@ -33,6 +33,7 @@ import com.vikaa.lubbi.ui.NotificationFragment;
 import com.vikaa.lubbi.ui.RecommendFragment;
 import com.vikaa.lubbi.util.HardWare;
 import com.vikaa.lubbi.util.Http;
+import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.Regex;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
@@ -75,11 +76,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivityForResult(intent, FLASH);
         }
         checkNetWork();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     private void checkNetWork() {
@@ -151,8 +147,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
         //检测SP存储有没有sign
-        _sign = SP.get(this, "user.sign", "").toString();
-        if (TextUtils.isEmpty(_sign)) {
+        _sign = SP.get(getApplicationContext(), "user.sign", "").toString();
+        if (_sign.length() == 0) {
             //手机号码登录
             if (loginFragment == null)
                 loginFragment = new LoginFragment();
@@ -181,9 +177,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         JSONObject info = response.getJSONObject("info");
                         //写入sign
                         _sign = info.getString("_sign");
-                        SP.put(MainActivity.this, "user.sign", _sign);
+                        SP.put(getApplicationContext(), "user.sign", _sign);
                         //写入info
-                        SP.put(MainActivity.this, "user.info", info);
+                        SP.put(getApplicationContext(), "user.info", info);
                         //绑定
                         if (!TextUtils.isEmpty(userId)) {
                             RequestParams params = new RequestParams();
@@ -244,6 +240,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        _sign = SP.get(getApplicationContext(), "user.sign", "").toString();
+        if (_sign.length() == 0) {
+            loginFragment = new LoginFragment();
+            fragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .replace(R.id.container, loginFragment)
+                    .commit();
+        }
+    }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_create_remind1:
@@ -278,7 +287,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, recommendFragment)
-
                 .commit();
     }
 
@@ -323,9 +331,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject info = response.getJSONObject("info");
                     //写入sign
                     _sign = info.getString("_sign");
-                    SP.put(MainActivity.this, "user.sign", _sign);
+                    SP.put(getApplicationContext(), "user.sign", _sign);
                     //写入info
-                    SP.put(MainActivity.this, "user.info", info);
+                    SP.put(getApplicationContext(), "user.info", info);
                     fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.container, mainFragment)
