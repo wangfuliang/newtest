@@ -37,7 +37,29 @@ public class DateUtils {
     }
 
     /**
+     * 时间戳转标准时间
+     * @param timestamp
+     * @return
+     */
+    public static String getStandardDateTime(long timestamp) {
+        sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(timestamp);
+        return sf.format(date);
+    }
+
+    /**
+     * 自定义格式
+     * @param format
+     * @return
+     */
+    public static String getCustom(String format){
+        Date date = new Date();
+        sf = new SimpleDateFormat(format);
+        return sf.format(date);
+    }
+    /**
      * 获取时间节
+     *
      * @param time
      * @param format
      * @return

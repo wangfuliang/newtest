@@ -121,10 +121,14 @@ public class UI {
         return progressDialog;
     }
 
-    public static void resizePicker(FrameLayout tp) {
+    public static void resizePicker(FrameLayout tp, Context context) {
         List<NumberPicker> npList = findNumberPicker(tp);
+        //获取屏幕宽度
+        int width = ScreenUtils.getScreenWidth(context);
+        int dp = ScreenUtils.px2dip(context,width);
+        width = dp/5+5;
         for (NumberPicker np : npList) {
-            resizeNumberPicker(np);
+            resizeNumberPicker(np, width);
         }
     }
 
@@ -147,8 +151,8 @@ public class UI {
         return npList;
     }
 
-    private static void resizeNumberPicker(NumberPicker np) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(80, RadioGroup.LayoutParams.WRAP_CONTENT);
+    private static void resizeNumberPicker(NumberPicker np, int width) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, RadioGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(10, 0, 10, 0);
         np.setLayoutParams(params);
     }
@@ -156,6 +160,7 @@ public class UI {
 
     /**
      * 设置listview高度
+     *
      * @param listView
      */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
