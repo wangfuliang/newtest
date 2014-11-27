@@ -38,6 +38,7 @@ public class DateUtils {
 
     /**
      * 时间戳转标准时间
+     *
      * @param timestamp
      * @return
      */
@@ -49,14 +50,26 @@ public class DateUtils {
 
     /**
      * 自定义格式
+     *
      * @param format
      * @return
      */
-    public static String getCustom(String format){
+    public static String getCustom(String format, Date date) {
+        sf = new SimpleDateFormat(format);
+        return sf.format(date);
+    }
+
+    /**
+     * 自定义格式
+     * @param format
+     * @return
+     */
+    public static String getCustom(String format) {
         Date date = new Date();
         sf = new SimpleDateFormat(format);
         return sf.format(date);
     }
+
     /**
      * 获取时间节
      *

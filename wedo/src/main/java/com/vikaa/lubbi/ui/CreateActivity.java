@@ -74,7 +74,6 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         UI.resizePicker(timePicker, this);
 
         datePicker.init(year, monthOfYear, dayOfMonth, new DatePicker.OnDateChangedListener() {
-
             public void onDateChanged(DatePicker view, int year,
                                       int monthOfYear, int dayOfMonth) {
                 String hour, min;

@@ -1,10 +1,5 @@
 package com.vikaa.lubbi.entity;
 
-import android.os.Handler;
-import android.os.Message;
-
-import com.vikaa.lubbi.util.UI;
-
 import java.util.List;
 
 public class SignEntity {

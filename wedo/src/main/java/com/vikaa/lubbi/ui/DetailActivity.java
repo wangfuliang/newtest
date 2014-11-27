@@ -81,6 +81,7 @@ public class DetailActivity extends BaseActivity {
     String _time;
     String _mark;
     boolean isAdd;
+    static  boolean registerUMeng = false;
 
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
     public Handler handler = new Handler() {
@@ -90,10 +91,82 @@ public class DetailActivity extends BaseActivity {
                 case MyMessage.RESIZE_SIGN_LIST:
                     UI.setListViewHeightBasedOnChildren(listView);
                     break;
+                case MyMessage.PRAISE_SIGN:
+                    int position = (Integer) msg.obj;
+                    praiseSign(position);
+                    break;
+                case MyMessage.CANCEL_PRAISE:
+                    int position2 = (Integer) msg.obj;
+                    cancelPraise(position2);
+                    break;
             }
             super.handleMessage(msg);
         }
     };
+
+    private void praiseSign(final int position) {
+        SignEntity entity = (SignEntity) listView.getAdapter().getItem(position);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("_sign", sign);
+        params.addBodyParameter("sign_id", entity.getSign_id() + "");
+
+        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.praiseSign, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                try {
+                    JSONObject data = new JSONObject(objectResponseInfo.result);
+                    if (data.getInt("status") == 0) {
+                        Toast.makeText(DetailActivity.this, data.getString("info"), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    SignAdapter adapter = (SignAdapter) listView.getAdapter();
+                    adapter.praise(position);
+                } catch (JSONException e) {
+                    Logger.e(e);
+                    Toast.makeText(DetailActivity.this, "点赞失败了--.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                Logger.e(e);
+                Toast.makeText(DetailActivity.this, "点赞失败了--.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void cancelPraise(final int position) {
+        SignEntity entity = (SignEntity) listView.getAdapter().getItem(position);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("_sign", sign);
+        params.addBodyParameter("sign_id", entity.getSign_id() + "");
+
+        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.cancelPraise, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                try {
+                    JSONObject data = new JSONObject(objectResponseInfo.result);
+                    if (data.getInt("status") == 0) {
+                        Toast.makeText(DetailActivity.this, data.getString("info"), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    SignAdapter adapter = (SignAdapter) listView.getAdapter();
+                    adapter.cancelPraise(position);
+                } catch (JSONException e) {
+                    Logger.e(e);
+                    Toast.makeText(DetailActivity.this, "操作失败了--.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                Logger.e(e);
+                Toast.makeText(DetailActivity.this, "操作失败了--.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,17 +188,7 @@ public class DetailActivity extends BaseActivity {
         //按钮监听
         back.setOnClickListener(new BackListener());
         share.setOnClickListener(new ShareListener());
-        mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
-            @Override
-            public void onStart() {
-                Logger.d("share start");
-            }
 
-            @Override
-            public void onComplete(SHARE_MEDIA share_media, int i, SocializeEntity socializeEntity) {
-                Logger.d("share complete");
-            }
-        });
         //按钮的显示与隐藏
         if (!isAdd) {
             join.setVisibility(View.INVISIBLE);
@@ -136,6 +199,21 @@ public class DetailActivity extends BaseActivity {
 
         //加载打卡列表
         loadSignList();
+
+        if(!registerUMeng){
+            mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
+                @Override
+                public void onStart() {
+                    Logger.d("share start");
+                }
+
+                @Override
+                public void onComplete(SHARE_MEDIA share_media, int i, SocializeEntity socializeEntity) {
+                    Logger.d("share complete");
+                }
+            });
+            registerUMeng = true;
+        }
     }
 
     private void loadSignList() {

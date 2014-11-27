@@ -22,6 +22,7 @@ public class MyApi {
     public final static String joinRemind = "http://app.qun.hk/remind/api/createjoin";
     public final static String getUserNotification = "http://app.qun.hk/remind/api/getusernotification";
     public final static String deleteNotification = "http://app.qun.hk/remind/api/deletenotification";
-    public final static String help = "http://www.baidu.com";
+    public final static String help = "http://app.qun.hk/remind/default/help";
     public final static String shareIcon = "http://picturescdn.qiniudn.com/tixing.jpg";
+    public final static String cancelPraise = "http://app.qun.hk/remind/api/cancelpraise";
 }

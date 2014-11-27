@@ -11,4 +11,6 @@ public class MyMessage {
     public final static int REFRESH_COMPLETE = 0x08;
     public final static int GOTO_DETAIL = 0x09;
     public final static int RESIZE_SIGN_LIST = 0x10;
+    public final static int PRAISE_SIGN = 0x11;
+    public final static int CANCEL_PRAISE = 0x12;
 }

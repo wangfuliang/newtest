@@ -2,6 +2,7 @@ package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.lidroid.xutils.http.RequestParams;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.entity.SignEntity;
 import com.vikaa.lubbi.ui.DetailActivity;
+import com.vikaa.lubbi.util.DateUtils;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
 
+import java.util.Date;
 import java.util.List;
 
 public class SignAdapter extends BaseAdapter {
@@ -27,6 +31,7 @@ public class SignAdapter extends BaseAdapter {
     LayoutInflater inflater;
     List<SignEntity> list;
     static Handler handler;
+
 
     public SignAdapter(Context context) {
         this.context = context;
@@ -89,13 +94,14 @@ public class SignAdapter extends BaseAdapter {
         }
 
         //设置值
-        SignEntity entity = list.get(position);
+        final SignEntity entity = list.get(position);
         //头像
         BaseActivity.bitmapUtils.display(holder.avatar, entity.getUser().getAvatar());
         //昵称
         holder.nickname.setText(entity.getUser().getNickname());
         //time
-        holder.time.setText(entity.getSign_at() + "");
+        Date date = new Date(entity.getSign_at() * 1000);
+        holder.time.setText(DateUtils.getCustom("MM-dd HH:mm", date));
         //message
         holder.message.setText(entity.getMessage());
         //images
@@ -118,11 +124,19 @@ public class SignAdapter extends BaseAdapter {
                 Logger.d("comment:" + position);
             }
         });
+        if (entity.isPraised()) {
+            holder.praise.setImageResource(R.drawable.icon_praise_active);
+        } else {
+            holder.praise.setImageResource(R.drawable.icon_praise_normal);
+        }
         //praise
         holder.praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.d("praise:" + position);
+                Message message = new Message();
+                message.what = !entity.isPraised() ? MyMessage.PRAISE_SIGN : MyMessage.CANCEL_PRAISE;
+                message.obj = position;
+                handler.sendMessage(message);
             }
         });
         return convertView;
@@ -140,5 +154,29 @@ public class SignAdapter extends BaseAdapter {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Logger.d("commend:" + position);
         }
+    }
+
+    /**
+     * 点赞
+     *
+     * @param position
+     */
+    public void praise(int position) {
+        SignEntity entity = list.get(position);
+        entity.setPraised(true);
+        list.set(position, entity);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 取消赞
+     *
+     * @param position
+     */
+    public void cancelPraise(int position) {
+        SignEntity entity = list.get(position);
+        entity.setPraised(false);
+        list.set(position, entity);
+        notifyDataSetChanged();
     }
 }
