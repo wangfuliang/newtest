@@ -95,6 +95,7 @@ public class DetailActivity extends BaseActivity {
     boolean isAdd;
     static boolean registerUMeng = false;
 
+    CommonEntity replayCommonEntity;
     int sign_position;
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
     public Handler handler = new Handler() {
@@ -117,7 +118,7 @@ public class DetailActivity extends BaseActivity {
                     Animate.alpha(commentField, 0f, 1f, 500, new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
-
+                            commentField.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
@@ -133,6 +134,9 @@ public class DetailActivity extends BaseActivity {
                     break;
                 case MyMessage.HIDE_COMMENT:
                     hideComment();
+                    break;
+                case MyMessage.REPLY_COMMENT:
+                    replayCommonEntity = (CommonEntity) msg.obj;
                     break;
             }
             super.handleMessage(msg);
@@ -518,7 +522,7 @@ public class DetailActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                commentField.setVisibility(View.INVISIBLE);
+                commentField.setVisibility(View.GONE);
                 commentText.setText("");
             }
 
@@ -543,7 +547,14 @@ public class DetailActivity extends BaseActivity {
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("_sign", sign);
             params.addBodyParameter("sign_id", sign_id + "");
-            params.addBodyParameter("message", message);
+            //检测commonEntity是否为空，不为空则是回复，@评论发起者
+            if (replayCommonEntity != null) {
+                String nickname = replayCommonEntity.getUser().getNickname();
+                params.addBodyParameter("message", "@" + nickname + " " + message);
+            } else {
+
+                params.addBodyParameter("message", message);
+            }
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.commentSign, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
@@ -566,6 +577,8 @@ public class DetailActivity extends BaseActivity {
                         entity.getComments().add(entity1);
                         ((SignAdapter) listView.getAdapter()).notifyDataSetChanged();
                         UI.setListViewHeightBasedOnChildren(listView);
+                        //清除回复的评论
+                        replayCommonEntity = null;
                         //隐藏评论框
                         handler.sendEmptyMessage(MyMessage.HIDE_COMMENT);
                     } catch (JSONException e) {

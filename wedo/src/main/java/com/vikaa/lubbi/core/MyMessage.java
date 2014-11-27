@@ -15,4 +15,5 @@ public class MyMessage {
     public final static int CANCEL_PRAISE = 0x12;
     public final static int SHOW_COMMENT = 0x13;
     public final static int HIDE_COMMENT = 0x14;
+    public final static int REPLY_COMMENT = 0x15;
 }

@@ -112,9 +112,23 @@ public class SignAdapter extends BaseAdapter {
             holder.imgList.setVisibility(View.VISIBLE);
         }
         //comments
-        CommentAdapter _comments = new CommentAdapter(context, entity.getComments());
+        final CommentAdapter _comments = new CommentAdapter(context, entity.getComments());
         holder.commentList.setAdapter(_comments);
-        holder.commentList.setOnItemClickListener(new CommentListener());
+        holder.commentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position1, long id) {
+                Message message = new Message();
+                message.what = MyMessage.REPLY_COMMENT;
+                message.obj = entity.getComments().get(position1);
+                handler.sendMessage(message);
+
+
+                Message message1 = new Message();
+                message1.what = MyMessage.SHOW_COMMENT;
+                message1.obj = position;
+                handler.sendMessage(message1);
+            }
+        });
         UI.setListViewHeightBasedOnChildren(holder.commentList);
         //comment
         holder.comment.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +153,7 @@ public class SignAdapter extends BaseAdapter {
                 message.what = !entity.isPraised() ? MyMessage.PRAISE_SIGN : MyMessage.CANCEL_PRAISE;
                 message.obj = position;
                 handler.sendMessage(message);
+
             }
         });
         return convertView;
@@ -148,13 +163,6 @@ public class SignAdapter extends BaseAdapter {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Logger.d("img:" + position);
-        }
-    }
-
-    private class CommentListener implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Logger.d("click item:" + position);
         }
     }
 

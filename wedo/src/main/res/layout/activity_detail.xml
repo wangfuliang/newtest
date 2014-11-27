@@ -88,6 +88,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -419,7 +420,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:id="@+id/comment_field"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:background="#33000000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
