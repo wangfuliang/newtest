@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -58,8 +59,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -209,7 +211,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_below="@id/message"
                     android:id="@+id/help"
                     android:clickable="true"
                     android:onClick="onClick"
@@ -230,13 +231,124 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/icon_help" />
+                            android:src="@drawable/icon_help"
+                            android:contentDescription="帮助" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="帮助"
+                            android:layout_marginLeft="18dp"
+                            android:textColor="@color/deep_gray" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="right">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/arrow_right"
+                                android:layout_gravity="center_vertical" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/feedback"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:background="@drawable/line_bottom_border"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="61dp"
+                    android:paddingLeft="17dp"
+                    android:paddingRight="17dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/icon_feedback"
+                            android:contentDescription="反馈" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="反馈"
+                            android:layout_marginLeft="18dp"
+                            android:textColor="@color/deep_gray" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="right">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/arrow_right"
+                                android:layout_gravity="center_vertical" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/logout"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:background="@drawable/line_bottom_border"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="61dp"
+                    android:paddingLeft="17dp"
+                    android:paddingRight="17dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/icon_logout"
+                            android:contentDescription="退出" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="退出登录"
                             android:layout_marginLeft="18dp"
                             android:textColor="@color/deep_gray" />
                     </LinearLayout>

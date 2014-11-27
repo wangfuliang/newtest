@@ -63,6 +63,7 @@ public class NotificationActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position--;
                 NotificationEntity notificationEntity = list.get(position);
                 String hash = notificationEntity.getHash();
                 RequestParams params = new RequestParams();
@@ -78,9 +79,7 @@ public class NotificationActivity extends BaseActivity {
                                 Toast.makeText(NotificationActivity.this, jsonObject.getString("info"), Toast.LENGTH_SHORT).show();
                                 return;
                             }
-
                             JSONObject info = jsonObject.getJSONObject("info");
-
                             JSONObject data = new JSONObject();
                             data.put("hash", info.getString("hash"));
                             data.put("title", info.getString("title"));
