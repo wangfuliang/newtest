@@ -102,8 +102,7 @@ public class SignAdapter extends BaseAdapter {
         //昵称
         holder.nickname.setText(entity.getUser().getNickname());
         //time
-        Date date = new Date(entity.getSign_at() * 1000);
-        holder.time.setText(DateUtils.getCustom("MM-dd HH:mm", date));
+        holder.time.setText(DateUtils.getCustom("MM-dd HH:mm", new Date(entity.getSign_at() * 1000)));
         //message
         holder.message.setText(entity.getMessage());
         //images
@@ -113,7 +112,7 @@ public class SignAdapter extends BaseAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, ImageActivity.class);
-                intent.putExtra("url",entity.getImages()[position]);
+                intent.putExtra("url", entity.getImages()[position]);
                 context.startActivity(intent);
             }
         });

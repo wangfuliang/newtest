@@ -22,11 +22,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.message:
-                Logger.d("message");
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.help:
-                Intent intent = new Intent(this, BrowserActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(this, BrowserActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

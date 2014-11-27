@@ -62,6 +62,7 @@
         <activity android:name=".ui.ImageActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.BrowserActivity" />
+        <activity android:name=".ui.NotificationActivity" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity

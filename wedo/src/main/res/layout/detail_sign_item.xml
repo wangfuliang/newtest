@@ -113,6 +113,7 @@
                 android:src="@drawable/icon_praise_normal" />
 
             <ListView
+                android:layout_marginBottom="20dp"
                 android:scrollbars="none"
                 android:layout_marginTop="10dp"
                 android:background="@null"
