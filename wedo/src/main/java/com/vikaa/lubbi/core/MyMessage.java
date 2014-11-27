@@ -9,4 +9,5 @@ public class MyMessage {
     public final static int GOTO_RECOMMEND = 0x06;
     public final static int REFRESH_START = 0x07;
     public final static int REFRESH_COMPLETE = 0x08;
+    public final static int GOTO_DETAIL = 0x09;
 }

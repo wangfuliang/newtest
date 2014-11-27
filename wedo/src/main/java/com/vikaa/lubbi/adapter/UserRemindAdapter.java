@@ -88,6 +88,7 @@ public class UserRemindAdapter extends BaseAdapter {
             holder.hd.setBackgroundResource(R.color.light_green);
             holder.sign.setText("√");
             holder.sign.setTextColor(context.getResources().getColor(R.color.my_red));
+            holder.sign.setOnClickListener(null);
         } else {
             holder.hd.setBackgroundResource(R.color.light_blue);
             holder.sign.setText("+");

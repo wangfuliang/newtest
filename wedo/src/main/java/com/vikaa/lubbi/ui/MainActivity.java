@@ -38,6 +38,7 @@ import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.entity.UserRemindEntity;
+import com.vikaa.lubbi.util.Animate;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.widget.MyListView;
@@ -194,8 +195,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case MyMessage.GOTO_RECOMMEND:
                     startRecommend();
                     break;
+                case MyMessage.GOTO_DETAIL:
+                    JSONObject detail = (JSONObject) msg.obj;
+                    startDetail(detail);
+                    break;
             }
         }
+    }
+
+    private void startDetail(JSONObject detail) {
+        DetailActivity._data = detail;
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
     }
 
     private void startRecommend() {
@@ -308,20 +319,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
 
             //头像动画
-            ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(500);
-            scaleAnimation.setFillAfter(true);
-            scaleAnimation.setInterpolator(new BounceInterpolator());
-            avatar.startAnimation(scaleAnimation);
+            Animate.bounce(avatar);
             //昵称动画
-            TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1f,
-                    Animation.RELATIVE_TO_SELF, 0f,
-                    Animation.RELATIVE_TO_SELF, 0f,
-                    Animation.RELATIVE_TO_SELF, 0f);
-            translateAnimation.setDuration(500);
-            translateAnimation.setFillAfter(true);
-            translateAnimation.setInterpolator(new AccelerateInterpolator());
-            nickname.startAnimation(translateAnimation);
+
+            Animate.translate(nickname);
 
             if (hasFragment == null)
                 hasFragment = new HasFragment();
@@ -419,6 +420,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         UserRemindEntity entity = list.get(position - 1);
                         Logger.d("hash:" + entity.getHash());
+                        //启动detail
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("hash", entity.getHash());
+                            jsonObject.put("title", entity.getTitle());
+                            jsonObject.put("time", entity.getFormatTime());
+                            jsonObject.put("mark", entity.getMark());
+                            jsonObject.put("isAdd", 1);
+                            Message msg = new Message();
+                            msg.what = MyMessage.GOTO_DETAIL;
+                            msg.obj = jsonObject;
+                            handler.sendMessage(msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -502,11 +518,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 });
 
                 //动画
-                RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotateAnimation.setDuration(500);
-                rotateAnimation.setInterpolator(new LinearInterpolator());
-                rotateAnimation.setFillAfter(true);
-                user_no.startAnimation(rotateAnimation);
+                Animate.rotate(user_no);
                 return view;
             }
         }

@@ -23,4 +23,5 @@ public class MyApi {
     public final static String getUserNotification = "http://app.qun.hk/remind/api/getusernotification";
     public final static String deleteNotification = "http://app.qun.hk/remind/api/deletenotification";
     public final static String help = "http://www.baidu.com";
+    public final static String shareIcon = "http://picturescdn.qiniudn.com/tixing.jpg";
 }
