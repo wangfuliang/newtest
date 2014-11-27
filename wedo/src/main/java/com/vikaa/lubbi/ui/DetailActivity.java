@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ import com.vikaa.lubbi.entity.CommonEntity;
 import com.vikaa.lubbi.entity.SignEntity;
 import com.vikaa.lubbi.entity.UserEntity;
 import com.vikaa.lubbi.util.Animate;
+import com.vikaa.lubbi.util.KeyBoardUtils;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
 
@@ -81,6 +83,11 @@ public class DetailActivity extends BaseActivity {
     ListView listView;
     @ViewInject(R.id.comment_field)
     LinearLayout commentField;
+    @ViewInject(R.id.comment_text)
+    EditText commentText;
+    @ViewInject(R.id.comment_btn)
+    Button commentBtn;
+
     String hash;
     String _title;
     String _time;
@@ -88,6 +95,7 @@ public class DetailActivity extends BaseActivity {
     boolean isAdd;
     static boolean registerUMeng = false;
 
+    int sign_position;
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
     public Handler handler = new Handler() {
         @Override
@@ -105,6 +113,7 @@ public class DetailActivity extends BaseActivity {
                     cancelPraise(position2);
                     break;
                 case MyMessage.SHOW_COMMENT:
+                    sign_position = (Integer) msg.obj;
                     Animate.alpha(commentField, 0f, 1f, 500, new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -121,6 +130,9 @@ public class DetailActivity extends BaseActivity {
 
                         }
                     });
+                    break;
+                case MyMessage.HIDE_COMMENT:
+                    hideComment();
                     break;
             }
             super.handleMessage(msg);
@@ -237,6 +249,7 @@ public class DetailActivity extends BaseActivity {
             });
             registerUMeng = true;
         }
+        commentBtn.setOnClickListener(new CommentListener());
     }
 
     private void loadSignList() {
@@ -488,27 +501,85 @@ public class DetailActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             //如果评论框是显示的，隐藏掉
-            Logger.d(commentField.getVisibility() + "");
             if (commentField.getVisibility() == View.VISIBLE) {
-                Animate.alpha(commentField, 1f, 0f, 500, new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        commentField.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
+                handler.sendEmptyMessage(MyMessage.HIDE_COMMENT);
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void hideComment() {
+        Animate.alpha(commentField, 1f, 0f, 500, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                KeyBoardUtils.closeKeybord(commentText, DetailActivity.this);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                commentField.setVisibility(View.INVISIBLE);
+                commentText.setText("");
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private class CommentListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String message = commentText.getText().toString().trim();
+            if (message.length() == 0) {
+                Toast.makeText(DetailActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            final SignEntity entity = (SignEntity) listView.getAdapter().getItem(sign_position);
+            int sign_id = entity.getSign_id();
+            //评论
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("_sign", sign);
+            params.addBodyParameter("sign_id", sign_id + "");
+            params.addBodyParameter("message", message);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.commentSign, params, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(objectResponseInfo.result);
+                        if (jsonObject.getInt("status") == 0) {
+                            Toast.makeText(DetailActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        JSONObject data = jsonObject.getJSONObject("info");
+                        CommonEntity entity1 = new CommonEntity(data.getInt("comment_id"),
+                                data.getString("message"),
+                                data.getInt("comment_at"),
+                                data.getString("openid"),
+                                data.getInt("sign_id"), new UserEntity(data.getJSONObject("user").getString("avatar"),
+                                data.getJSONObject("user").getString("nickname")));
+
+                        //写入评论
+                        entity.getComments().add(entity1);
+                        ((SignAdapter) listView.getAdapter()).notifyDataSetChanged();
+                        UI.setListViewHeightBasedOnChildren(listView);
+                        //隐藏评论框
+                        handler.sendEmptyMessage(MyMessage.HIDE_COMMENT);
+                    } catch (JSONException e) {
+                        Logger.e(e);
+                        Toast.makeText(DetailActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Logger.e(e);
+                    Toast.makeText(DetailActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

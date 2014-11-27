@@ -120,7 +120,10 @@ public class SignAdapter extends BaseAdapter {
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.sendEmptyMessage(MyMessage.SHOW_COMMENT);
+                Message message = new Message();
+                message.what = MyMessage.SHOW_COMMENT;
+                message.obj = position;
+                handler.sendMessage(message);
             }
         });
         if (entity.isPraised()) {
@@ -151,7 +154,7 @@ public class SignAdapter extends BaseAdapter {
     private class CommentListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Logger.d("click item:"+position);
+            Logger.d("click item:" + position);
         }
     }
 
@@ -178,4 +181,5 @@ public class SignAdapter extends BaseAdapter {
         list.set(position, entity);
         notifyDataSetChanged();
     }
+
 }

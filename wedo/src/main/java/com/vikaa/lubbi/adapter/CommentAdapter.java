@@ -71,7 +71,6 @@ public class CommentAdapter extends BaseAdapter {
 
         holder.nickname.setText(list.get(position).getUser().getNickname());
         holder.message.setText(list.get(position).getMessage());
-
         return convertView;
     }
 }

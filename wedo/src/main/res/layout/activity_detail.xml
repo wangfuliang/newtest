@@ -428,6 +428,7 @@
             android:layout_alignParentBottom="true">
 
             <EditText
+                android:id="@+id/comment_text"
                 android:hint="说点什么"
                 android:textSize="14dp"
                 android:paddingLeft="20dp"
@@ -439,6 +440,7 @@
                 android:maxLines="3" />
 
             <Button
+                android:id="@+id/comment_btn"
                 android:layout_marginLeft="8dp"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
