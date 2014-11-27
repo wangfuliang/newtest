@@ -1,6 +1,7 @@
 package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.entity.SignEntity;
 import com.vikaa.lubbi.ui.DetailActivity;
+import com.vikaa.lubbi.ui.ImageActivity;
 import com.vikaa.lubbi.util.DateUtils;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
@@ -107,7 +109,14 @@ public class SignAdapter extends BaseAdapter {
         //images
         SignItemImageAdapter _images = new SignItemImageAdapter(context, entity.getImages());
         holder.imgList.setAdapter(_images);
-        holder.imgList.setOnItemClickListener(new ImageListener());
+        holder.imgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, ImageActivity.class);
+                intent.putExtra("url",entity.getImages()[position]);
+                context.startActivity(intent);
+            }
+        });
         if (_images.getCount() > 0) {
             holder.imgList.setVisibility(View.VISIBLE);
         }
@@ -157,13 +166,6 @@ public class SignAdapter extends BaseAdapter {
             }
         });
         return convertView;
-    }
-
-    private class ImageListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Logger.d("img:" + position);
-        }
     }
 
     /**

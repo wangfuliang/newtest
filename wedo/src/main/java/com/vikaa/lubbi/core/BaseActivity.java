@@ -23,6 +23,9 @@ public class BaseActivity extends FragmentActivity {
     protected static HttpUtils httpUtils = new HttpUtils();
     protected static boolean isLogin = false;
     public static BitmapUtils bitmapUtils;
+    protected static String cachePath;
+    protected static String downPath;
+    protected static String logPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,16 @@ public class BaseActivity extends FragmentActivity {
             File root = new File(rootPath);
             if (!root.exists())
                 root.mkdir();
-            File cache = new File(rootPath + "/cache");
+            cachePath = rootPath + "/cache";
+            File cache = new File(cachePath);
             if (!cache.exists())
                 cache.mkdir();
-            File down = new File(rootPath + "/down");
+            downPath = rootPath + "/down";
+            File down = new File(downPath);
             if (!down.exists())
                 down.mkdir();
-            File log = new File(rootPath + "/logs");
+            logPath = rootPath + "/logs";
+            File log = new File(logPath);
             if (!log.exists())
                 log.mkdir();
             bitmapUtils = new BitmapUtils(this, cache.toString());
