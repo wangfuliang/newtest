@@ -32,15 +32,21 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.adapter.UserRemindAdapter;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
+import com.vikaa.lubbi.entity.UserRemindEntity;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
+import com.vikaa.lubbi.widget.MyListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     static UserFragment userFragment;
@@ -387,10 +393,68 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         //设置内部fragment
         public static class HasFragment extends Fragment {
+            @ViewInject(R.id.listview)
+            MyListView listView;
+            List<UserRemindEntity> list;
+            UserRemindAdapter adapter;
+
             @Override
             public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.fragment_user_has, null);
+                ViewUtils.inject(this, view);
+                //将jsonArray转化成entity
+                list = new ArrayList<UserRemindEntity>();
+                //设置adapter
+                adapter = new UserRemindAdapter(getActivity(), list);
+                listView.setonRefreshListener(new MyListView.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        load();
+                    }
+                });
+
+                listView.setAdapter(adapter);
+                //请求数据
+                load();
                 return view;
+            }
+
+            private void load() {
+                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind + "?_sign=" + sign, new RequestCallBack<String>() {
+                    @Override
+                    public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                        listView.onRefreshComplete();
+                        try {
+                            JSONObject data = new JSONObject(objectResponseInfo.result);
+                            if (data.getInt("status") == 0) {
+                                return;
+                            }
+                            JSONArray _list = data.getJSONArray("info");
+                            if (_list.length() > 0) {
+                                list.clear();
+                                for (int i = 0; i < _list.length(); i++) {
+                                    try {
+                                        JSONObject _t = _list.getJSONObject(i);
+                                        UserRemindEntity entity = new UserRemindEntity(_t);
+                                        list.add(entity);
+                                        adapter.setList(list);
+                                        adapter.notifyDataSetChanged();
+                                    } catch (JSONException e) {
+                                        Logger.e(e);
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            Logger.e(e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(HttpException e, String s) {
+                        //加载默认
+                        Logger.e(e);
+                    }
+                });
             }
         }
 

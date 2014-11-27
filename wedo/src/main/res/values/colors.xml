@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="deep_blue">#47aac7</color>
     <color name="no">#00000000</color>
+    <color name="my_red">#ff8989</color>
 </resources>
