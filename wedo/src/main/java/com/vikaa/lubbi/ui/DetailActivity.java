@@ -2,6 +2,7 @@ package com.vikaa.lubbi.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class DetailActivity extends BaseActivity {
     TextView joinsCount;
     @ViewInject(R.id.today_signs)
     TextView todaySigns;
+    @ViewInject(R.id.join)
+    Button join;
     String hash;
     String _title;
     String _time;
@@ -79,6 +82,7 @@ public class DetailActivity extends BaseActivity {
         } catch (JSONException e) {
             Logger.e(hash);
             hash = "";
+            isAdd = false;
         }
         //设置详情
         setDetail();
@@ -98,8 +102,13 @@ public class DetailActivity extends BaseActivity {
                 Logger.d("share complete");
             }
         });
-
         //按钮的显示与隐藏
+        if (!isAdd) {
+            join.setVisibility(View.INVISIBLE);
+            Animate.rotate(join);
+        } else
+            join.setVisibility(View.GONE);
+        join.setOnClickListener(new JoinListener());
     }
 
     private void setCount() {
@@ -223,5 +232,41 @@ public class DetailActivity extends BaseActivity {
 
         mController.getConfig().removePlatform(SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN, SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL);
         mController.openShare(this, false);
+    }
+
+    private class JoinListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            join.setEnabled(false);
+            RequestParams params = new RequestParams();
+            params.addBodyParameter("hash", hash);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.joinRemind + "?_sign=" + sign, params, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    try {
+                        JSONObject _data = new JSONObject(objectResponseInfo.result);
+                        if (_data.getInt("status") == 0) {
+                            join.setEnabled(true);
+                            Toast.makeText(DetailActivity.this, "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(DetailActivity.this, "加入成功", Toast.LENGTH_LONG).show();
+                        //动画移除我要加入
+                        Animate.alpha(join,1f,0f,500);
+                    } catch (JSONException e) {
+                        Logger.e(e);
+                        join.setEnabled(true);
+                        Toast.makeText(DetailActivity.this, "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Logger.e(e);
+                    join.setEnabled(true);
+                    Toast.makeText(DetailActivity.this, "加入失败，请重试", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

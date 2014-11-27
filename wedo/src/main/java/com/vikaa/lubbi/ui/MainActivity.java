@@ -318,12 +318,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 nickname.setText("无名--");
             }
 
-            //头像动画
-            Animate.bounce(avatar);
-            //昵称动画
-
-            Animate.translate(nickname);
-
             if (hasFragment == null)
                 hasFragment = new HasFragment();
             if (noFragment == null)
@@ -361,6 +355,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onResume() {
             super.onResume();
+
+            //头像动画
+            Animate.bounce(avatar);
+            //昵称动画
+
+            Animate.translate(nickname);
+
             //检测有没有提醒
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind + "?_sign=" + sign, new RequestCallBack<String>() {
                 @Override
@@ -391,6 +392,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     switchToNo();
                 }
             });
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            avatar.setVisibility(View.INVISIBLE);
+            nickname.setVisibility(View.INVISIBLE);
         }
 
         //设置内部fragment
