@@ -13,4 +13,5 @@ public class MyMessage {
     public final static int RESIZE_SIGN_LIST = 0x10;
     public final static int PRAISE_SIGN = 0x11;
     public final static int CANCEL_PRAISE = 0x12;
+    public final static int SHOW_COMMENT = 0x13;
 }

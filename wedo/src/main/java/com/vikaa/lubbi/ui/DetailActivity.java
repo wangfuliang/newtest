@@ -3,9 +3,12 @@ package com.vikaa.lubbi.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,12 +79,14 @@ public class DetailActivity extends BaseActivity {
     Button join;
     @ViewInject(R.id.sign_listview)
     ListView listView;
+    @ViewInject(R.id.comment_field)
+    LinearLayout commentField;
     String hash;
     String _title;
     String _time;
     String _mark;
     boolean isAdd;
-    static  boolean registerUMeng = false;
+    static boolean registerUMeng = false;
 
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
     public Handler handler = new Handler() {
@@ -98,6 +103,24 @@ public class DetailActivity extends BaseActivity {
                 case MyMessage.CANCEL_PRAISE:
                     int position2 = (Integer) msg.obj;
                     cancelPraise(position2);
+                    break;
+                case MyMessage.SHOW_COMMENT:
+                    Animate.alpha(commentField, 0f, 1f, 500, new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            commentField.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
                     break;
             }
             super.handleMessage(msg);
@@ -200,7 +223,7 @@ public class DetailActivity extends BaseActivity {
         //加载打卡列表
         loadSignList();
 
-        if(!registerUMeng){
+        if (!registerUMeng) {
             mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
                 @Override
                 public void onStart() {
@@ -459,5 +482,33 @@ public class DetailActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            //如果评论框是显示的，隐藏掉
+            Logger.d(commentField.getVisibility() + "");
+            if (commentField.getVisibility() == View.VISIBLE) {
+                Animate.alpha(commentField, 1f, 0f, 500, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        commentField.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
