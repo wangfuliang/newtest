@@ -59,7 +59,9 @@
             android:name=".ui.SignActivity"
             android:theme="@style/MyDialog" />
         <activity android:name=".ui.DetailActivity" />
-        <activity android:name=".ui.ImageActivity"/>
+        <activity android:name=".ui.ImageActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.BrowserActivity" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity

@@ -150,6 +150,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 handler.sendEmptyMessage(MyMessage.GOTO_CREATE);
                 break;
             case R.id.menu:
+                startMenu();
                 break;
             case R.id.my:
                 startMy();
@@ -158,6 +159,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startRecommend();
                 break;
         }
+    }
+
+    private void startMenu() {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 
     private void startMy() {
