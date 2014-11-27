@@ -22,7 +22,7 @@ public class BaseActivity extends FragmentActivity {
     protected static boolean hasFlash = false;
     protected static HttpUtils httpUtils = new HttpUtils();
     protected static boolean isLogin = false;
-    protected static BitmapUtils bitmapUtils;
+    public static BitmapUtils bitmapUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

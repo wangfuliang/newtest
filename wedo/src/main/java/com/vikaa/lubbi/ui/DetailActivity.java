@@ -1,9 +1,12 @@
 package com.vikaa.lubbi.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,14 +31,23 @@ import com.umeng.socialize.media.TencentWbShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.adapter.SignAdapter;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
+import com.vikaa.lubbi.entity.CommonEntity;
+import com.vikaa.lubbi.entity.SignEntity;
+import com.vikaa.lubbi.entity.UserEntity;
 import com.vikaa.lubbi.util.Animate;
 import com.vikaa.lubbi.util.Logger;
+import com.vikaa.lubbi.util.UI;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends BaseActivity {
 
@@ -62,6 +74,8 @@ public class DetailActivity extends BaseActivity {
     TextView todaySigns;
     @ViewInject(R.id.join)
     Button join;
+    @ViewInject(R.id.sign_listview)
+    ListView listView;
     String hash;
     String _title;
     String _time;
@@ -69,13 +83,23 @@ public class DetailActivity extends BaseActivity {
     boolean isAdd;
 
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MyMessage.RESIZE_SIGN_LIST:
+                    UI.setListViewHeightBasedOnChildren(listView);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ViewUtils.inject(this);
-
         try {
             hash = _data.getString("hash");
             isAdd = _data.getInt("isAdd") == 1;
@@ -109,6 +133,93 @@ public class DetailActivity extends BaseActivity {
         } else
             join.setVisibility(View.GONE);
         join.setOnClickListener(new JoinListener());
+
+        //加载打卡列表
+        loadSignList();
+    }
+
+    private void loadSignList() {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("hash", hash);
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("size", "100");
+        params.addQueryStringParameter("_sign", sign);
+        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listSign, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                try {
+                    JSONObject js = new JSONObject(objectResponseInfo.result);
+                    JSONArray _list = js.getJSONArray("info");
+                    List<SignEntity> list = arrayToList(_list);
+                    SignAdapter adapter = new SignAdapter(DetailActivity.this, list);
+                    listView.setAdapter(adapter);
+                    UI.setListViewHeightBasedOnChildren(listView);
+                } catch (JSONException e) {
+                    Logger.e(e);
+                    Toast.makeText(DetailActivity.this, "打卡列表加载失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                Logger.e(e);
+                Toast.makeText(DetailActivity.this, "打卡列表加载失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private List<SignEntity> arrayToList(JSONArray list) {
+        List<SignEntity> list1 = new ArrayList<SignEntity>();
+        //解析json
+        for (int i = 0; i < list.length(); i++) {
+            try {
+                JSONObject item = list.getJSONObject(i);
+                int sign_id = item.getInt("sign_id");
+                String message = item.getString("message");
+                JSONArray array = new JSONArray(item.getString("images"));
+                String[] images = new String[array.length()];
+                for (int t = 0; t < array.length(); t++) {
+                    images[t] = array.getString(t);
+                }
+                int sign_at = item.getInt("sign_at");
+                String openid = item.getString("openid");
+                String hash = item.getString("hash");
+                boolean isPraise = item.getInt("isPraised") == 1;
+                int praise = item.getInt("praise");
+
+                //comments
+                List<CommonEntity> comments = new ArrayList<CommonEntity>();
+                JSONArray _comments = item.getJSONArray("comments");
+                for (int j = 0; j < _comments.length(); j++) {
+                    JSONObject _j = _comments.getJSONObject(j);
+
+                    int comment_id = _j.getInt("comment_id");
+                    String message2 = _j.getString("message");
+                    int comment_at = _j.getInt("comment_at");
+                    String openid2 = _j.getString("openid");
+                    int sign_id2 = _j.getInt("sign_id");
+                    //user
+                    JSONObject _user2 = _j.getJSONObject("user");
+                    String _nickname2 = _user2.getString("nickname");
+                    String _avatar2 = _user2.getString("avatar");
+                    UserEntity user2 = new UserEntity(_avatar2, _nickname2);
+                    CommonEntity _c = new CommonEntity(comment_id, message2, comment_at, openid2, sign_id2, user2);
+                    comments.add(_c);
+                }
+                //User
+                JSONObject _user = item.getJSONObject("user");
+                String _nickname = _user.getString("nickname");
+                String _avatar = _user.getString("avatar");
+                UserEntity user = new UserEntity(_avatar, _nickname);
+
+                SignEntity signEntity = new SignEntity(sign_id, message, images, sign_at, openid, hash, isPraise, praise, comments, user);
+                list1.add(signEntity);
+            } catch (JSONException e) {
+                Logger.e(e);
+            }
+        }
+        return list1;
     }
 
     private void setCount() {
@@ -119,7 +230,7 @@ public class DetailActivity extends BaseActivity {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("hash", hash);
-        params.addQueryStringParameter("_sign",sign);
+        params.addQueryStringParameter("_sign", sign);
         httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.getSignInfo, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> objectResponseInfo) {
@@ -241,7 +352,7 @@ public class DetailActivity extends BaseActivity {
             join.setEnabled(false);
             RequestParams params = new RequestParams();
             params.addBodyParameter("hash", hash);
-            params.addQueryStringParameter("_sign",sign);
+            params.addQueryStringParameter("_sign", sign);
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.joinRemind, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
@@ -254,7 +365,7 @@ public class DetailActivity extends BaseActivity {
                         }
                         Toast.makeText(DetailActivity.this, "加入成功", Toast.LENGTH_LONG).show();
                         //动画移除我要加入
-                        Animate.alpha(join,1f,0f,500);
+                        Animate.alpha(join, 1f, 0f, 500);
                     } catch (JSONException e) {
                         Logger.e(e);
                         join.setEnabled(true);
