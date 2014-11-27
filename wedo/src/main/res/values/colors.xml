@@ -8,4 +8,6 @@
     <color name="deep_blue">#47aac7</color>
     <color name="no">#00000000</color>
     <color name="my_red">#ff8989</color>
+    <color name="active_green">#8cf21c</color>
+    <color name="active_normal">#7ddc16</color>
 </resources>

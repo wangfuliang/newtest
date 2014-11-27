@@ -18,6 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -413,10 +414,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
 
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        UserRemindEntity entity = list.get(position - 1);
+                        Logger.d("hash:" + entity.getHash());
+                    }
+                });
+
                 listView.setAdapter(adapter);
+                return view;
+            }
+
+            @Override
+            public void onResume() {
+                super.onResume();
                 //请求数据
                 load();
-                return view;
             }
 
             private void load() {

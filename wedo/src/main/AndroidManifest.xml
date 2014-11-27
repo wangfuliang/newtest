@@ -55,7 +55,9 @@
         <activity android:name=".ui.FlashActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.CreateActivity" />
-
+        <activity
+            android:name=".ui.SignActivity"
+            android:theme="@style/MyDialog" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity
