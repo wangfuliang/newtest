@@ -7,13 +7,11 @@ public class MyMessage {
     public final static int START_HOME = 0x04;
     public final static int GOTO_CREATE = 0x05;
     public final static int GOTO_RECOMMEND = 0x06;
-    public final static int REFRESH_START = 0x07;
-    public final static int REFRESH_COMPLETE = 0x08;
-    public final static int GOTO_DETAIL = 0x09;
-    public final static int RESIZE_SIGN_LIST = 0x10;
-    public final static int PRAISE_SIGN = 0x11;
-    public final static int CANCEL_PRAISE = 0x12;
-    public final static int SHOW_COMMENT = 0x13;
-    public final static int HIDE_COMMENT = 0x14;
-    public final static int REPLY_COMMENT = 0x15;
+    public final static int GOTO_DETAIL = 0x07;
+    public final static int RESIZE_SIGN_LIST = 0x8;
+    public final static int PRAISE_SIGN = 0x9;
+    public final static int CANCEL_PRAISE = 0x10;
+    public final static int SHOW_COMMENT = 0x11;
+    public final static int HIDE_COMMENT = 0x12;
+    public final static int REPLY_COMMENT = 0x13;
 }
