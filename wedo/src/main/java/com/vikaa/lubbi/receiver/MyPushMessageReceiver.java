@@ -1,11 +1,19 @@
 package com.vikaa.lubbi.receiver;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.ui.MainActivity;
 import com.vikaa.lubbi.util.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -48,29 +56,26 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     @Override
     public void onMessage(Context context, String message,
                           String customContentString) {
-//        try {
-//
-//            JSONObject data = new JSONObject(message);
-//
-//            String title = data.getString("title");
-//            String desc = data.getString("description");
-//
-//            Intent intent = new Intent(context, MainActivity.class);
-//
-//            intent.putExtra("action","notification");
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-//            Notification notification = new Notification();
-//            notification.tickerText = desc;
-//            notification.icon = android.R.drawable.ic_btn_speak_now;
-//            notification.defaults = Notification.DEFAULT_SOUND;
-//            notification.setLatestEventInfo(context, title, desc, pendingIntent);
-//            notification.flags = Notification.FLAG_AUTO_CANCEL;
-//            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.notify(0x10, notification);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+
+            JSONObject data = new JSONObject(message);
+            String title = data.getString("title");
+            String desc = data.getString("description");
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("action", "notification");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            Notification notification = new Notification();
+            notification.tickerText = desc;
+            notification.icon = android.R.drawable.ic_btn_speak_now;
+            notification.defaults = Notification.DEFAULT_SOUND;
+            notification.setLatestEventInfo(context, title, desc, pendingIntent);
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0x10, notification);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Logger.d("onMessage:" + message);
     }
 

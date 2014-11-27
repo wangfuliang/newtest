@@ -25,4 +25,5 @@ public class MyApi {
     public final static String help = "http://app.qun.hk/remind/default/help";
     public final static String shareIcon = "http://picturescdn.qiniudn.com/tixing.jpg";
     public final static String cancelPraise = "http://app.qun.hk/remind/api/cancelpraise";
+    public final static String feedBack = "http://app.qun.hk/remind/api/feedback";
 }

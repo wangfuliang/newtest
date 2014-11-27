@@ -34,6 +34,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent2);
                 break;
             case R.id.feedback:
+                Intent i = new Intent(this,FeedbackActivity.class);
+                startActivity(i);
                 break;
             case R.id.logout:
                 logout();

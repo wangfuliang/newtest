@@ -63,6 +63,7 @@
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.BrowserActivity" />
         <activity android:name=".ui.NotificationActivity" />
+        <activity android:name=".ui.FeedbackActivity" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity

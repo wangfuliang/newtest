@@ -249,8 +249,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * main初始化
      */
     private void startMain() {
-        //建立缓存目录
-
+        //检测是否有通知
+        Intent intent = getIntent();
+        if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("notification")) {
+            Intent intent1 = new Intent(this, NotificationActivity.class);
+            startActivity(intent1);
+        }
         setListener();
         initFragment();
     }
