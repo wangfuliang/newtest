@@ -119,7 +119,8 @@ public class DetailActivity extends BaseActivity {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("hash", hash);
-        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.getSignInfo + "?_sign=" + sign, params, new RequestCallBack<String>() {
+        params.addQueryStringParameter("_sign",sign);
+        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.getSignInfo, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                 String resp = objectResponseInfo.result;
@@ -240,7 +241,8 @@ public class DetailActivity extends BaseActivity {
             join.setEnabled(false);
             RequestParams params = new RequestParams();
             params.addBodyParameter("hash", hash);
-            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.joinRemind + "?_sign=" + sign, params, new RequestCallBack<String>() {
+            params.addQueryStringParameter("_sign",sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.joinRemind, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     try {

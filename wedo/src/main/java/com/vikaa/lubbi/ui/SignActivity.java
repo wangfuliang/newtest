@@ -103,8 +103,8 @@ public class SignActivity extends BaseActivity {
                 params.addBodyParameter("hash", hash);
                 params.addBodyParameter("message", message);
                 params.addBodyParameter("images", imgs);
-
-                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.createSign + "?_sign=" + sign, params, new RequestCallBack<String>() {
+                params.addQueryStringParameter("_sign", sign);
+                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.createSign, params, new RequestCallBack<String>() {
                     @Override
                     public void onStart() {
                         super.onStart();

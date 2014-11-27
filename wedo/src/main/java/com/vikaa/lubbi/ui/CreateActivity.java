@@ -171,7 +171,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
             params.addBodyParameter("repeat", _repeat + "");
             params.addBodyParameter("hide_remind", _hide + "");
             params.addBodyParameter("mark", _mark);
-            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.createRemind + "?_sign=" + sign, params, new RequestCallBack<String>() {
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.createRemind, params, new RequestCallBack<String>() {
                 @Override
                 public void onStart() {
                     create.setClickable(false);
@@ -186,7 +187,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                         if (resp.getInt("status") == 1) {
                             Toast.makeText(CreateActivity.this, "发起成功", Toast.LENGTH_SHORT).show();
                             finish();
-                        }else{
+                        } else {
                             Toast.makeText(CreateActivity.this, "发起失败", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {

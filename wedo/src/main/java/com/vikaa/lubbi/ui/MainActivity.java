@@ -33,10 +33,12 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.adapter.RecommendRemindAdapter;
 import com.vikaa.lubbi.adapter.UserRemindAdapter;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
+import com.vikaa.lubbi.entity.RecommendEntity;
 import com.vikaa.lubbi.entity.UserRemindEntity;
 import com.vikaa.lubbi.util.Animate;
 import com.vikaa.lubbi.util.Logger;
@@ -89,7 +91,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 handler.sendEmptyMessage(MyMessage.START_HOME);
             }
             //HTTP请求接口
-            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.checkLogin + "?_sign=" + sign, new RequestCallBack<String>() {
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.checkLogin, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     try {
@@ -269,7 +273,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             RequestParams params = new RequestParams();
             params.addBodyParameter("push_device_type", "3");
             params.addBodyParameter("push_user_id", userId);
-            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.setPush + "?_sign=" + sign, params, new RequestCallBack<String>() {
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.setPush, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     Logger.d(objectResponseInfo.result);
@@ -363,7 +368,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Animate.translate(nickname);
 
             //检测有没有提醒
-            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind + "?_sign=" + sign, new RequestCallBack<String>() {
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     try {
@@ -427,7 +434,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         UserRemindEntity entity = list.get(position - 1);
-                        Logger.d("hash:" + entity.getHash());
                         //启动detail
                         JSONObject jsonObject = new JSONObject();
                         try {
@@ -458,7 +464,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
 
             private void load() {
-                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind + "?_sign=" + sign, new RequestCallBack<String>() {
+                RequestParams params = new RequestParams();
+                params.addQueryStringParameter("_sign", sign);
+                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.listUserRemind, params, new RequestCallBack<String>() {
                     @Override
                     public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                         listView.onRefreshComplete();
@@ -533,10 +541,99 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public static class RecommendFragment extends Fragment {
+        @ViewInject(R.id.listview)
+        MyListView listView;
+        List<RecommendEntity> list;
+        RecommendRemindAdapter adapter;
+
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_recommend, null);
+            ViewUtils.inject(this, view);
+
+            list = new ArrayList<RecommendEntity>();
+            adapter = new RecommendRemindAdapter(getActivity(), list);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new RecommendDetailListener());
+            listView.setonRefreshListener(new MyListView.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    load();
+                }
+            });
             return view;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            load();
+        }
+
+        private void load() {
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("size", "30");
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.recommendList, params, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    listView.onRefreshComplete();
+
+                    try {
+                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                        if (data.getInt("status") == 0) {
+                            return;
+                        }
+                        JSONArray _list = data.getJSONArray("info");
+                        if (_list.length() > 0) {
+                            list.clear();
+                            for (int i = 0; i < _list.length(); i++) {
+                                try {
+                                    JSONObject _t = _list.getJSONObject(i);
+                                    RecommendEntity entity = new RecommendEntity(_t);
+                                    list.add(entity);
+                                    adapter.setList(list);
+                                    adapter.notifyDataSetChanged();
+                                } catch (JSONException e) {
+                                    Logger.e(e);
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Logger.e(e);
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Logger.e(e);
+                    Toast.makeText(getActivity(), "推荐提醒加载失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private class RecommendDetailListener implements AdapterView.OnItemClickListener {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position--;
+                RecommendEntity entity = list.get(position);
+                //启动detail
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("hash", entity.getHash());
+                    jsonObject.put("title", entity.getTitle());
+                    jsonObject.put("time", entity.getFormatTime());
+                    jsonObject.put("mark", entity.getMark());
+                    jsonObject.put("isAdd", entity.isAdd() ? 1 : 0);
+                    Message msg = new Message();
+                    msg.what = MyMessage.GOTO_DETAIL;
+                    msg.obj = jsonObject;
+                    handler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
