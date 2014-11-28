@@ -38,6 +38,16 @@ public class FragmentGuide1 extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        title.setVisibility(View.INVISIBLE);
+        img1.setVisibility(View.INVISIBLE);
+        img2.setVisibility(View.INVISIBLE);
+        img3.setVisibility(View.INVISIBLE);
+        img4.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -52,6 +62,7 @@ public class FragmentGuide1 extends Fragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                title.setVisibility(View.VISIBLE);
                 //启动计时器
                 new CountDownTimer(500, 100) {
 

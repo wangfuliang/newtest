@@ -1,1 +1,1 @@
-include ':wedo'
+include ':wedo', ':myapplication'

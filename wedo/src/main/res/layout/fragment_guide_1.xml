@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/guide1_title"
             android:layout_width="wrap_content"
