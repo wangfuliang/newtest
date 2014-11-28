@@ -26,6 +26,8 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     EditText message;
     @ViewInject(R.id.submit)
     Button button;
+    @ViewInject(R.id.email)
+    EditText email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,24 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 String _message = message.getText().toString().trim();
-                if (_message.length() == 0) {
+                String _email = email.getText().toString().trim();
+                if (_email.length() == 0) {
+                    Toast.makeText(FeedbackActivity.this, "请输入您的邮箱", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (_message.length() == 0) {
                     Toast.makeText(FeedbackActivity.this, "请输入反馈内容", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 RequestParams params = new RequestParams();
+                JSONObject j = new JSONObject();
+                try {
+                    j.put("email",_email);
+                    j.put("message",_message);
+                    _message = j.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 params.addBodyParameter("message", _message);
                 params.addQueryStringParameter("_sign", sign);
 

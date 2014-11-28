@@ -35,7 +35,7 @@ public class GuideActivity extends BaseActivity {
         vpAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(vpAdapter);
         viewPager.setOnPageChangeListener(new MyPagerChangeListener());
-
+        viewPager.setOffscreenPageLimit(0);
         initView();
     }
 

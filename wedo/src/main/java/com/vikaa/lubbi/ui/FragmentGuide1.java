@@ -48,8 +48,8 @@ public class FragmentGuide1 extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         Animation _t = AnimationUtils.loadAnimation(getActivity(), R.anim.guide);
         _t.setAnimationListener(new Animation.AnimationListener() {
@@ -64,11 +64,10 @@ public class FragmentGuide1 extends Fragment {
             public void onAnimationEnd(Animation animation) {
                 title.setVisibility(View.VISIBLE);
                 //启动计时器
-                new CountDownTimer(500, 100) {
+                new CountDownTimer(500, 80) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        Logger.d(current + "");
                         switch (current) {
                             case 0:
                                 Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.guide);

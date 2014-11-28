@@ -42,7 +42,7 @@ public class FlashActivity extends BaseActivity {
                     public void onAnimationEnd(Animation animation) {
                         //检测是否需要引导
                         String isNew = SP.get(getApplicationContext(), "guide", "").toString();
-                        if (isNew.length() == 0) {
+                        if (isNew.length() != 0) {
                             Intent intent = new Intent(FlashActivity.this, GuideActivity.class);
                             startActivityForResult(intent, 0x100);
                         } else {

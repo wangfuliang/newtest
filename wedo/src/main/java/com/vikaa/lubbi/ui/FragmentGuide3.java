@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.vikaa.lubbi.R;
+import com.vikaa.lubbi.util.Logger;
 
 public class FragmentGuide3 extends Fragment {
 
@@ -15,5 +16,13 @@ public class FragmentGuide3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_guide_3, null);
         return v;
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.d("3 resume");
     }
 }
