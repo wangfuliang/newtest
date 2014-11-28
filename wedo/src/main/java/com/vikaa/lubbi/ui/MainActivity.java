@@ -1,5 +1,7 @@
 package com.vikaa.lubbi.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,11 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -461,8 +466,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }
                     }
                 });
-
                 listView.setAdapter(adapter);
+                this.registerForContextMenu(listView);
                 return view;
             }
 
@@ -511,6 +516,80 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Logger.e(e);
                     }
                 });
+            }
+
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                AdapterView.AdapterContextMenuInfo menuInfo2;
+                menuInfo2 = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                int p = --menuInfo2.position;
+                //查看是否管理员
+                UserRemindEntity entity = list.get(p);
+                if (entity.isAdmin()) {
+                    menu.add(0, 1, 0, "编辑");
+                    menu.add(0, 2, 0, "删除");
+                } else {
+                    menu.add(0, 3, 0, "退出");
+                }
+                menu.setHeaderTitle("[" + entity.getTitle() + "]");
+
+            }
+
+            @Override
+            public boolean onContextItemSelected(MenuItem item) {
+                final AdapterView.AdapterContextMenuInfo menuInfo;
+                menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                //获取操作项
+                //获取菜单
+                int c = item.getItemId();
+                if (c == 3) {
+                    //退出
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("确定退出吗?");
+                    builder.setTitle("提示");
+                    builder.setIcon(android.R.drawable.ic_menu_info_details);
+                    builder.setNegativeButton("取消", null);
+                    builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //请求HTTP接口实现退出
+                            RequestParams params = new RequestParams();
+                            params.addQueryStringParameter("_sign", sign);
+                            params.addQueryStringParameter("hash", list.get(menuInfo.position).getHash());
+                            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.deleteJoin, params, new RequestCallBack<String>() {
+                                @Override
+                                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                                    try {
+                                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                                        if(data.getInt("status") == 1){
+                                            adapter.getList().remove(menuInfo.position);
+                                            adapter.notifyDataSetChanged();
+                                        }else{
+                                            Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        Logger.e(e);
+                                        Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(HttpException e, String s) {
+                                    Logger.e(e);
+                                    Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                    builder.show();
+                }
+                if (c == 2) {
+                    //删除
+                }
+                if (c == 3) {
+                    //编辑
+                }
+                return true;
             }
         }
 
@@ -646,4 +725,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     }
+
+
 }

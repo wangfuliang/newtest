@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.entity.UserRemindEntity;
+import com.vikaa.lubbi.ui.MainActivity;
 import com.vikaa.lubbi.ui.SignActivity;
 import com.vikaa.lubbi.util.Logger;
 
@@ -103,8 +104,8 @@ public class UserRemindAdapter extends BaseAdapter {
                 }
             });
         }
-
-
+        holder.title.setText(list.get(position).getTitle());
+        holder.time.setText(list.get(position).getFormatTime());
         return convertView;
     }
 }

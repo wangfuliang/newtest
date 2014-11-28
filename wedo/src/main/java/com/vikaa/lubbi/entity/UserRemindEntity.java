@@ -22,6 +22,7 @@ public class UserRemindEntity {
     boolean recommend;
     String openid;
     boolean isSigned;
+    boolean isAdmin;
 
     public UserRemindEntity(JSONObject data) {
         try {
@@ -38,9 +39,18 @@ public class UserRemindEntity {
             this.recommend = data.getInt("recommend") == 1;
             this.openid = data.getString("openid");
             this.isSigned = data.getInt("isSigned") == 1;
+            this.isAdmin = data.getInt("isAdmin") == 1;
         } catch (JSONException e) {
             Logger.e(e);
         }
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public String getHash() {

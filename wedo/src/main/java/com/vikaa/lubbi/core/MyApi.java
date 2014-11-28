@@ -27,4 +27,5 @@ public class MyApi {
     public final static String cancelPraise = "http://app.qun.hk/remind/api/cancelpraise";
     public final static String feedBack = "http://app.qun.hk/remind/api/feedback";
     public final static String update = "http://app.qun.hk/remind/api/update";
+    public final static String deleteJoin = "http://app.qun.hk/remind/api/deletejoin";
 }

@@ -89,6 +89,9 @@ public class RecommendRemindAdapter extends BaseAdapter {
         }
 
 
+        holder.title.setText(list.get(position).getTitle());
+        holder.time.setText(list.get(position).getFormatTime());
+
         return convertView;
     }
 }
