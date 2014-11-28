@@ -542,6 +542,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 //获取操作项
                 //获取菜单
                 int c = item.getItemId();
+                final UserRemindEntity entity = list.get(menuInfo.position);
                 if (c == 3) {
                     //退出
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -555,7 +556,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             //请求HTTP接口实现退出
                             RequestParams params = new RequestParams();
                             params.addQueryStringParameter("_sign", sign);
-                            params.addQueryStringParameter("hash", list.get(menuInfo.position).getHash());
+                            params.addQueryStringParameter("hash", entity.getHash());
                             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.deleteJoin, params, new RequestCallBack<String>() {
                                 @Override
                                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
@@ -572,7 +573,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                         Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-
                                 @Override
                                 public void onFailure(HttpException e, String s) {
                                     Logger.e(e);
@@ -585,6 +585,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 if (c == 2) {
                     //删除
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("确定删除?");
+                    builder.setTitle("提示");
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder.setNegativeButton("取消", null);
+                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //请求HTTP接口实现退出
+                            RequestParams params = new RequestParams();
+                            params.addQueryStringParameter("_sign", sign);
+                            params.addBodyParameter("hash", entity.getHash());
+                            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.deleteRemind, params, new RequestCallBack<String>() {
+                                @Override
+                                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                                    try {
+                                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                                        if(data.getInt("status") == 1){
+                                            adapter.getList().remove(menuInfo.position);
+                                            adapter.notifyDataSetChanged();
+                                        }else{
+                                            Toast.makeText(getActivity(), data.getString("info"), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        Logger.e(e);
+                                        Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFailure(HttpException e, String s) {
+                                    Logger.e(e);
+                                    Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                    builder.show();
                 }
                 if (c == 3) {
                     //编辑
