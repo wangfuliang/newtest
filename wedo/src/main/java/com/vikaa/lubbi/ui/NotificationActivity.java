@@ -3,6 +3,8 @@ package com.vikaa.lubbi.ui;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -103,6 +105,51 @@ public class NotificationActivity extends BaseActivity {
                         Toast.makeText(NotificationActivity.this, "获取详情失败，请重试", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                position--;
+                final NotificationEntity notificationEntity = list.get(position);
+                //删除该项
+                Animation animation = AnimationUtils.loadAnimation(NotificationActivity.this, R.anim.push_out);
+                final int finalPosition = position;
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        RequestParams params = new RequestParams();
+                        params.addQueryStringParameter("_sign", sign);
+                        params.addBodyParameter("notification_id", notificationEntity.getNotification_id() + "");
+
+                        httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.deleteNotification, params, new RequestCallBack<String>() {
+                            @Override
+                            public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                                Logger.d(objectResponseInfo.result);
+                            }
+
+                            @Override
+                            public void onFailure(HttpException e, String s) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        adapter.getList().remove(finalPosition);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                view.startAnimation(animation);
+                return true;
             }
         });
         load();
