@@ -562,10 +562,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                                     try {
                                         JSONObject data = new JSONObject(objectResponseInfo.result);
-                                        if(data.getInt("status") == 1){
+                                        if (data.getInt("status") == 1) {
                                             adapter.getList().remove(menuInfo.position);
                                             adapter.notifyDataSetChanged();
-                                        }else{
+                                        } else {
                                             Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
                                         }
                                     } catch (JSONException e) {
@@ -573,6 +573,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                         Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+
                                 @Override
                                 public void onFailure(HttpException e, String s) {
                                     Logger.e(e);
@@ -602,10 +603,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                                     try {
                                         JSONObject data = new JSONObject(objectResponseInfo.result);
-                                        if(data.getInt("status") == 1){
+                                        if (data.getInt("status") == 1) {
                                             adapter.getList().remove(menuInfo.position);
                                             adapter.notifyDataSetChanged();
-                                        }else{
+                                        } else {
                                             Toast.makeText(getActivity(), data.getString("info"), Toast.LENGTH_SHORT).show();
                                         }
                                     } catch (JSONException e) {
@@ -613,6 +614,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                         Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+
                                 @Override
                                 public void onFailure(HttpException e, String s) {
                                     Logger.e(e);
@@ -623,8 +625,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     });
                     builder.show();
                 }
-                if (c == 3) {
+                if (c == 1) {
                     //编辑
+                    EditActivity.entity = entity;
+                    Intent intent = new Intent(getActivity(), EditActivity.class);
+                    startActivity(intent);
                 }
                 return true;
             }

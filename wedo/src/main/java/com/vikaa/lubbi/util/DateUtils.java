@@ -36,6 +36,18 @@ public class DateUtils {
         return date.getTime();
     }
 
+    public static long dateToLong(String format,String time) {
+        sf = new SimpleDateFormat(format);
+        Date date = new Date();
+        try {
+            date = sf.parse(time);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
     /**
      * 时间戳转标准时间
      *
