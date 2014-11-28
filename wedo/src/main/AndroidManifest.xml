@@ -65,6 +65,7 @@
         <activity android:name=".ui.NotificationActivity" />
         <activity android:name=".ui.FeedbackActivity" />
         <activity android:name=".ui.EditActivity" />
+        <activity android:name=".ui.GuideActivity" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity
