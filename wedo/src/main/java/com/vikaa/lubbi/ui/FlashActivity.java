@@ -28,8 +28,8 @@ public class FlashActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //渐隐
-                AlphaAnimation alphaAnimation1 = new AlphaAnimation(1f, 0.3f);
-                alphaAnimation1.setDuration(1000);
+                AlphaAnimation alphaAnimation1 = new AlphaAnimation(1f, 0.8f);
+                alphaAnimation1.setDuration(500);
                 alphaAnimation1.setFillAfter(true);
                 alphaAnimation1.setAnimationListener(new Animation.AnimationListener() {
                     @Override

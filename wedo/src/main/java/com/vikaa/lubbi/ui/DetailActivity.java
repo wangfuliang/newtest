@@ -115,22 +115,7 @@ public class DetailActivity extends BaseActivity {
                     break;
                 case MyMessage.SHOW_COMMENT:
                     sign_position = (Integer) msg.obj;
-                    Animate.alpha(commentField, 0f, 1f, 500, new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                            commentField.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            commentField.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
+                    commentField.setVisibility(View.VISIBLE);
                     break;
                 case MyMessage.HIDE_COMMENT:
                     hideComment();
@@ -514,23 +499,10 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void hideComment() {
-        Animate.alpha(commentField, 1f, 0f, 500, new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                KeyBoardUtils.closeKeybord(commentText, DetailActivity.this);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                commentField.setVisibility(View.GONE);
-                commentText.setText("");
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+        commentField.setVisibility(View.GONE);
+        commentText.setText("");
+        //隐藏输入法
+        KeyBoardUtils.closeKeybord(commentText, DetailActivity.this);
     }
 
     private class CommentListener implements View.OnClickListener {

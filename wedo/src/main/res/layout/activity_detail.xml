@@ -88,7 +88,6 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -421,7 +420,7 @@
             android:paddingBottom="10dp"
             android:id="@+id/comment_field"
             android:visibility="gone"
-            android:background="#33000000"
+            android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -433,7 +432,6 @@
                 android:hint="说点什么"
                 android:textSize="14dp"
                 android:paddingLeft="20dp"
-                android:background="@drawable/line_bottom_border"
                 android:textColor="@color/deep_gray"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
