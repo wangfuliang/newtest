@@ -54,7 +54,6 @@ public class BaseActivity extends FragmentActivity {
             if (!log.exists())
                 log.mkdir();
             bitmapUtils = new BitmapUtils(this, cache.toString());
-            Logger.d(cache.toString());
         } else {
             bitmapUtils = new BitmapUtils(this);
         }
