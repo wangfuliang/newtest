@@ -16,7 +16,7 @@
             android:src="@drawable/guide1_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title" />
+            android:id="@+id/g1_title" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:src="@drawable/guide1_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/img1" />
+            android:id="@+id/g1_img1" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,7 +46,7 @@
             android:src="@drawable/guide1_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/img2" />
+            android:id="@+id/g1_img2" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +61,7 @@
             android:src="@drawable/guide1_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/img3" />
+            android:id="@+id/g1_img3" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,6 +76,6 @@
             android:src="@drawable/guide1_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/img4" />
+            android:id="@+id/g1_img4" />
     </LinearLayout>
 </LinearLayout>

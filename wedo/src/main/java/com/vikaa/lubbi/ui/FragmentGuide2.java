@@ -30,10 +30,4 @@ public class FragmentGuide2 extends Fragment {
         ViewUtils.inject(this, v);
         return v;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Logger.d("2 resume");
-    }
 }

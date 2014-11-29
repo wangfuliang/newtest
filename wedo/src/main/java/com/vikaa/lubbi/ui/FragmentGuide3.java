@@ -17,12 +17,4 @@ public class FragmentGuide3 extends Fragment {
         View v = inflater.inflate(R.layout.fragment_guide_3, null);
         return v;
     }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Logger.d("3 resume");
-    }
 }
