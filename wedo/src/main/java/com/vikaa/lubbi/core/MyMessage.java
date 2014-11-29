@@ -14,4 +14,5 @@ public class MyMessage {
     public final static int SHOW_COMMENT = 0x11;
     public final static int HIDE_COMMENT = 0x12;
     public final static int REPLY_COMMENT = 0x13;
+    public final static int CLEAR_AT = 0x14;
 }

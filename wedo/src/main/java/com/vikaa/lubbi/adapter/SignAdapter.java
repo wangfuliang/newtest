@@ -142,6 +142,7 @@ public class SignAdapter extends BaseAdapter {
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                handler.sendEmptyMessage(MyMessage.CLEAR_AT);
                 Message message = new Message();
                 message.what = MyMessage.SHOW_COMMENT;
                 message.obj = position;

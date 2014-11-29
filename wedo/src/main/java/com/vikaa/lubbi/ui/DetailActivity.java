@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,7 +57,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity{
 
     public static JSONObject _data;
     @ViewInject(R.id.count)
@@ -126,6 +125,7 @@ public class DetailActivity extends BaseActivity {
                 case MyMessage.SHOW_COMMENT:
                     sign_position = (Integer) msg.obj;
                     commentField.setVisibility(View.VISIBLE);
+                    showComment();
                     break;
                 case MyMessage.HIDE_COMMENT:
                     hideComment();
@@ -133,10 +133,22 @@ public class DetailActivity extends BaseActivity {
                 case MyMessage.REPLY_COMMENT:
                     replayCommonEntity = (CommonEntity) msg.obj;
                     break;
+                case MyMessage.CLEAR_AT:
+                    replayCommonEntity = null;
+                    break;
             }
             super.handleMessage(msg);
         }
     };
+
+    private void showComment() {
+        if (replayCommonEntity != null) {
+            String at = "@" + replayCommonEntity.getUser().getNickname() + " ";
+            commentText.setText(at);
+        } else {
+            commentText.setText("");
+        }
+    }
 
     private void praiseSign(final int position) {
         SignEntity entity = (SignEntity) listView.getAdapter().getItem(position);
@@ -242,7 +254,7 @@ public class DetailActivity extends BaseActivity {
         } else {
             join.setVisibility(View.GONE);
         }
-        Logger.d("isadd:"+isAdd);
+        Logger.d("isadd:" + isAdd);
         join.setOnClickListener(new JoinListener());
 
         btn_sign.setOnClickListener(new SignListener());
@@ -274,7 +286,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void updateSign() {
-        if(isAdd){
+        if (isAdd) {
             RequestParams params = new RequestParams();
             params.addBodyParameter("hash", hash);
             params.addQueryStringParameter("_sign", sign);
@@ -599,13 +611,7 @@ public class DetailActivity extends BaseActivity {
             params.addQueryStringParameter("_sign", sign);
             params.addBodyParameter("sign_id", sign_id + "");
             //检测commonEntity是否为空，不为空则是回复，@评论发起者
-            if (replayCommonEntity != null) {
-                String nickname = replayCommonEntity.getUser().getNickname();
-                params.addBodyParameter("message", "@" + nickname + " " + message);
-            } else {
-
-                params.addBodyParameter("message", message);
-            }
+            params.addBodyParameter("message", message);
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.commentSign, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
