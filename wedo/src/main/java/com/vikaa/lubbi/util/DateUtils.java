@@ -95,4 +95,17 @@ public class DateUtils {
         int s = Integer.parseInt(sf.format(d));
         return s;
     }
+
+    public static String parseWeek(int weekday){
+        String[] list = new String[]{
+                "周日",
+                "周一",
+                "周二",
+                "周三",
+                "周四",
+                "周五",
+                "周六"
+        };
+        return list[weekday];
+    }
 }

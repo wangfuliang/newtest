@@ -120,6 +120,7 @@ public class SignActivity extends BaseActivity {
                                 Toast.makeText(SignActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();
                                 return;
                             }
+                            Toast.makeText(SignActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
                             //签到成功，更新adapter
                             finish();
                         } catch (JSONException e) {

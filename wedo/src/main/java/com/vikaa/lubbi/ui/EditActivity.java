@@ -1,11 +1,13 @@
 package com.vikaa.lubbi.ui;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -49,7 +51,10 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
     DatePicker datePicker;
     @ViewInject(R.id.timePicker)
     TimePicker timePicker;
-
+    @ViewInject(R.id.datetimpicker)
+    LinearLayout dateTimePicker;
+    @ViewInject(R.id.week)
+    TextView week;
     @ViewInject(R.id.create)
     ImageView create;
     String datetime;
@@ -72,6 +77,22 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
         repeat.setSelection(entity.getRepeat());
         hide.setSwitchStatus(entity.isHide_remind());
         mark.setText(entity.getMark());
+
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimePicker.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mark.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                dateTimePicker.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
 
     private void initDateTimePicker() {
@@ -81,6 +102,9 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
         Integer year = calendar.get(Calendar.YEAR);
         Integer monthOfYear = calendar.get(Calendar.MONTH);
         Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        week.setText(DateUtils.parseWeek(dayOfWeek));
         Integer hour = calendar.get(Calendar.HOUR);
         Integer min = calendar.get(Calendar.MINUTE);
         UI.resizePicker(datePicker, this);
@@ -117,6 +141,11 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
                 String _time = hour + ":" + min;
                 datetime = year + "-" + month + "-" + day + " " + _time;
                 time.setText(datetime);
+
+                long timestamp = DateUtils.dateToLong("yyyy-MM-dd HH:mm:ss", datetime + ":00");
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date(timestamp));
+                week.setText(DateUtils.parseWeek(c.get(Calendar.DAY_OF_WEEK) - 1));
             }
 
         });

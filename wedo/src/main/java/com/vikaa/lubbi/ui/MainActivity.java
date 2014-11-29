@@ -127,7 +127,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 public void onFailure(HttpException e, String s) {
                     Toast.makeText(MainActivity.this, "自动登录失败，请重新登录", Toast.LENGTH_SHORT).show();
                     handler.sendEmptyMessage(MyMessage.GOTO_LOGIN);
-                    Logger.e(e);
                 }
             });
         }
@@ -292,7 +291,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.setPush, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
-                    Logger.d(objectResponseInfo.result);
+                    try {
+                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                        Logger.d("推送设置结果->"+data.getString("message"));
+                    } catch (JSONException e) {
+                        Logger.d(e);
+                    }
                 }
 
                 @Override
@@ -531,7 +535,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     menu.add(0, 3, 0, "退出");
                 }
-                menu.setHeaderTitle("[" + entity.getTitle() + "]");
+                //menu.setHeaderTitle("[" + entity.getTitle() + "]");
 
             }
 

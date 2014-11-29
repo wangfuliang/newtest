@@ -1,11 +1,13 @@
 package com.vikaa.lubbi.ui;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateActivity extends BaseActivity implements View.OnClickListener {
     @ViewInject(R.id.repeat)
@@ -46,10 +49,13 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
     DatePicker datePicker;
     @ViewInject(R.id.timePicker)
     TimePicker timePicker;
-
+    @ViewInject(R.id.datetimpicker)
+    LinearLayout dateTimePicker;
     @ViewInject(R.id.create)
     ImageView create;
     String datetime;
+    @ViewInject(R.id.week)
+    TextView week;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,23 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         repeat.setAdapter(adapter);
 
         initDateTimePicker();
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimePicker.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mark.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                dateTimePicker.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
+
 
     private void initDateTimePicker() {
         timePicker.setIs24HourView(true);
@@ -68,6 +90,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         Integer year = calendar.get(Calendar.YEAR);
         Integer monthOfYear = calendar.get(Calendar.MONTH);
         Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        week.setText(DateUtils.parseWeek(dayOfWeek));
         String _now = DateUtils.getCustom("yyyy-MM-dd HH:mm");
         time.setText(_now);
         UI.resizePicker(datePicker, this);
@@ -104,6 +128,11 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                 String _time = hour + ":" + min;
                 datetime = year + "-" + month + "-" + day + " " + _time;
                 time.setText(datetime);
+                long timestamp = DateUtils.dateToLong("yyyy-MM-dd HH:mm:ss", datetime + ":00");
+
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date(timestamp));
+                week.setText(DateUtils.parseWeek(c.get(Calendar.DAY_OF_WEEK) - 1));
             }
 
         });

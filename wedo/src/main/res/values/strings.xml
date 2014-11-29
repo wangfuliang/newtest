@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Do Do</string>
+    <string name="app_name">DoDo</string>
     <string name="input_phone">请输入您的手机号码</string>
     <string name="empty_phone">@string/input_phone</string>
     <string name="phone">手机号</string>

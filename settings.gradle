@@ -1,1 +1,1 @@
-include ':wedo', ':myapplication'
+include ':wedo', ':myapplication', ':fragmentt', ':library'
