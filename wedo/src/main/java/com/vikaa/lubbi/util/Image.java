@@ -1,5 +1,10 @@
 package com.vikaa.lubbi.util;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -7,12 +12,17 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,11 +34,26 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 处理图片的工具类.
  */
 public class Image {
+    public final static String SDCARD_MNT = "/mnt/sdcard";
+    public final static String SDCARD = "/sdcard";
+    public final static String DCIM = "/DCIM/Camera/";
+
+
+    /**
+     * 请求相册
+     */
+    public static final int REQUEST_CODE_GETIMAGE_BYSDCARD = 0;
+    /**
+     * 请求相机
+     */
+    public static final int REQUEST_CODE_GETIMAGE_BYCAMERA = 1;
     /** */
     /**
      * 图片去色,返回灰度图片
@@ -248,6 +273,7 @@ public class Image {
 
     /**
      * return a bitmap from service
+     *
      * @param url
      * @return bitmap type
      */
@@ -269,27 +295,26 @@ public class Image {
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }  catch (IOException e) {
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return bitmap;
     }
 
-    public static String getSDPath(){
+    public static String getSDPath() {
         File sdDir = null;
         boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); //判断sd卡是否存在
-        if (sdCardExist)
-        {
+        if (sdCardExist) {
             sdDir = Environment.getExternalStorageDirectory();//获取跟目录
         }
         return sdDir.toString();
     }
 
 
-
     /**
      * 保存文件
+     *
      * @param bm
      * @param fileName
      * @throws java.io.IOException
@@ -300,5 +325,58 @@ public class Image {
         bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
         bos.flush();
         bos.close();
+    }
+
+    public static void PhotoChooseOption(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        CharSequence[] item = {"拍照", "相册"};
+        builder.setItems(item, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                switch (arg1) {
+                    case 0://拍照
+                        String savePath = "";
+                        //判断是否挂载了SD卡
+                        String storageState = Environment.getExternalStorageState();
+                        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+                            savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + DCIM;//存放照片的文件夹
+                            File savedir = new File(savePath);
+                            if (!savedir.exists()) {
+                                savedir.mkdirs();
+                            }
+                        }
+
+                        //没有挂载SD卡，无法保存文件
+                        if (savePath.length() == 0) {
+                            Toast.makeText(context, "没有SD卡", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+//						ValueClass.PathForTakeCamera = savePath + fileName;//该照片的绝对路径
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        context.startActivityForResult(intent, REQUEST_CODE_GETIMAGE_BYCAMERA);
+                        break;
+                    case 1://用户相册
+                        Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent1.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent1.setType("image/*");
+                        context.startActivityForResult(Intent.createChooser(intent1, "选择图片"), REQUEST_CODE_GETIMAGE_BYSDCARD);
+                        break;
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+
+    public static Bitmap drawableToBitmap(Drawable drawable) // drawable 转换成bitmap
+    {
+        int width = drawable.getIntrinsicWidth();// 取drawable的长宽
+        int height = drawable.getIntrinsicHeight();
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;// 取drawable的颜色格式
+        Bitmap bitmap = Bitmap.createBitmap(width, height, config);// 建立对应bitmap
+        Canvas canvas = new Canvas(bitmap);// 建立对应bitmap的画布
+        drawable.setBounds(0, 0, width, height);
+        drawable.draw(canvas);// 把drawable内容画到画布中
+        return bitmap;
     }
 }

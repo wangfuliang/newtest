@@ -60,7 +60,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.update:
                 update();
                 break;
+            case R.id.profile:
+                profile();
+                break;
         }
+    }
+
+    private void profile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     private void update() {

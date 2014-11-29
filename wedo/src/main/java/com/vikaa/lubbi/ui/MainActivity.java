@@ -3,6 +3,10 @@ package com.vikaa.lubbi.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -46,8 +51,10 @@ import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.entity.RecommendEntity;
 import com.vikaa.lubbi.entity.UserRemindEntity;
 import com.vikaa.lubbi.util.Animate;
+import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
+import com.vikaa.lubbi.util.ScreenUtils;
 import com.vikaa.lubbi.widget.MyListView;
 
 import org.json.JSONArray;
@@ -322,25 +329,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_user, null);
             ViewUtils.inject(this, view);
-            String info = SP.get(getActivity().getApplicationContext(), "user.info", "").toString();
-            if (info.length() > 0) {
-                try {
-                    JSONObject data = new JSONObject(info);
-                    String _avatar = data.getString("avatar");
-                    String _nickname = data.getString("nickname");
-                    bitmapUtils.display(avatar, _avatar);
-                    nickname.setText(_nickname);
-                } catch (JSONException e) {
-                    //加载默认头像
-                    bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
-                    nickname.setText("无名--");
-                    Logger.e(e);
-                }
-            } else {
-                //加载默认头像
-                bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
-                nickname.setText("无名--");
-            }
+
 
             if (hasFragment == null)
                 hasFragment = new HasFragment();
@@ -350,6 +339,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             addFragment();
             return view;
         }
+
 
         private void addFragment() {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -379,6 +369,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onResume() {
             super.onResume();
+
+            String info = SP.get(getActivity().getApplicationContext(), "user.info", "").toString();
+            if (info.length() > 0) {
+                try {
+                    JSONObject data = new JSONObject(info);
+                    String _avatar = data.getString("avatar");
+                    String _nickname = data.getString("nickname");
+                    bitmapUtils.display(avatar, _avatar);
+                    nickname.setText(_nickname);
+                } catch (JSONException e) {
+                    //加载默认头像
+                    bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
+                    nickname.setText("无名--");
+                    Logger.e(e);
+                }
+            } else {
+                //加载默认头像
+                bitmapUtils.display(avatar, "http://qun.hk/index/avatar?url=");
+                nickname.setText("无名--");
+            }
 
             //头像动画
             Animate.bounce(avatar);

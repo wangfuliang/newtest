@@ -222,7 +222,7 @@
                                 android:layout_weight="2"
                                 android:textColor="#aaa"
                                 android:textSize="14dp"
-                                android:text="退出"
+                                android:text=">退出提醒"
                                 android:id="@+id/quit"
                                 android:visibility="gone"
                                 android:background="@color/no"/>

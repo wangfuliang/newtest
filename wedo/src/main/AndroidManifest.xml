@@ -66,6 +66,7 @@
         <activity android:name=".ui.FeedbackActivity" />
         <activity android:name=".ui.EditActivity" />
         <activity android:name=".ui.GuideActivity" />
+        <activity android:name=".ui.ProfileActivity" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity
