@@ -23,6 +23,7 @@ import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.core.MyMessage;
 import com.vikaa.lubbi.entity.NotificationEntity;
 import com.vikaa.lubbi.util.Logger;
+import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.widget.MyListView;
 
 import org.json.JSONArray;
@@ -89,6 +90,9 @@ public class NotificationActivity extends BaseActivity {
                             data.put("mark", info.getString("mark"));
                             data.put("isAdd", info.getInt("isAdd"));
 
+                            String userInfo = SP.get(getApplicationContext(),"user.info","").toString();
+                            JSONObject j = new JSONObject(userInfo);
+                            data.put("openid",j.getString("openid"));
                             Message message = new Message();
                             message.what = MyMessage.GOTO_DETAIL;
                             message.obj = data;
