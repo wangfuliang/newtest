@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,8 @@ import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.SignImageAdapter;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyApi;
+import com.vikaa.lubbi.core.MyMessage;
+import com.vikaa.lubbi.entity.UserRemindEntity;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
@@ -55,6 +58,8 @@ public class SignActivity extends BaseActivity {
     List<String> images = new ArrayList<String>();
     private final int SELECT_IMAGE = 100;
     SignImageAdapter imgAdapter;
+
+    public static UserRemindEntity entity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +127,28 @@ public class SignActivity extends BaseActivity {
                             }
                             Toast.makeText(SignActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
                             //签到成功，更新adapter
-                            finish();
+                            //获取详情
+                            if (entity == null) {
+                                finish();
+                            } else {
+                                //用户界面签到的，跳转到详情
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("hash", entity.getHash());
+                                    jsonObject.put("title", entity.getTitle());
+                                    jsonObject.put("time", entity.getFormatTime());
+                                    jsonObject.put("mark", entity.getMark());
+                                    jsonObject.put("isAdd", 1);
+                                    jsonObject.put("openid", entity.getOpenid());
+                                    Message msg = new Message();
+                                    msg.what = MyMessage.GOTO_DETAIL;
+                                    msg.obj = jsonObject;
+                                    handler.sendMessage(msg);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                finish();
+                            }
                         } catch (JSONException e) {
                             Logger.e(e);
                             Toast.makeText(SignActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();

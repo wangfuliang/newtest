@@ -1,5 +1,8 @@
 package com.vikaa.lubbi.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +48,7 @@ import com.vikaa.lubbi.entity.UserEntity;
 import com.vikaa.lubbi.util.Animate;
 import com.vikaa.lubbi.util.KeyBoardUtils;
 import com.vikaa.lubbi.util.Logger;
+import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
 
 import org.json.JSONArray;
@@ -87,14 +91,20 @@ public class DetailActivity extends BaseActivity {
     EditText commentText;
     @ViewInject(R.id.comment_btn)
     Button commentBtn;
-
+    @ViewInject(R.id.edit)
+    Button edit;
+    @ViewInject(R.id.quit)
+    Button quit;
+    @ViewInject(R.id.btn_sign)
+    Button btn_sign;
     String hash;
     String _title;
     String _time;
     String _mark;
+    boolean isSign;
     boolean isAdd;
     static boolean registerUMeng = false;
-
+    String openid;
     CommonEntity replayCommonEntity;
     int sign_position;
     final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
@@ -197,14 +207,25 @@ public class DetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ViewUtils.inject(this);
+        //获取当前用户openid
+        String info = SP.get(getApplicationContext(), "user.info", "").toString();
         try {
+            JSONObject _i = new JSONObject(info);
+            openid = _i.getString("openid");
             hash = _data.getString("hash");
             isAdd = _data.getInt("isAdd") == 1;
+            if (_data.getString("openid").equals(openid)) {
+                //发起者，显示编辑按钮
+                edit.setVisibility(View.VISIBLE);
+            } else if (isAdd) {
+                quit.setVisibility(View.VISIBLE);
+            }
         } catch (JSONException e) {
-            Logger.e(hash);
+            Logger.e(e);
             hash = "";
             isAdd = false;
         }
+
         //设置详情
         setDetail();
         //今天打卡数
@@ -212,17 +233,19 @@ public class DetailActivity extends BaseActivity {
         //按钮监听
         back.setOnClickListener(new BackListener());
         share.setOnClickListener(new ShareListener());
+        edit.setOnClickListener(new EditListener());
+        quit.setOnClickListener(new QuitListener());
 
         //按钮的显示与隐藏
         if (!isAdd) {
-            join.setVisibility(View.INVISIBLE);
-            Animate.rotate(join);
-        } else
+            join.setVisibility(View.VISIBLE);
+        } else {
             join.setVisibility(View.GONE);
+        }
+        Logger.d("isadd:"+isAdd);
         join.setOnClickListener(new JoinListener());
 
-        //加载打卡列表
-        loadSignList();
+        btn_sign.setOnClickListener(new SignListener());
 
         if (!registerUMeng) {
             mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
@@ -239,6 +262,45 @@ public class DetailActivity extends BaseActivity {
             registerUMeng = true;
         }
         commentBtn.setOnClickListener(new CommentListener());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //加载打卡列表
+        loadSignList();
+
+        updateSign();
+    }
+
+    private void updateSign() {
+        if(isAdd){
+            RequestParams params = new RequestParams();
+            params.addBodyParameter("hash", hash);
+            params.addQueryStringParameter("_sign", sign);
+            httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.checkSign, params, new RequestCallBack<String>() {
+                @Override
+                public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    try {
+                        JSONObject data = new JSONObject(objectResponseInfo.result);
+                        if (data.getInt("info") == 0) {
+                            btn_sign.setVisibility(View.VISIBLE);
+                            isSign = false;
+                        } else {
+                            btn_sign.setVisibility(View.GONE);
+                            isSign = true;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException e, String s) {
+
+                }
+            });
+        }
     }
 
     private void loadSignList() {
@@ -375,7 +437,7 @@ public class DetailActivity extends BaseActivity {
         try {
             _title = _data.getString("title");
             _time = _data.getString("time");
-            _mark = _data.getString("mark");
+            _mark = _data.getString("mark").length() == 0 ? "" : _data.getString("mark");
 
             title.setText(_title);
             time.setText(_time);
@@ -459,16 +521,33 @@ public class DetailActivity extends BaseActivity {
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.joinRemind, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                    join.setEnabled(true);
                     try {
                         JSONObject _data = new JSONObject(objectResponseInfo.result);
                         if (_data.getInt("status") == 0) {
-                            join.setEnabled(true);
                             Toast.makeText(DetailActivity.this, "加入失败，请重试", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Toast.makeText(DetailActivity.this, "加入成功", Toast.LENGTH_LONG).show();
+                        isAdd = true;
                         //动画移除我要加入
-                        Animate.alpha(join, 1f, 0f, 500);
+                        join.setVisibility(View.GONE);
+                        //增加加入人数
+                        try {
+                            int count = Integer.parseInt(joinsCount.getText().toString().trim());
+                            count++;
+                            joinsCount.setText(count + "");
+                        } catch (NumberFormatException e) {
+                            Logger.e(e);
+                        }
+                        //显示退出按钮，显示打卡按钮
+                        quit.setVisibility(View.VISIBLE);
+                        if (!isSign) {
+                            btn_sign.setVisibility(View.VISIBLE);
+                        } else {
+                            btn_sign.setVisibility(View.GONE);
+                        }
+
                     } catch (JSONException e) {
                         Logger.e(e);
                         join.setEnabled(true);
@@ -565,6 +644,79 @@ public class DetailActivity extends BaseActivity {
                     Toast.makeText(DetailActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private class EditListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    private class QuitListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setIcon(android.R.drawable.stat_sys_warning);
+            builder.setTitle("提示");
+            builder.setMessage("确定退出该提醒?");
+            builder.setNegativeButton("取消", null);
+            builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    RequestParams params = new RequestParams();
+                    params.addQueryStringParameter("_sign", sign);
+                    params.addQueryStringParameter("hash", hash);
+                    httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.deleteJoin, params, new RequestCallBack<String>() {
+                        @Override
+                        public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                            try {
+                                JSONObject data = new JSONObject(objectResponseInfo.result);
+                                if (data.getInt("status") == 1) {
+                                    //人数减一
+                                    try {
+                                        int joins = Integer.parseInt(joinsCount.getText().toString().trim());
+                                        joins--;
+                                        joinsCount.setText(joins + "");
+                                        //退出按钮去掉
+                                        quit.setVisibility(View.GONE);
+                                        //显示加入按钮
+                                        join.setVisibility(View.VISIBLE);
+                                        //去掉打卡按钮
+                                        btn_sign.setVisibility(View.GONE);
+                                        isAdd = false;
+                                        isSign = false;
+                                    } catch (NumberFormatException e) {
+                                        Logger.e(e);
+                                    }
+                                } else {
+                                    Toast.makeText(DetailActivity.this, "退出失败", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                Logger.e(e);
+                                Toast.makeText(DetailActivity.this, "退出失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(HttpException e, String s) {
+                            Logger.e(e);
+                            Toast.makeText(DetailActivity.this, "退出失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            builder.show();
+        }
+    }
+
+    private class SignListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(DetailActivity.this, SignActivity.class);
+            intent.putExtra("hash", hash);
+            startActivity(intent);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.vikaa.lubbi.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,6 @@ import android.widget.TextView;
 
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.entity.RecommendEntity;
-import com.vikaa.lubbi.entity.UserRemindEntity;
-import com.vikaa.lubbi.ui.SignActivity;
-import com.vikaa.lubbi.util.Logger;
 
 import java.util.List;
 

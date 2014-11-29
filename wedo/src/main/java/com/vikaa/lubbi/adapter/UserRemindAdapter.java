@@ -97,6 +97,8 @@ public class UserRemindAdapter extends BaseAdapter {
             holder.sign.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    UserRemindEntity entity1 = list.get(position);
+                    SignActivity.entity = entity1;
                     String hash = list.get(position).getHash();
                     Intent intent = new Intent(context, SignActivity.class);
                     intent.putExtra("hash", hash);

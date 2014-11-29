@@ -191,12 +191,42 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="标题"
-                            android:id="@+id/title" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="7"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="标题"
+                                android:id="@+id/title" />
+
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:textSize="14dp"
+                                android:id="@+id/edit"
+                                android:text="编辑"
+                                android:visibility="gone"
+                                android:layout_height="30dp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/btn_bg_green" />
+                            <Button
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:layout_weight="2"
+                                android:textColor="#aaa"
+                                android:textSize="14dp"
+                                android:text="退出"
+                                android:id="@+id/quit"
+                                android:visibility="gone"
+                                android:background="@color/no"/>
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -393,6 +423,18 @@
                                 android:paddingRight="40dp"
                                 android:background="@drawable/btn_bg_green"
                                 android:id="@+id/join" />
+
+                            <Button
+                                android:visibility="gone"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="我要打卡"
+                                android:textColor="@color/white"
+                                android:paddingLeft="40dp"
+                                android:paddingRight="40dp"
+                                android:background="@drawable/btn_bg_green"
+                                android:id="@+id/btn_sign" />
                         </LinearLayout>
 
                     </LinearLayout>

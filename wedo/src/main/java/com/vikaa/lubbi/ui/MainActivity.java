@@ -293,7 +293,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     try {
                         JSONObject data = new JSONObject(objectResponseInfo.result);
-                        Logger.d("推送设置结果->"+data.getString("message"));
+                        Logger.d("推送设置结果->" + data.getString("message"));
                     } catch (JSONException e) {
                         Logger.d(e);
                     }
@@ -461,6 +461,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             jsonObject.put("time", entity.getFormatTime());
                             jsonObject.put("mark", entity.getMark());
                             jsonObject.put("isAdd", 1);
+                            jsonObject.put("openid", entity.getOpenid());
                             Message msg = new Message();
                             msg.what = MyMessage.GOTO_DETAIL;
                             msg.obj = jsonObject;
@@ -761,6 +762,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     jsonObject.put("time", entity.getFormatTime());
                     jsonObject.put("mark", entity.getMark());
                     jsonObject.put("isAdd", entity.isAdd() ? 1 : 0);
+                    jsonObject.put("openid", entity.getOpenid());
                     Message msg = new Message();
                     msg.what = MyMessage.GOTO_DETAIL;
                     msg.obj = jsonObject;
