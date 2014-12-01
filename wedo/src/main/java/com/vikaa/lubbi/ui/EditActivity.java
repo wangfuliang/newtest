@@ -233,6 +233,7 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
                         JSONObject resp = new JSONObject(objectResponseInfo.result);
                         if (resp.getInt("status") == 1) {
                             Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+                            DetailActivity._data = resp.getJSONObject("info");
                             finish();
                         } else {
                             Toast.makeText(EditActivity.this, "编辑失败", Toast.LENGTH_SHORT).show();

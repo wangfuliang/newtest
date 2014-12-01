@@ -466,6 +466,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         //启动detail
                         JSONObject jsonObject = new JSONObject();
                         try {
+                            EditActivity.entity = entity;
                             jsonObject.put("hash", entity.getHash());
                             jsonObject.put("title", entity.getTitle());
                             jsonObject.put("time", entity.getFormatTime());

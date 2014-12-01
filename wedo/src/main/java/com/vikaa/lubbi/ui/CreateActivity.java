@@ -1,5 +1,6 @@
 package com.vikaa.lubbi.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -214,6 +215,11 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                         JSONObject resp = new JSONObject(objectResponseInfo.result);
                         if (resp.getInt("status") == 1) {
                             Toast.makeText(CreateActivity.this, "发起成功", Toast.LENGTH_SHORT).show();
+                            //调到详情页
+                            DetailActivity._data = resp.getJSONObject("info");
+                            DetailActivity._data.put("isAdd",1);
+                            Intent i = new Intent(CreateActivity.this, DetailActivity.class);
+                            startActivity(i);
                             finish();
                         } else {
                             Toast.makeText(CreateActivity.this, "发起失败", Toast.LENGTH_SHORT).show();

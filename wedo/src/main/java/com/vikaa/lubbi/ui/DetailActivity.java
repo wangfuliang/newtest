@@ -57,7 +57,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends BaseActivity{
+public class DetailActivity extends BaseActivity {
 
     public static JSONObject _data;
     @ViewInject(R.id.count)
@@ -237,9 +237,6 @@ public class DetailActivity extends BaseActivity{
             hash = "";
             isAdd = false;
         }
-
-        //设置详情
-        setDetail();
         //今天打卡数
         setCount();
         //按钮监听
@@ -283,6 +280,7 @@ public class DetailActivity extends BaseActivity{
         loadSignList();
 
         updateSign();
+        setDetail();
     }
 
     private void updateSign() {
@@ -656,7 +654,8 @@ public class DetailActivity extends BaseActivity{
     private class EditListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            Intent i = new Intent(DetailActivity.this,EditActivity.class);
+            startActivity(i);
         }
     }
 
