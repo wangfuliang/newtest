@@ -26,8 +26,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:scaleType="centerCrop"
-                android:id="@+id/avatar"
-                android:background="@drawable/blue_bg_corner" />
+                android:id="@+id/avatar"/>
 
             <TextView
                 android:visibility="invisible"
