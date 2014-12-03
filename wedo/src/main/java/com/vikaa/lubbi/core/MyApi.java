@@ -30,4 +30,5 @@ public class MyApi {
     public final static String deleteJoin = "http://app.qun.hk/remind/api/deletejoin";
     public final static String checkSign = "http://app.qun.hk/remind/api/issign";
     public final static String editUser = "http://app.qun.hk/remind/api/edituser";
+    public final static String clearNotification = "http://app.qun.hk/remind/api/clearnotification";
 }

@@ -38,6 +38,8 @@ public class NotificationActivity extends BaseActivity {
     ImageView back;
     @ViewInject(R.id.listview)
     MyListView listView;
+    @ViewInject(R.id.trash)
+    ImageView delete;
     List<NotificationEntity> list;
     static NotificationAdapter adapter;
 
@@ -50,6 +52,40 @@ public class NotificationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams params = new RequestParams();
+                params.addQueryStringParameter("_sign", sign);
+
+                httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.clearNotification, params, new RequestCallBack<String>() {
+                    @Override
+                    public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                        try {
+                            JSONObject data = new JSONObject(objectResponseInfo.result);
+                            if (data.getInt("status") == 0) {
+                                Toast.makeText(NotificationActivity.this, "清空消息失败", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            for (int i = 0; i < adapter.getList().size(); i++) {
+                                adapter.getList().remove(i);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Logger.e(e);
+                            Toast.makeText(NotificationActivity.this, "清空消息失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(HttpException e, String s) {
+
+                    }
+                });
             }
         });
 
@@ -90,9 +126,9 @@ public class NotificationActivity extends BaseActivity {
                             data.put("mark", info.getString("mark"));
                             data.put("isAdd", info.getInt("isAdd"));
 
-                            String userInfo = SP.get(getApplicationContext(),"user.info","").toString();
+                            String userInfo = SP.get(getApplicationContext(), "user.info", "").toString();
                             JSONObject j = new JSONObject(userInfo);
-                            data.put("openid",j.getString("openid"));
+                            data.put("openid", j.getString("openid"));
                             Message message = new Message();
                             message.what = MyMessage.GOTO_DETAIL;
                             message.obj = data;
