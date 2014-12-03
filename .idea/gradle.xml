@@ -8,10 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/android4" />
+            <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/fragmentt" />
             <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/myapplication" />
+            <option value="$PROJECT_DIR$/sign" />
             <option value="$PROJECT_DIR$/wedo" />
           </set>
         </option>

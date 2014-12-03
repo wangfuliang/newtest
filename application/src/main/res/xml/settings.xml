@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="文章">
+        <CheckBoxPreference
+            android:title="自动获取最新文章"
+            android:key="article.auto_update"
+            android:summaryOn="开"
+            android:summaryOff="关"
+            android:defaultValue="true" />
+        <ListPreference
+            android:key="article.update_feq"
+            android:dialogTitle="自动更新频率"
+            android:entries="@array/article_update_feq_name"
+            android:entryValues="@array/article_update_feq_value"
+            android:title="自动更新频率"
+            android:summary="每隔多久更新一次" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="程序" />
+    <CheckBoxPreference
+        android:title="自动检查更新"
+        android:key="app.auto_update"
+        android:summaryOn="开"
+        android:summaryOff="关"
+        android:defaultValue="true" />
+</PreferenceScreen>

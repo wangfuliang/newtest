@@ -1,1 +1,1 @@
-include ':wedo', ':myapplication', ':fragmentt', ':library', ':android4'
+include ':wedo', ':fragmentt', ':library', ':application', ':sign'
