@@ -36,6 +36,9 @@ import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.TencentWbShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.SignAdapter;
 import com.vikaa.lubbi.core.BaseActivity;
@@ -516,6 +519,26 @@ public class DetailActivity extends BaseActivity {
         mController.getConfig().setSsoHandler(new QZoneSsoHandler(this, "100371282", "aed9b0303e3ed1e27bae87c33761161d"));
         mController.getConfig().supportQQPlatform(this, "100371282", "aed9b0303e3ed1e27bae87c33761161d", link);
 
+        UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(this, AppID, link);
+        wxHandler.setWXTitle(title);
+        UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(this, AppSecret, link);
+        circleHandler.setCircleTitle(title);
+        mController.getConfig().supportWXPlatform(this, wxHandler);
+        mController.getConfig().supportWXPlatform(this, circleHandler);
+
+        WeiXinShareContent weiXinShareContent = new WeiXinShareContent();
+        weiXinShareContent.setTitle(title);
+        weiXinShareContent.setShareContent(desc);
+        weiXinShareContent.setShareImage(mUMImgBitmap);
+        weiXinShareContent.setTargetUrl(link);
+        mController.setShareMedia(weiXinShareContent);
+
+        CircleShareContent circleShareContent = new CircleShareContent();
+        circleShareContent.setShareImage(mUMImgBitmap);
+        circleShareContent.setTargetUrl(link);
+        circleShareContent.setShareContent(desc);
+        circleShareContent.setTitle(title);
+        mController.setShareMedia(circleShareContent);
 
         mController.getConfig().removePlatform(SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN, SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL);
         mController.openShare(this, false);
