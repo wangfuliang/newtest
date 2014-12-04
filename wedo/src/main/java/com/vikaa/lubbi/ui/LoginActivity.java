@@ -66,8 +66,7 @@ public class LoginActivity extends BaseActivity {
                             try {
                                 JSONObject js = new JSONObject(resp);
                                 if (js.getInt("status") == 0) {
-                                    Toast.makeText(LoginActivity.this, js.getString("info"), Toast.LENGTH_SHORT).show();
-                                    return;
+                                    Toast.makeText(LoginActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
                                 } else {
                                     JSONObject info = js.getJSONObject("info");
                                     //写入sign
@@ -105,6 +104,11 @@ public class LoginActivity extends BaseActivity {
                     params.addBodyParameter("phone", phone);
                     httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.verifyCode, params, new RequestCallBack<String>() {
                         @Override
+                        public void onStart() {
+                            Toast.makeText(LoginActivity.this, "发送验证码...", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
                         public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                             try {
                                 JSONObject resp = new JSONObject(objectResponseInfo.result);
@@ -112,6 +116,7 @@ public class LoginActivity extends BaseActivity {
                                     Toast.makeText(LoginActivity.this, "验证码发送失败，请重新发送", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
+                                Toast.makeText(LoginActivity.this, "验证码发送成功", Toast.LENGTH_SHORT).show();
                                 //禁用发送
                                 if (BaseApplication.debug) {
                                     String code = StringUtil.getNumber(resp.getString("info"));

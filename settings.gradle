@@ -1,1 +1,1 @@
-include ':wedo', ':fragmentt', ':library', ':application', ':sign'
+include ':wedo', ':fragmentt', ':library', ':sign', ':test'

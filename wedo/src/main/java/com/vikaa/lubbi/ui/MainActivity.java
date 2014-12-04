@@ -337,9 +337,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 noFragment = new NoFragment();
             fragmentManager = getChildFragmentManager();
             addFragment();
+            setListener();
             return view;
         }
 
+        private void setListener() {
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
         private void addFragment() {
             FragmentTransaction transaction = fragmentManager.beginTransaction();

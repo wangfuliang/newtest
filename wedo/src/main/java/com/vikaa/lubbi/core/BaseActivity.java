@@ -28,8 +28,8 @@ public class BaseActivity extends FragmentActivity {
     protected static String logPath;
 
 
-    public final static String AppID = "wxe0972b3609a72e60";
-    public final static String AppSecret = "c54dd5a7aa8f81bd0186f040e8ab72b9";
+    public final static String AppID = "wx8060e1480d0ee7ab";
+    public final static String AppSecret = "fa2511ecab83cf6e985928d884b52511";
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override

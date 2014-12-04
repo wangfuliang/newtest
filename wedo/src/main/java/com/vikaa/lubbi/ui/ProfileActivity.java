@@ -62,7 +62,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             JSONObject jsonObject = new JSONObject(info);
             _avatar = jsonObject.getString("avatar");
             _nickname = jsonObject.getString("nickname");
-            _address = jsonObject.getString("address");
+            _address = jsonObject.getString("address").equals("null")?"":jsonObject.getString("address");
             _sex = jsonObject.getString("sex");
             _openid = jsonObject.getString("openid");
             //设置初值
