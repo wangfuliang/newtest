@@ -244,9 +244,6 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         if (title.length() == 0) {
             Toast.makeText(this, "请输入提醒标题", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (mark.length() == 0) {
-            Toast.makeText(this, "请输入提醒描述", Toast.LENGTH_SHORT).show();
-            return false;
         } else {
             return true;
         }

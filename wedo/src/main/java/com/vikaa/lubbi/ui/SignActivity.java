@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,7 +114,6 @@ public class SignActivity extends BaseActivity {
                     @Override
                     public void onStart() {
                         super.onStart();
-                        Toast.makeText(SignActivity.this, "签到中...", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -122,10 +122,14 @@ public class SignActivity extends BaseActivity {
                         try {
                             JSONObject response = new JSONObject(resp);
                             if (response.getInt("status") == 0) {
-                                Toast.makeText(SignActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();
+                               Toast toast =  Toast.makeText(SignActivity.this, response.getString("info"), Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER,0,0);
+                                toast.show();
                                 return;
                             }
-                            Toast.makeText(SignActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                            Toast toast =  Toast.makeText(SignActivity.this, "签到成功", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
                             //签到成功，更新adapter
                             //获取详情
                             if (entity == null) {
@@ -151,13 +155,17 @@ public class SignActivity extends BaseActivity {
                             }
                         } catch (JSONException e) {
                             Logger.e(e);
-                            Toast.makeText(SignActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();
+                            Toast toast =  Toast.makeText(SignActivity.this, "签到失败，网络错误", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
                         }
                     }
 
                     @Override
                     public void onFailure(HttpException e, String s) {
-                        Toast.makeText(SignActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();
+                        Toast toast =  Toast.makeText(SignActivity.this, "签到失败，网络错误", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER,0,0);
+                        toast.show();
                         Logger.e(e);
                     }
                 });

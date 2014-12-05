@@ -42,6 +42,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.adapter.RecommendRemindAdapter;
 import com.vikaa.lubbi.adapter.UserRemindAdapter;
@@ -72,6 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @ViewInject(R.id.recommend)
     Button _remind;
 
+    public static IWXAPI api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +89,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } else {
             handler.sendEmptyMessage(MyMessage.START_MAIN);
         }
+        //微信
+        api = WXAPIFactory.createWXAPI(this, AppID, true);
+        api.registerApp(AppID);
     }
 
     /**

@@ -95,12 +95,6 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
-        <!--微信分享 Activity 注册--><activity
-        android:name=".wxapi.WXEntryActivity"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar"
-        android:configChanges="keyboardHidden|orientation|screenSize"
-        android:exported="true"
-        android:screenOrientation="portrait" />
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name=".receiver.MyPushMessageReceiver">
             <intent-filter>

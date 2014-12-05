@@ -8,5 +8,8 @@ public class BaseApplication extends FrontiaApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //注册异常捕获句柄
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 }

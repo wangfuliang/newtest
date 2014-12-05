@@ -263,16 +263,18 @@ public class DetailActivity extends BaseActivity {
             mController.getConfig().registerListener(new SocializeListeners.SnsPostListener() {
                 @Override
                 public void onStart() {
-                    Logger.d("share start");
                 }
 
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, SocializeEntity socializeEntity) {
-                    Logger.d("share complete");
+                    Logger.d(i+"");
+                    Toast.makeText(DetailActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
                 }
             });
             registerUMeng = true;
         }
+
+
         commentBtn.setOnClickListener(new CommentListener());
     }
 
@@ -472,7 +474,7 @@ public class DetailActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             //准备分享数据
-            showShare(_mark, _title, MyApi.share + hash, MyApi.shareIcon);
+            showShare(_mark, _title, MyApi.share, MyApi.shareIcon);
         }
     }
 
@@ -484,6 +486,7 @@ public class DetailActivity extends BaseActivity {
      * @param link
      * @param TLImg
      */
+
     public void showShare(final String desc, final String title, final String link, String TLImg) {
         UMImage mUMImgBitmap = new UMImage(this, TLImg);
         mController.setShareImage(mUMImgBitmap);
@@ -519,9 +522,13 @@ public class DetailActivity extends BaseActivity {
         mController.getConfig().setSsoHandler(new QZoneSsoHandler(this, "100371282", "aed9b0303e3ed1e27bae87c33761161d"));
         mController.getConfig().supportQQPlatform(this, "100371282", "aed9b0303e3ed1e27bae87c33761161d", link);
 
+
         UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(this, AppID, link);
+        wxHandler.showCompressToast(false);
+        wxHandler.showCompressToast(false);
         wxHandler.setWXTitle(title);
-        UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(this, AppSecret, link);
+        UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(this, AppID, link);
+        circleHandler.showCompressToast(false);
         circleHandler.setCircleTitle(title);
         mController.getConfig().supportWXPlatform(this, wxHandler);
         mController.getConfig().supportWXPlatform(this, circleHandler);

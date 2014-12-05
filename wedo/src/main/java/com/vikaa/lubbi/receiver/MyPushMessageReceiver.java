@@ -57,7 +57,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     public void onMessage(Context context, String message,
                           String customContentString) {
         try {
-
             JSONObject data = new JSONObject(message);
             String title = data.getString("title");
             String desc = data.getString("description");
