@@ -15,32 +15,43 @@
             android:layout_height="match_parent"
             android:id="@+id/show_img_img" />
 
-        <ImageView
-            android:clickable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_save_img"
-            android:src="@android:drawable/ic_menu_save"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="right|bottom" />
-
-        <ImageView
-            android:clickable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/close_show_img"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="right|top" />
-
         <com.vikaa.lubbi.widget.CircleProgressBar
             android:id="@+id/progress_bar"
             android:visibility="gone"
             android:layout_width="60dp"
             android:layout_gravity="center"
             android:layout_height="60dp" />
+
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:visibility="invisible"
+            android:background="#cce5e5e5"
+            android:layout_width="fill_parent"
+            android:paddingLeft="8sp"
+            android:paddingRight="8sp"
+            android:layout_height="44dp">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/close"
+                android:textColor="@color/deep_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:clickable="true"
+                android:text="返回" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/deep_gray"
+                android:text="保存图片" />
+        </RelativeLayout>
 
     </FrameLayout>
 </LinearLayout>

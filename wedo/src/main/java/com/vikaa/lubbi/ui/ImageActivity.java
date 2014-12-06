@@ -4,7 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidroid.xutils.ViewUtils;
@@ -17,6 +21,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.StringUtil;
 import com.vikaa.lubbi.widget.CircleProgressBar;
@@ -27,12 +32,15 @@ import java.io.File;
 public class ImageActivity extends BaseActivity {
     @ViewInject(R.id.show_img_img)
     ImageView img;
-    @ViewInject(R.id.btn_save_img)
-    ImageView save;
-    @ViewInject(R.id.close_show_img)
-    ImageView close;
+    @ViewInject(R.id.save)
+    TextView save;
+    @ViewInject(R.id.close)
+    TextView close;
     @ViewInject(R.id.progress_bar)
     CircleProgressBar progressBar;
+    @ViewInject(R.id.toolbar)
+    RelativeLayout toolbar;
+    boolean view = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,17 @@ public class ImageActivity extends BaseActivity {
         ViewUtils.inject(this);
 
         final String url = getIntent().getStringExtra("url") + "_w640.jpg";
-
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!view){
+                    Animation animation = AnimationUtils.loadAnimation(ImageActivity.this,R.anim.toolbar);
+                    animation.setFillAfter(true);
+                    toolbar.startAnimation(animation);
+                    view = true;
+                }
+            }
+        });
         bitmapUtils.display(img, url, new BitmapLoadCallBack<ImageView>() {
             @Override
             public void onLoadStarted(ImageView container, String uri, BitmapDisplayConfig config) {
@@ -94,7 +112,6 @@ public class ImageActivity extends BaseActivity {
                         Toast.makeText(ImageActivity.this, "保存失败，请重试", Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
 
