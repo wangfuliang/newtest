@@ -75,6 +75,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button _remind;
 
     public static IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,11 +189,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .show(userFragment)
                 .hide(recommendFragment)
-                .commit();
+                .commitAllowingStateLoss();
         _my.setBackgroundResource(R.drawable.corner_left);
         _remind.setBackgroundResource(R.drawable.corner_right);
         _my.setTextColor(getResources().getColor(R.color.white));
         _remind.setTextColor(getResources().getColor(R.color.light_blue));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startMain();
     }
 
     /**
@@ -245,7 +252,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .show(recommendFragment)
                 .hide(userFragment)
-                .commit();
+                .commitAllowingStateLoss();
         _my.setBackgroundResource(R.drawable.corner_left_normal);
         _remind.setBackgroundResource(R.drawable.corner_right_active);
         _my.setTextColor(getResources().getColor(R.color.light_blue));
@@ -268,9 +275,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void startMain() {
         //检测是否有通知
         Intent intent = getIntent();
-        if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("notification")) {
-            Intent intent1 = new Intent(this, NotificationActivity.class);
-            startActivity(intent1);
+        if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("detail")) {
+            //获取提醒详情
+            String hash = intent.getStringExtra("hash");
+            Logger.d("hash:"+hash);
         }
         setListener();
         initFragment();
@@ -287,7 +295,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (!recommendFragment.isAdded())
             transaction.add(R.id.container, recommendFragment);
 
-        transaction.show(userFragment).hide(recommendFragment).commit();
+        transaction.show(userFragment).hide(recommendFragment).commitAllowingStateLoss();
     }
 
     private void setListener() {
@@ -365,21 +373,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 transaction.add(R.id.container, noFragment);
             transaction.hide(hasFragment)
                     .hide(noFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
         private void switchToHas() {
             fragmentManager.beginTransaction()
                     .show(hasFragment)
                     .hide(noFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
         private void switchToNo() {
             fragmentManager.beginTransaction()
                     .show(noFragment)
                     .hide(hasFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
 
         @Override
@@ -800,6 +808,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     }
-
-
 }

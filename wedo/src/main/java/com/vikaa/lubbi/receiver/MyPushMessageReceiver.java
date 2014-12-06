@@ -57,12 +57,21 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     public void onMessage(Context context, String message,
                           String customContentString) {
         try {
+            Logger.d("message->" + message);
+            Logger.d("custom->" + customContentString);
             JSONObject data = new JSONObject(message);
             String title = data.getString("title");
             String desc = data.getString("description");
             Intent intent = new Intent(context, MainActivity.class);
-            intent.putExtra("action", "notification");
+            intent.putExtra("action", "detail");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (!data.isNull("custom_content")) {
+                JSONObject jsonObject = data.getJSONObject("custom_content");
+                if (!jsonObject.isNull("hash")) {
+                    String hash = jsonObject.getString("hash");
+                    intent.putExtra("hash", hash);
+                }
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             Notification notification = new Notification();
             notification.tickerText = desc;
