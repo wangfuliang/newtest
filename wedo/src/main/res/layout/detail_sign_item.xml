@@ -112,13 +112,13 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/icon_praise_normal" />
 
-            <ListView
+            <com.vikaa.lubbi.widget.NoScrollListView
                 android:layout_marginBottom="20dp"
                 android:scrollbars="none"
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/comments"
                 android:divider="#FFFFFFFF"
                 android:layout_below="@+id/images"

@@ -442,7 +442,7 @@
                 </LinearLayout>
 
 
-                <ListView
+                <com.vikaa.lubbi.widget.NoScrollListView
                     android:scrollbars="none"
                     android:layout_marginTop="20dp"
                     android:layout_width="fill_parent"

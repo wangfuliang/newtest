@@ -52,6 +52,7 @@ import com.vikaa.lubbi.util.KeyBoardUtils;
 import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.SP;
 import com.vikaa.lubbi.util.UI;
+import com.vikaa.lubbi.widget.NoScrollListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class DetailActivity extends BaseActivity {
     @ViewInject(R.id.join)
     Button join;
     @ViewInject(R.id.sign_listview)
-    ListView listView;
+    NoScrollListView listView;
     @ViewInject(R.id.comment_field)
     LinearLayout commentField;
     @ViewInject(R.id.comment_text)
@@ -115,7 +116,6 @@ public class DetailActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MyMessage.RESIZE_SIGN_LIST:
-                    UI.setListViewHeightBasedOnChildren(listView);
                     break;
                 case MyMessage.PRAISE_SIGN:
                     int position = (Integer) msg.obj;
@@ -333,7 +333,6 @@ public class DetailActivity extends BaseActivity {
                     List<SignEntity> list = arrayToList(_list);
                     SignAdapter adapter = new SignAdapter(DetailActivity.this, list);
                     listView.setAdapter(adapter);
-                    UI.setListViewHeightBasedOnChildren(listView);
                 } catch (JSONException e) {
                     Logger.e(e);
                     Toast.makeText(DetailActivity.this, "打卡列表加载失败", Toast.LENGTH_SHORT).show();
@@ -661,7 +660,6 @@ public class DetailActivity extends BaseActivity {
                         //写入评论
                         entity.getComments().add(entity1);
                         ((SignAdapter) listView.getAdapter()).notifyDataSetChanged();
-                        UI.setListViewHeightBasedOnChildren(listView);
                         //清除回复的评论
                         replayCommonEntity = null;
                         //隐藏评论框

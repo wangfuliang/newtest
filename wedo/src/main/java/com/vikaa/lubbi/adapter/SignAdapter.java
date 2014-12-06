@@ -11,10 +11,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.lidroid.xutils.http.RequestParams;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.MyMessage;
@@ -22,8 +20,8 @@ import com.vikaa.lubbi.entity.SignEntity;
 import com.vikaa.lubbi.ui.DetailActivity;
 import com.vikaa.lubbi.ui.ImageActivity;
 import com.vikaa.lubbi.util.DateUtils;
-import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
+import com.vikaa.lubbi.widget.NoScrollListView;
 
 import java.util.Date;
 import java.util.List;
@@ -73,7 +71,7 @@ public class SignAdapter extends BaseAdapter {
         GridView imgList;
         ImageView comment;
         ImageView praise;
-        ListView commentList;
+        NoScrollListView commentList;
     }
 
     @Override
@@ -89,7 +87,7 @@ public class SignAdapter extends BaseAdapter {
             holder.imgList = (GridView) convertView.findViewById(R.id.images);
             holder.comment = (ImageView) convertView.findViewById(R.id.comment);
             holder.praise = (ImageView) convertView.findViewById(R.id.praise);
-            holder.commentList = (ListView) convertView.findViewById(R.id.comments);
+            holder.commentList = (NoScrollListView) convertView.findViewById(R.id.comments);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -137,7 +135,6 @@ public class SignAdapter extends BaseAdapter {
                 handler.sendMessage(message1);
             }
         });
-        UI.setListViewHeightBasedOnChildren(holder.commentList);
         //comment
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
