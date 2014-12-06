@@ -80,6 +80,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         api.registerApp(AppID);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handler.sendEmptyMessage(MyMessage.START_HOME);
+    }
+
     /**
      * 检测登录
      */
@@ -181,11 +187,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         _remind.setTextColor(getResources().getColor(R.color.light_blue));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startMain();
-    }
 
     /**
      * CoreHandler
