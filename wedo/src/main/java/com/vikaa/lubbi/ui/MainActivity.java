@@ -81,15 +81,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Logger.d("onResume");
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        Logger.d("onStart");
+        Intent intent = getIntent();
+        String action = intent.getStringExtra("action");
+        Logger.d("action:"+action);
+        if (action != null && action.equals("detail"))
+            handler.sendEmptyMessage(MyMessage.START_HOME);
     }
 
     /**
@@ -236,10 +234,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void startRecommend() {
-        if (userFragment == null)
-            userFragment = new UserFragment();
-        if (recommendFragment == null)
-            recommendFragment = new RecommendFragment();
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .show(recommendFragment)
@@ -265,13 +259,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * main初始化
      */
     private void startMain() {
-        //检测是否有通知
-        Intent intent = getIntent();
-        if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("detail")) {
-            //获取提醒详情
-            String hash = intent.getStringExtra("hash");
-            Logger.d("hash:"+hash);
-        }
         setListener();
         initFragment();
     }
@@ -279,15 +266,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initFragment() {
         if (userFragment == null)
             userFragment = new UserFragment();
-        if (recommendFragment == null)
-            recommendFragment = new RecommendFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!userFragment.isAdded())
-            transaction.add(R.id.container, userFragment);
-        if (!recommendFragment.isAdded())
-            transaction.add(R.id.container, recommendFragment);
-
-        transaction.show(userFragment).hide(recommendFragment).commitAllowingStateLoss();
+        transaction.replace(R.id.container, userFragment).commitAllowingStateLoss();
     }
 
     private void setListener() {

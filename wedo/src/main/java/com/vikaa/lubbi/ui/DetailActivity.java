@@ -472,6 +472,7 @@ public class DetailActivity extends BaseActivity {
     private class ShareListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            _mark = _mark.length() == 0?"一群人来做的事，一定会是很有意思的事":_mark;
             //准备分享数据
             showShare(_mark, _title, MyApi.share, MyApi.shareIcon);
         }
