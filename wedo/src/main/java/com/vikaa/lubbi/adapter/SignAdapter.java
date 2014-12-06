@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,11 @@ import com.vikaa.lubbi.entity.SignEntity;
 import com.vikaa.lubbi.ui.DetailActivity;
 import com.vikaa.lubbi.ui.ImageActivity;
 import com.vikaa.lubbi.util.DateUtils;
+import com.vikaa.lubbi.util.Logger;
 import com.vikaa.lubbi.util.UI;
 import com.vikaa.lubbi.widget.NoScrollListView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -100,7 +103,8 @@ public class SignAdapter extends BaseAdapter {
         //昵称
         holder.nickname.setText(entity.getUser().getNickname());
         //time
-        holder.time.setText(DateUtils.getCustom("MM-dd HH:mm", new Date(entity.getSign_at() * 1000)));
+        long stamp = entity.getSign_at();
+        holder.time.setText(DateUtils.getCustom("MM-dd HH:mm", new Date(stamp*1000)));
         //message
         holder.message.setText(entity.getMessage());
         //images

@@ -22,6 +22,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.vikaa.lubbi.util.Logger;
+
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告. 
  *
@@ -109,6 +111,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         collectDeviceInfo(mContext);
         //保存日志文件   
         saveCrashInfo2File(ex);
+        ex.printStackTrace();
         return true;
     }
 

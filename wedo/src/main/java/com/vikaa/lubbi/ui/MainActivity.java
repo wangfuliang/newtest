@@ -83,7 +83,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.sendEmptyMessage(MyMessage.START_HOME);
+        Logger.d("onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Logger.d("onStart");
     }
 
     /**
