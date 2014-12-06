@@ -16,6 +16,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.tencent.weibo.sdk.android.component.sso.tools.MD5Tools;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
 import com.vikaa.lubbi.core.BaseApplication;
@@ -28,6 +29,8 @@ import com.vikaa.lubbi.util.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class LoginActivity extends BaseActivity {
     @ViewInject(R.id.login)
@@ -45,7 +48,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ViewUtils.inject(this);
-
         setListener();
     }
 
@@ -102,6 +104,12 @@ public class LoginActivity extends BaseActivity {
                     //发送验证码
                     RequestParams params = new RequestParams();
                     params.addBodyParameter("phone", phone);
+                    try {
+                        byte[] data = (phone+"MAX无敌!!!").getBytes("UTF-8");
+                        params.addBodyParameter("code", MD5Tools.toMD5(data).toLowerCase());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.verifyCode, params, new RequestCallBack<String>() {
                         @Override
                         public void onStart() {

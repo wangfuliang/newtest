@@ -71,9 +71,7 @@ public class NotificationActivity extends BaseActivity {
                                 return;
                             }
 
-                            for (int i = 0; i < adapter.getList().size(); i++) {
-                                adapter.getList().remove(i);
-                            }
+                            adapter.getList().clear();
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             Logger.e(e);
