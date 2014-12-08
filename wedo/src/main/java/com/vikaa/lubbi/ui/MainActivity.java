@@ -319,6 +319,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ImageView avatar;
         @ViewInject(R.id.nickname)
         TextView nickname;
+        @ViewInject(R.id.address)
+        TextView address;
 
         static HasFragment hasFragment;
         static NoFragment noFragment;
@@ -385,6 +387,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject data = new JSONObject(info);
                     String _avatar = data.getString("avatar");
                     String _nickname = data.getString("nickname");
+                    String _address = data.getString("address");
+                    address.setText(_address);
                     bitmapUtils.display(avatar, _avatar);
                     nickname.setText(_nickname);
                 } catch (JSONException e) {

@@ -27,16 +27,29 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:scaleType="centerCrop"
-                android:id="@+id/avatar"/>
+                android:id="@+id/avatar" />
 
-            <TextView
-                android:visibility="invisible"
+            <LinearLayout
+                android:layout_marginLeft="24dp"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/nickname"
-                android:textColor="@color/deep_gray"
-                android:text="dsadasdsa"
-                android:layout_marginLeft="24dp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nickname"
+                    android:textColor="@color/deep_gray"
+                    android:text="dsadasdsa" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address"
+                    android:textColor="@color/deep_gray"
+                    android:layout_marginTop="8sp"
+                    android:text="dsadasdsa" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -45,5 +58,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:id="@+id/container2"/>
+        android:id="@+id/container2" />
 </LinearLayout>

@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -23,6 +25,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.vikaa.lubbi.R;
 import com.vikaa.lubbi.core.BaseActivity;
+import com.vikaa.lubbi.core.BaseApplication;
 import com.vikaa.lubbi.core.MyApi;
 import com.vikaa.lubbi.util.Image;
 import com.vikaa.lubbi.util.Logger;
@@ -45,6 +48,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     EditText address;
     @ViewInject(R.id.button)
     Button button;
+    private LocationClient mLocationClient;
+    private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
 
     String _avatar;
     String _nickname;
@@ -62,7 +67,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             JSONObject jsonObject = new JSONObject(info);
             _avatar = jsonObject.getString("avatar");
             _nickname = jsonObject.getString("nickname");
-            _address = jsonObject.getString("address").equals("null")?"":jsonObject.getString("address");
+            _address = jsonObject.getString("address").equals("null") ? "" : jsonObject.getString("address");
             _sex = jsonObject.getString("sex");
             _openid = jsonObject.getString("openid");
             //设置初值
@@ -74,6 +79,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             avatar.setOnClickListener(new AvatarListener());
         } catch (JSONException e) {
             Logger.e(e);
+        }
+
+        //定位SDK
+        mLocationClient = ((BaseApplication) getApplication()).mLocationClient;
+        InitLocation();
+        mLocationClient.requestLocation();
+        String locationStr = ((BaseApplication) getApplication()).locationStr;
+        if (locationStr != null && address.getText().toString().trim().length() == 0) {
+            address.setText(locationStr);
         }
     }
 
@@ -286,5 +300,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
         }
+    }
+
+    private void InitLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(tempMode);//设置定位模式
+        option.setCoorType("gcj02");//返回的定位结果是百度经纬度，默认值gcj02
+        int span = 5000;
+        option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
+        option.setIsNeedAddress(true);//设置是否需要地址信息，默认为无地址
+        option.setOpenGps(true);
+        option.setProdName("meetxyt");
+        mLocationClient.setLocOption(option);
     }
 }
