@@ -274,7 +274,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                                 params.addBodyParameter("token", token);
                                 httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.uploadUrl, params, new RequestCallBack<String>() {
                                     @Override
+                                    public void onStart() {
+                                        super.onStart();
+                                        button.setEnabled(false);
+                                    }
+
+                                    @Override
                                     public void onSuccess(ResponseInfo<String> objectResponseInfo) {
+                                        button.setEnabled(true);
                                         String _resp = objectResponseInfo.result;
                                         JSONObject response = null;
                                         try {
@@ -290,6 +297,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                                     @Override
                                     public void onFailure(HttpException e, String s) {
+                                        button.setEnabled(true);
                                         Logger.e(e);
                                         Toast.makeText(ProfileActivity.this, "头像上传失败，请重试", Toast.LENGTH_SHORT).show();
                                     }
