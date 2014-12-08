@@ -9,7 +9,7 @@ public class BaseApplication extends FrontiaApplication {
     public void onCreate() {
         super.onCreate();
         //注册异常捕获句柄
-//        CrashHandler crashHandler = CrashHandler.getInstance();
-//        crashHandler.init(getApplicationContext());
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 }
