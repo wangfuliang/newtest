@@ -40,6 +40,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     public void onBind(Context context, int errorCode, String appid,
                        String userId, String channelId, String requestId) {
         // 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
+        Logger.d("bind:"+userId);
         if (errorCode == 0) {
             Utils.setBind(context, true);
             BaseActivity.userId = userId;
@@ -57,8 +58,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
     public void onMessage(Context context, String message,
                           String customContentString) {
         try {
-            Logger.d("message->" + message);
-            Logger.d("custom->" + customContentString);
             JSONObject data = new JSONObject(message);
             String title = data.getString("title");
             String desc = data.getString("description");

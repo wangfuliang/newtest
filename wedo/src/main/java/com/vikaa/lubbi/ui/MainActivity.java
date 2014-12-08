@@ -185,6 +185,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .show(userFragment)
                 .hide(recommendFragment)
                 .commitAllowingStateLoss();
+
+        getSupportFragmentManager().executePendingTransactions();
         _my.setBackgroundResource(R.drawable.corner_left);
         _remind.setBackgroundResource(R.drawable.corner_right);
         _my.setTextColor(getResources().getColor(R.color.white));
@@ -237,14 +239,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
-        if (!userFragment.isAdded())
-            transaction.add(R.id.container, userFragment);
-        if (!recommendFragment.isAdded())
-            transaction.add(R.id.container, recommendFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .show(recommendFragment)
                 .hide(userFragment)
                 .commitAllowingStateLoss();
+        getSupportFragmentManager().executePendingTransactions();
+
         _my.setBackgroundResource(R.drawable.corner_left_normal);
         _remind.setBackgroundResource(R.drawable.corner_right_active);
         _my.setTextColor(getResources().getColor(R.color.light_blue));
@@ -280,6 +280,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (!recommendFragment.isAdded())
             transaction.add(R.id.container, recommendFragment);
         transaction.hide(recommendFragment).show(userFragment).commitAllowingStateLoss();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     private void setListener() {
