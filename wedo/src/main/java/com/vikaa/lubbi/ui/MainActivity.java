@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onStart();
         Intent intent = getIntent();
         String action = intent.getStringExtra("action");
-        Logger.d("action:"+action);
+        Logger.d("action:" + action);
         if (action != null && action.equals("detail"))
             handler.sendEmptyMessage(MyMessage.START_HOME);
     }
@@ -234,8 +234,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void startRecommend() {
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+        if (!userFragment.isAdded())
+            transaction.add(R.id.container, userFragment);
+        if (!recommendFragment.isAdded())
+            transaction.add(R.id.container, recommendFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .show(recommendFragment)
                 .hide(userFragment)
                 .commitAllowingStateLoss();
@@ -266,8 +272,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initFragment() {
         if (userFragment == null)
             userFragment = new UserFragment();
+        if (recommendFragment == null)
+            recommendFragment = new RecommendFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, userFragment).commitAllowingStateLoss();
+        if (!userFragment.isAdded())
+            transaction.add(R.id.container, userFragment);
+        if (!recommendFragment.isAdded())
+            transaction.add(R.id.container, recommendFragment);
+        transaction.hide(recommendFragment).show(userFragment).commitAllowingStateLoss();
     }
 
     private void setListener() {
@@ -340,9 +352,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         private void addFragment() {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             if (!hasFragment.isAdded())
-                transaction.add(R.id.container, hasFragment);
+                transaction.add(R.id.container2, hasFragment);
             if (!noFragment.isAdded())
-                transaction.add(R.id.container, noFragment);
+                transaction.add(R.id.container2, noFragment);
             transaction.hide(hasFragment)
                     .hide(noFragment)
                     .commitAllowingStateLoss();
@@ -714,11 +726,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         private void load() {
+            Logger.d("load");
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("size", "30");
             params.addQueryStringParameter("_sign", sign);
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.recommendList, params, new RequestCallBack<String>() {
+                @Override
+                public void onStart() {
+                    Logger.d("load");
+                }
+
                 @Override
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     listView.onRefreshComplete();
