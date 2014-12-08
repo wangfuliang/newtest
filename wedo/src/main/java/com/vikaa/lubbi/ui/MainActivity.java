@@ -85,7 +85,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onStart();
         Intent intent = getIntent();
         String action = intent.getStringExtra("action");
-        Logger.d("action:" + action);
         if (action != null && action.equals("detail"))
             handler.sendEmptyMessage(MyMessage.START_HOME);
     }
@@ -299,7 +298,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 public void onSuccess(ResponseInfo<String> objectResponseInfo) {
                     try {
                         JSONObject data = new JSONObject(objectResponseInfo.result);
-                        Logger.d("推送设置结果->" + data.getString("message"));
                     } catch (JSONException e) {
                         Logger.d(e);
                     }
@@ -731,7 +729,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         private void load() {
-            Logger.d("load");
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("size", "30");
@@ -739,7 +736,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             httpUtils.send(HttpRequest.HttpMethod.POST, MyApi.recommendList, params, new RequestCallBack<String>() {
                 @Override
                 public void onStart() {
-                    Logger.d("load");
+                    super.onStart();
                 }
 
                 @Override

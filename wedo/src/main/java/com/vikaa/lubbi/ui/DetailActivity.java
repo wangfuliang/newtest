@@ -254,7 +254,6 @@ public class DetailActivity extends BaseActivity {
         } else {
             join.setVisibility(View.GONE);
         }
-        Logger.d("isadd:" + isAdd);
         join.setOnClickListener(new JoinListener());
 
         btn_sign.setOnClickListener(new SignListener());

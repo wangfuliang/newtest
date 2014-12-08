@@ -83,7 +83,6 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Logger.d("onMessage:" + message);
     }
 
     /**

@@ -66,7 +66,7 @@ public class EditActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         ViewUtils.inject(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_repeat_item, new String[]{"一次", "每天", "每周", "每月", "每年"});
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_repeat_item, new String[]{" 一次", " 每天", " 每周", " 每月", " 每年"});
         repeat.setAdapter(adapter);
         initDateTimePicker();
 
