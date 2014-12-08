@@ -176,6 +176,23 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="54548db9fd98c5af9b00806d" />
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="Baidu Market" />
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="d3029a4fee" />
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="BaiduMobAd_SEND_STRATEGY"
+            android:value="APP_START" />
+        <meta-data
+            android:name="BaiduMobAd_TIME_INTERVAL"
+            android:value="2" />
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="true" />
     </application>
-
 </manifest>

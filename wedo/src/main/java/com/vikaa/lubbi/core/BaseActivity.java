@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.baidu.mobstat.StatService;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.vikaa.lubbi.receiver.Utils;
@@ -73,5 +74,17 @@ public class BaseActivity extends FragmentActivity {
             return sdDir.toString();
         }
         return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }
