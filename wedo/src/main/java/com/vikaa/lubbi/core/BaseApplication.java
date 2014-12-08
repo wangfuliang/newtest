@@ -9,7 +9,7 @@ public class BaseApplication extends FrontiaApplication {
     public final static boolean debug = false;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
-    public String locationStr;
+    public BDLocation bdLocation;
 
     @Override
     public void onCreate() {
@@ -28,9 +28,9 @@ public class BaseApplication extends FrontiaApplication {
         public void onReceiveLocation(BDLocation location) {
             if (location == null)
                 return;
-            if(location.getLocType() == 0)
+            if (location.getLocType() == 0)
                 mLocationClient.stop();
-            locationStr = location.getProvince() + location.getCity();
+            bdLocation = location;
         }
     }
 }

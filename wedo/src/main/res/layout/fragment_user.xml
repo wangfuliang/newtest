@@ -39,16 +39,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/nickname"
-                    android:textColor="@color/deep_gray"
-                    android:text="dsadasdsa" />
+                    android:textColor="@color/deep_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/address"
                     android:textColor="@color/deep_gray"
-                    android:layout_marginTop="8sp"
-                    android:text="dsadasdsa" />
+                    android:layout_marginTop="8sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -96,6 +96,12 @@
         <activity
             android:name=".ui.ProfileActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ProvinceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.CityActivity"
+            android:screenOrientation="portrait" />
         <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
         <activity
@@ -198,8 +204,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
-        </service>
+            android:process=":remote"></service>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="kPXpq3I8tKM2cUWc8slxcSsf" />

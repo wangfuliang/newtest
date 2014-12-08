@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:background="@color/light_blue">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:clickable="true"
+                android:id="@+id/back"
+                android:src="@drawable/btn_back"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:textColor="@color/white"
+            android:text="选择城市" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:padding="2sp"
+            android:background="@color/light_gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="选择城市" />
+
+        <ListView
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/city_list" />
+    </LinearLayout>
+</LinearLayout>

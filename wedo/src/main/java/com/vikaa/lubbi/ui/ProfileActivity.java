@@ -1,12 +1,10 @@
 package com.vikaa.lubbi.ui;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.lidroid.xutils.ViewUtils;
@@ -56,6 +55,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     String _address;
     String _sex;
     String _openid;
+    public final static int REQUEST_PROVINCE = 0x20;
+    public final static int REQUEST_CITY = 0x21;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +86,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mLocationClient = ((BaseApplication) getApplication()).mLocationClient;
         InitLocation();
         mLocationClient.requestLocation();
-        String locationStr = ((BaseApplication) getApplication()).locationStr;
-        if (locationStr != null && address.getText().toString().trim().length() == 0) {
-            address.setText(locationStr);
+        BDLocation location = ((BaseApplication) getApplication()).bdLocation;
+        if (location != null && address.getText().toString().trim().length() == 0) {
+            address.setText(location.getCity());
+            mLocationClient.stop();
         }
+
+        //设置监听
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ProvinceActivity.class);
+                startActivityForResult(intent, REQUEST_PROVINCE);
+            }
+        });
+
     }
 
     @Override
@@ -164,7 +176,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Logger.d("req:" + requestCode + " res:" + resultCode);
 
 
         switch (requestCode) {
@@ -297,6 +308,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         }
                     });
 
+                }
+                break;
+            case REQUEST_PROVINCE:
+                if (resultCode == RESULT_OK) {
+                    String city = data.getStringExtra("city");
+                    if (city != null)
+                        address.setText(city);
                 }
                 break;
         }
