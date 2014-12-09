@@ -222,16 +222,14 @@
                             android:orientation="horizontal"
                             android:layout_gravity="center_horizontal">
 
-                            <EditText
+                            <TextView
                                 android:gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:id="@+id/address"
                                 android:background="@color/no"
-                                android:editable="false"
                                 android:clickable="true"
                                 android:textSize="16dp"
-                                android:hint="地址（如：广东深圳）"
                                 android:textColor="#727272"
                                 android:layout_gravity="center_vertical" />
                         </LinearLayout>

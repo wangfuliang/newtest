@@ -266,8 +266,8 @@ public class DetailActivity extends BaseActivity {
 
                 @Override
                 public void onComplete(SHARE_MEDIA share_media, int i, SocializeEntity socializeEntity) {
-                    Logger.d(i+"");
-                    Toast.makeText(DetailActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
+                    Logger.d(i + "");
+                    Toast.makeText(DetailActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
                 }
             });
             registerUMeng = true;
@@ -471,9 +471,8 @@ public class DetailActivity extends BaseActivity {
     private class ShareListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            _mark = _mark.length() == 0?"一群人来做的事，一定会是很有意思的事":_mark;
             //准备分享数据
-            showShare(_mark, _title, MyApi.share, MyApi.shareIcon);
+            showShare("一群人来做的事，一定会是很有意思的事", "DoDo嘟嘟", MyApi.share, MyApi.shareIcon);
         }
     }
 
@@ -682,7 +681,7 @@ public class DetailActivity extends BaseActivity {
     private class EditListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(DetailActivity.this,EditActivity.class);
+            Intent i = new Intent(DetailActivity.this, EditActivity.class);
             startActivity(i);
         }
     }

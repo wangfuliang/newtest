@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -44,7 +45,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @ViewInject(R.id.nickname)
     EditText nickname;
     @ViewInject(R.id.address)
-    EditText address;
+    TextView address;
     @ViewInject(R.id.button)
     Button button;
     private LocationClient mLocationClient;
@@ -68,7 +69,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             JSONObject jsonObject = new JSONObject(info);
             _avatar = jsonObject.getString("avatar");
             _nickname = jsonObject.getString("nickname");
-            _address = jsonObject.getString("address").equals("null") ? "" : jsonObject.getString("address");
+            _address = jsonObject.isNull("address") ? "如上海市" : jsonObject.getString("address");
             _sex = jsonObject.getString("sex");
             _openid = jsonObject.getString("openid");
             //设置初值

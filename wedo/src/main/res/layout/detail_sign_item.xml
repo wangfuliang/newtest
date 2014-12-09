@@ -12,6 +12,7 @@
             android:layout_height="50dp"
             android:background="@drawable/blue_bg_corner"
             android:id="@+id/avatar"
+            android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
